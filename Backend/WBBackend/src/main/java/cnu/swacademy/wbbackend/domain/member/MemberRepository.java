@@ -27,8 +27,4 @@ public class MemberRepository {
     public void clear() {
         repository.clear();
     }
-
-    private MemberRepository() {
-
-    }
 }
