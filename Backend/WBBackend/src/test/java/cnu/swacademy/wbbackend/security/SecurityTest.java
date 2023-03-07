@@ -7,18 +7,13 @@ import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.test.context.support.WithAnonymousUser;
 import org.springframework.security.test.context.support.WithMockUser;
-import org.springframework.security.test.web.servlet.response.SecurityMockMvcResultMatchers;
 import org.springframework.test.web.servlet.MockMvc;
 
 import static org.springframework.security.test.web.servlet.request.SecurityMockMvcRequestBuilders.formLogin;
 import static org.springframework.security.test.web.servlet.response.SecurityMockMvcResultMatchers.authenticated;
-import static org.springframework.security.test.web.servlet.response.SecurityMockMvcResultMatchers.unauthenticated;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
-import static org.junit.jupiter.api.Assertions.*;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.redirectedUrl;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
@@ -39,14 +34,12 @@ class SecurityTest {
     void anonymousTest() throws Exception {
         mockMvc.perform(get("/api/authenticated"))
                 .andDo(print()).andExpect(redirectedUrl("http://localhost/login"));
-        System.out.println("인증 객체 : " + SecurityContextHolder.getContext().getAuthentication());
     }
 
     @Test
     @DisplayName("권한 있는 사용자가 접근할 경우 OK. mock 이라 404 Not Found 발생")
     @WithMockUser
     void authenticatedUserTest() throws Exception {
-        System.out.println("인증 객체 : " + SecurityContextHolder.getContext().getAuthentication());
         mockMvc.perform(get("/api/authenticated")).andDo(print()).andExpect(status().isNotFound());
     }
 
