@@ -7,6 +7,7 @@ import org.springframework.security.core.userdetails.User;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
 @Service
@@ -16,15 +17,15 @@ public class MemberService implements UserDetailsService {
 
     @Override
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
-        Member member = memberRepository.findByUsername(username)
+        Member member = memberRepository.findMemberByUsername(username)
                 .orElseThrow(() -> new UsernameNotFoundException(username + "doesn't exist in MemberRepository"));
         User user = new User(username, member.getPassword(), AuthorityUtils.createAuthorityList(member.getAuthority()));
         return user;
     }
 
-    // MockMember for Dev
-    @PostConstruct
-    void setup() {
-        memberRepository.save(new Member("user", "123", "user", "USER_ROLE"));
+    public Member save(Member member) {
+        member.setPassword(new BCryptPasswordEncoder().encode(member.getPassword()));
+        memberRepository.save(member);
+        return member;
     }
 }

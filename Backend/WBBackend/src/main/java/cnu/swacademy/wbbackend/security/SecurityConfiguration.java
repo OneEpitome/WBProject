@@ -1,6 +1,8 @@
 package cnu.swacademy.wbbackend.security;
 
+import cnu.swacademy.wbbackend.domain.member.Member;
 import cnu.swacademy.wbbackend.domain.member.MemberService;
+import jakarta.annotation.PostConstruct;
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -31,13 +33,25 @@ public class SecurityConfiguration {
                 .and()
                 .authorizeHttpRequests((auth) ->
                         auth.requestMatchers("/api/authenticated").authenticated()
-                                .anyRequest().authenticated()
-                );
-        return http.build();
+                                .anyRequest().permitAll()
+                )
+
+                // H2-Console 을 이용하기 위한 csrf, frameOption Disable 처리
+                .csrf().disable()
+                .headers().frameOptions().disable();
+    return http.build();
     }
 
     @Bean
     public PasswordEncoder getPasswordEncoder() {
         return new BCryptPasswordEncoder();
+    }
+
+    // MockMember for Dev
+    @PostConstruct
+    void setup() {
+        memberService.save(
+                new Member("user", "123", "nickname", "ROLE_USER")
+        );
     }
 }
