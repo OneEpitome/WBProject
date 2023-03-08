@@ -2,6 +2,8 @@ package cnu.swacademy.wbbackend.security;
 
 import cnu.swacademy.wbbackend.domain.member.Member;
 import cnu.swacademy.wbbackend.domain.member.MemberRepository;
+import cnu.swacademy.wbbackend.domain.member.MemberService;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -26,7 +28,15 @@ class SecurityTest {
     MemberRepository memberRepository;
 
     @Autowired
+    MemberService memberService;
+
+    @Autowired
     MockMvc mockMvc;
+
+    @BeforeEach
+    void cleanUp() {
+        memberRepository.deleteAll();
+    }
 
     @Test
     @DisplayName("권한 없는 사용자가 접근할 경우 login Page 로 리다이렉트")
@@ -56,7 +66,7 @@ class SecurityTest {
 
     Member enroll(String username, String password) {
         Member member = new Member(username, password, "nick", "ROLE_USER");
-        Member save = memberRepository.save(member);
+        Member save = memberService.save(member);
         return save;
     }
 }

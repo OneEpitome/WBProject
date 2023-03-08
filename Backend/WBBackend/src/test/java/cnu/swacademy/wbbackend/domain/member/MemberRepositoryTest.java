@@ -5,6 +5,7 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 
 import java.util.Optional;
 
@@ -21,7 +22,7 @@ class MemberRepositoryTest {
 
     @BeforeEach
     void clear() {
-        memberRepository.clear();
+        memberRepository.deleteAll();
     }
 
     @Test
@@ -30,11 +31,11 @@ class MemberRepositoryTest {
         Member member = new Member("abc", "def", "nick", "ROLE_USER");
 
         //when
-        Member savedMember = memberRepository.save(member);
+        Member savedMember = memberService.save(member);
 
         //then
         assertThat(savedMember.getUsername()).isEqualTo("abc");
-        assertThat(savedMember.getPassword()).isEqualTo("def");
+        assertThat(new BCryptPasswordEncoder().matches("def", savedMember.getPassword())).isEqualTo(true);
         assertThat(savedMember.getNickname()).isEqualTo("nick");
         assertThat(savedMember.getAuthority()).isEqualTo("ROLE_USER");
     }
@@ -46,7 +47,7 @@ class MemberRepositoryTest {
         memberRepository.save(member);
 
         //when
-        Optional<Member> findMemberByUsername = memberRepository.findByUsername("abc");
+        Optional<Member> findMemberByUsername = memberRepository.findMemberByUsername("abc");
         Member savedMember = findMemberByUsername.get();
 
         //then
