@@ -7,12 +7,13 @@ import java.util.ArrayList;
 import java.util.List;
 
 @Entity
+@Table(name="hall")
 public class Hall {
 
     @Id @GeneratedValue
     @Column(name = "hall_id")
     private Long id;
 
-    @OneToMany
+    @OneToMany(mappedBy = "selectedHall")
     private List<Seat> seatList = new ArrayList<>();
 }

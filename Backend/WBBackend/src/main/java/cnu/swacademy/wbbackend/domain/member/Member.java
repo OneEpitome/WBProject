@@ -7,6 +7,7 @@ import lombok.*;
 @Setter
 @NoArgsConstructor
 @Entity(name = "member")
+@Table(name="member")
 public class Member {
     @Id
     @Column(name = "id", nullable = false, unique = true)

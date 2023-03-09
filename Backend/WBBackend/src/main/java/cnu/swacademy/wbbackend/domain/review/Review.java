@@ -5,6 +5,7 @@ import jakarta.persistence.*;
 import java.time.LocalDateTime;
 
 @Entity
+@Table(name = "review")
 public class Review {
 
     @Id @GeneratedValue
@@ -12,7 +13,7 @@ public class Review {
     private Long id;
 
     @ManyToOne
-    private Member owner;
+    private Member writer;
 
     private LocalDateTime createdAt;
 
