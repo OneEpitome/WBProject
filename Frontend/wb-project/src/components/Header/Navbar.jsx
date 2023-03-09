@@ -1,7 +1,7 @@
 import React from 'react';
 import styled from 'styled-components';
 import LoginButton from './LoginButton';
-import SearchButton from './SearchButton';
+import SearchButton from './SearchButton/SearchButton';
 
 const Nav = styled.div`
   display: flex;
