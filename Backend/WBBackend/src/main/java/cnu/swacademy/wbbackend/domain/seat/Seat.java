@@ -22,5 +22,5 @@ public class Seat {
     private List<Review> reviewList = new ArrayList<>();
 
     @ManyToOne
-    private Hall selectedHall;
+    private Hall hall;
 }

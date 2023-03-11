@@ -30,7 +30,7 @@ public class Review {
 
     private String filepath;
 
-    private Integer likes;
+    private Integer like;
 
     @ManyToOne
     private Seat seat;

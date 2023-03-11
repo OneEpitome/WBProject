@@ -18,6 +18,6 @@ public class Hall {
     @Column(name = "hall_id")
     private Long id;
 
-    @OneToMany(mappedBy = "selectedHall")
+    @OneToMany(mappedBy = "hall")
     private List<Seat> seatList = new ArrayList<>();
 }
