@@ -26,10 +26,10 @@ public class Member {
     @Column(name = "nickname", nullable = false, unique = true)
     private String nickname;
 
-    @Column(name = "authority", nullable = false, unique = true)
+    @Column(name = "authority", nullable = false)
     private String authority;
 
-    @OneToMany(mappedBy = "writer")
+    @OneToMany(mappedBy = "writer", fetch = FetchType.EAGER)
     private List<Review> reviewList;
 
     public Member(String username, String password, String nickname, String authority) {
