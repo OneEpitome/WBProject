@@ -14,10 +14,10 @@ import java.util.List;
 @Table(name="hall")
 public class Hall {
 
-    @Id @GeneratedValue
+    @Id @GeneratedValue(strategy = GenerationType.SEQUENCE)
     @Column(name = "hall_id")
     private Long id;
 
-    @OneToMany(mappedBy = "selectedHall")
+    @OneToMany(mappedBy = "hall")
     private List<Seat> seatList = new ArrayList<>();
 }

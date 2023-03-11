@@ -14,7 +14,7 @@ import java.util.List;
 @Table(name = "seat")
 public class Seat {
 
-    @Id @GeneratedValue(strategy=GenerationType.IDENTITY)
+    @Id @GeneratedValue(strategy=GenerationType.SEQUENCE)
     @Column(name = "seat_id")
     private Long id;
 
@@ -22,5 +22,5 @@ public class Seat {
     private List<Review> reviewList = new ArrayList<>();
 
     @ManyToOne
-    private Hall selectedHall;
+    private Hall hall;
 }

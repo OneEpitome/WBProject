@@ -13,13 +13,14 @@ import java.time.LocalDateTime;
 @Table(name = "review")
 public class Review {
 
-    @Id @GeneratedValue
+    @Id @GeneratedValue(strategy = GenerationType.SEQUENCE)
     @Column(name = "review_id")
     private Long id;
 
     @ManyToOne
     private Member writer;
 
+    @Column(columnDefinition = "TIMESTAMP")
     private LocalDateTime createdAt;
 
     private String title;
