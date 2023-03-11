@@ -10,6 +10,8 @@ import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
+import java.util.Optional;
+
 @Service
 @RequiredArgsConstructor
 public class MemberService implements UserDetailsService {
@@ -25,7 +27,12 @@ public class MemberService implements UserDetailsService {
 
     public Member save(Member member) {
         member.setPassword(new BCryptPasswordEncoder().encode(member.getPassword()));
+        member.setAuthority("ROLE_USER");
         memberRepository.save(member);
         return member;
+    }
+
+    public Optional<Member> findById(Long id) {
+        return memberRepository.findById(id);
     }
 }
