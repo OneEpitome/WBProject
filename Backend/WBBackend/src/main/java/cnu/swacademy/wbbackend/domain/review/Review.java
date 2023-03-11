@@ -4,11 +4,13 @@ import cnu.swacademy.wbbackend.domain.member.Member;
 import cnu.swacademy.wbbackend.domain.seat.Seat;
 import jakarta.persistence.*;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 import java.time.LocalDateTime;
 @Getter
 @Setter
+@NoArgsConstructor
 @Entity
 @Table(name = "review")
 public class Review {
@@ -35,4 +37,10 @@ public class Review {
 
     @ManyToOne
     private Seat seat;
+
+    public Review(LocalDateTime createdAt, String title, String content) {
+        this.createdAt = createdAt;
+        this.title = title;
+        this.content = content;
+    }
 }
