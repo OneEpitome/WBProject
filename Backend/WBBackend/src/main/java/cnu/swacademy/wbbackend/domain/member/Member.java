@@ -1,7 +1,10 @@
 package cnu.swacademy.wbbackend.domain.member;
 
+import cnu.swacademy.wbbackend.domain.review.Review;
 import jakarta.persistence.*;
 import lombok.*;
+
+import java.util.List;
 
 @Getter
 @Setter
@@ -25,6 +28,9 @@ public class Member {
 
     @Column(name = "authority", nullable = false, unique = true)
     private String authority;
+
+    @OneToMany(mappedBy = "writer")
+    private List<Review> reviewList;
 
     public Member(String username, String password, String nickname, String authority) {
         this.username = username;
