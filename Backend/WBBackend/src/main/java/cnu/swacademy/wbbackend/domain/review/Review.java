@@ -13,7 +13,7 @@ import java.time.LocalDateTime;
 @Table(name = "review")
 public class Review {
 
-    @Id @GeneratedValue
+    @Id @GeneratedValue(strategy = GenerationType.SEQUENCE)
     @Column(name = "review_id")
     private Long id;
 
