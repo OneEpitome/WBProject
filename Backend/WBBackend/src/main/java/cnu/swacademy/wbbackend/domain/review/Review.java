@@ -1,9 +1,14 @@
 package cnu.swacademy.wbbackend.domain.review;
 
 import cnu.swacademy.wbbackend.domain.member.Member;
+import cnu.swacademy.wbbackend.domain.seat.Seat;
 import jakarta.persistence.*;
-import java.time.LocalDateTime;
+import lombok.Getter;
+import lombok.Setter;
 
+import java.time.LocalDateTime;
+@Getter
+@Setter
 @Entity
 @Table(name = "review")
 public class Review {
@@ -26,4 +31,7 @@ public class Review {
     private String filepath;
 
     private Integer likes;
+
+    @ManyToOne
+    private Seat seat;
 }
