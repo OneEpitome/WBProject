@@ -20,6 +20,7 @@ public class Review {
     @ManyToOne
     private Member writer;
 
+    @Column(columnDefinition = "TIMESTAMP")
     private LocalDateTime createdAt;
 
     private String title;
