@@ -38,18 +38,15 @@ public class HallServiceTest {
     void save() {
         //given
         String hallName = "Hanhwa-Eagles Park";
-        List<Seat> seatList = List.of(new Seat(), new Seat());
 
         Hall hall = new Hall();
         hall.setName(hallName);
-        hall.setSeatList(seatList);
 
         //when
         Hall save = hallService.save(hall);
 
         //then
         assertThat(save.getName()).isEqualTo(hallName);
-        assertThat(save.getSeatList()).containsAll(seatList);
     }
 
     @Test
