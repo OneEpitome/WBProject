@@ -10,8 +10,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 @Entity
-@Getter
-@Setter
+@Getter @Setter @EqualsAndHashCode
 @Table(name="hall")
 public class Hall {
 

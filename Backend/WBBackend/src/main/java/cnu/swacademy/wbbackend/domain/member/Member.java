@@ -6,8 +6,7 @@ import lombok.*;
 
 import java.util.List;
 
-@Getter
-@Setter
+@Getter @Setter @EqualsAndHashCode
 @NoArgsConstructor
 @Entity(name = "member")
 @Table(name="member")

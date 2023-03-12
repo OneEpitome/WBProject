@@ -3,13 +3,14 @@ package cnu.swacademy.wbbackend.domain.review;
 import cnu.swacademy.wbbackend.domain.member.Member;
 import cnu.swacademy.wbbackend.domain.seat.Seat;
 import jakarta.persistence.*;
+import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 import java.time.LocalDateTime;
-@Getter
-@Setter
+
+@Getter @Setter @EqualsAndHashCode
 @NoArgsConstructor
 @Entity
 @Table(name = "review")
