@@ -15,7 +15,7 @@ import java.util.List;
 public class Seat {
 
     @Id @GeneratedValue(strategy=GenerationType.SEQUENCE)
-    @Column(name = "seat_id")
+    @Column(name = "id")
     private Long id;
 
     @OneToMany(mappedBy = "seat")

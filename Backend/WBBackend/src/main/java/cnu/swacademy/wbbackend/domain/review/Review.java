@@ -17,7 +17,7 @@ import java.time.LocalDateTime;
 public class Review {
 
     @Id @GeneratedValue(strategy = GenerationType.SEQUENCE)
-    @Column(name = "review_id")
+    @Column(name = "id")
     private Long id;
 
     @ManyToOne

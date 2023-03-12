@@ -15,7 +15,7 @@ import java.util.List;
 public class Hall {
 
     @Id @GeneratedValue(strategy = GenerationType.SEQUENCE)
-    @Column(name = "hall_id")
+    @Column(name = "id")
     private Long id;
 
     @Column(name = "name")
