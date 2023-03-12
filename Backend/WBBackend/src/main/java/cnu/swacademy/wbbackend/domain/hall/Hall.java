@@ -18,6 +18,9 @@ public class Hall {
     @Column(name = "hall_id")
     private Long id;
 
+    @Column(name = "hall_name")
+    private String hallName;
+
     @OneToMany(mappedBy = "hall")
     private List<Seat> seatList = new ArrayList<>();
 }
