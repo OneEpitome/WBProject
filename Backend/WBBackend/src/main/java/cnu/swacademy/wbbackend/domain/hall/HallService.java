@@ -14,6 +14,6 @@ public class HallService {
 
     public Hall findByName(String hallName) {
         return hallRepository.findHallByName(hallName)
-                .orElseThrow(() -> new RuntimeException(hallName + "is Not Found"));
+                .orElseThrow(() -> new RuntimeException(hallName + " is Not Found"));
     }
 }
