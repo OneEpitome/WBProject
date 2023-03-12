@@ -2,6 +2,7 @@ package cnu.swacademy.wbbackend.domain.hall;
 
 import cnu.swacademy.wbbackend.domain.seat.Seat;
 import jakarta.persistence.*;
+import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -18,9 +19,9 @@ public class Hall {
     @Column(name = "hall_id")
     private Long id;
 
-    @Column(name = "hall_name")
-    private String hallName;
+    @Column(name = "name")
+    private String name;
 
-    @OneToMany(mappedBy = "hall")
+    @OneToMany(mappedBy = "hall", fetch = FetchType.EAGER, cascade = CascadeType.ALL)
     private List<Seat> seatList = new ArrayList<>();
 }
