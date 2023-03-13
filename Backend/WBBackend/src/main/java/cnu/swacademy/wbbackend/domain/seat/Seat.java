@@ -22,7 +22,7 @@ public class Seat {
     @Column(name = "id")
     private Long id;
 
-    @OneToMany(mappedBy = "seat", fetch = FetchType.EAGER)
+    @OneToMany(mappedBy = "seat", fetch = FetchType.EAGER, orphanRemoval = true)
     private List<Review> reviewList = new ArrayList<>();
 
     @JsonBackReference

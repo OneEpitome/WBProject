@@ -7,7 +7,7 @@ import lombok.*;
 
 import java.util.List;
 
-@Getter @Setter @EqualsAndHashCode
+@Getter @Setter @EqualsAndHashCode(of = {"id"})
 @NoArgsConstructor
 @Entity(name = "member")
 @Table(name="member")
@@ -30,7 +30,7 @@ public class Member {
     private String authority;
 
     @JsonManagedReference
-    @OneToMany(mappedBy = "writer", fetch = FetchType.EAGER)
+    @OneToMany(mappedBy = "writer", fetch = FetchType.EAGER, orphanRemoval = true)
     private List<Review> reviewList;
 
     public Member(String username, String password, String nickname, String authority) {
