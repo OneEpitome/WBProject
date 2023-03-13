@@ -61,7 +61,7 @@ public class SeatControllerTest {
 
         //when
         //then
-        mockMvc.perform(MockMvcRequestBuilders.post("/api/seat/create/1"))
+        mockMvc.perform(MockMvcRequestBuilders.post("/api/seat/create").param("hallId", "1"))
                 .andExpect(MockMvcResultMatchers.jsonPath("id").exists())
                 .andExpect(MockMvcResultMatchers.jsonPath("reviewList").exists());
         assertThat(seatRepository.count()).isEqualTo(1L);

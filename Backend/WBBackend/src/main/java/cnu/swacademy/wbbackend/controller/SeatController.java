@@ -15,8 +15,8 @@ public class SeatController {
     private final SeatService seatService;
     private final HallService hallService;
 
-    @PostMapping("/create/{hallId}")
-    public Seat create(@ModelAttribute Seat seat, @PathVariable Long hallId) {
+    @PostMapping("/create")
+    public Seat save(@ModelAttribute Seat seat, @RequestParam Long hallId) {
         Hall hall = hallService.findById(hallId);
         seat.setHall(hall);
 
