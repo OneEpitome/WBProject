@@ -1,6 +1,7 @@
 package cnu.swacademy.wbbackend.domain.member;
 
 import cnu.swacademy.wbbackend.domain.review.Review;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import jakarta.persistence.*;
 import lombok.*;
 
@@ -28,6 +29,7 @@ public class Member {
     @Column(name = "authority", nullable = false)
     private String authority;
 
+    @JsonManagedReference
     @OneToMany(mappedBy = "writer", fetch = FetchType.EAGER)
     private List<Review> reviewList;
 

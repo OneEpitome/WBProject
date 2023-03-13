@@ -25,6 +25,7 @@ public class Seat {
     @OneToMany(mappedBy = "seat", fetch = FetchType.EAGER)
     private List<Review> reviewList = new ArrayList<>();
 
+    @JsonBackReference
     @ManyToOne
     @JoinColumn(name = "hall_id", nullable = false) // Hall 이 지정되어 있지 않은 Seat 레코드는 존재 불가
     private Hall hall;

@@ -24,6 +24,7 @@ public class Hall {
     @Column(name = "name")
     private String name;
 
+    @JsonManagedReference
     @OneToMany(mappedBy = "hall", fetch = FetchType.EAGER, cascade = CascadeType.ALL)
     private List<Seat> seatList = new ArrayList<>();
 }

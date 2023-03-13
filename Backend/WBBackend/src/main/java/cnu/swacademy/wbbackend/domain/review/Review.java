@@ -2,6 +2,7 @@ package cnu.swacademy.wbbackend.domain.review;
 
 import cnu.swacademy.wbbackend.domain.member.Member;
 import cnu.swacademy.wbbackend.domain.seat.Seat;
+import com.fasterxml.jackson.annotation.JsonBackReference;
 import jakarta.persistence.*;
 import lombok.EqualsAndHashCode;
 import lombok.Getter;
@@ -20,6 +21,7 @@ public class Review {
     @Column(name = "id")
     private Long id;
 
+    @JsonBackReference
     @ManyToOne
     private Member writer;
 
@@ -36,6 +38,7 @@ public class Review {
 
     private Integer likes;
 
+    @JsonBackReference
     @ManyToOne
     private Seat seat;
 
