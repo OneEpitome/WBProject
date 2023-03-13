@@ -4,12 +4,16 @@ import cnu.swacademy.wbbackend.domain.hall.Hall;
 import cnu.swacademy.wbbackend.domain.hall.HallRepository;
 import cnu.swacademy.wbbackend.domain.hall.HallService;
 import cnu.swacademy.wbbackend.domain.review.Review;
+import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import jakarta.persistence.*;
 import lombok.*;
 
 import java.util.ArrayList;
 import java.util.List;
-@Getter @Setter @EqualsAndHashCode
+@Getter
+@Setter
+@EqualsAndHashCode(of = {"id"})
 @NoArgsConstructor
 @Entity
 @Table(name = "seat")
@@ -18,7 +22,7 @@ public class Seat {
     @Column(name = "id")
     private Long id;
 
-    @OneToMany(mappedBy = "seat")
+    @OneToMany(mappedBy = "seat", fetch = FetchType.EAGER)
     private List<Review> reviewList = new ArrayList<>();
 
     @ManyToOne
