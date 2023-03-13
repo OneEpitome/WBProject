@@ -17,8 +17,6 @@ class MemberRepositoryTest {
 
     @Autowired
     MemberRepository memberRepository;
-    @Autowired
-    MemberService memberService;
 
     @BeforeEach
     void clear() {
@@ -31,11 +29,11 @@ class MemberRepositoryTest {
         Member member = new Member("abc", "def", "nick", "ROLE_USER");
 
         //when
-        Member savedMember = memberService.save(member);
+        Member savedMember = memberRepository.save(member);
 
         //then
         assertThat(savedMember.getUsername()).isEqualTo("abc");
-        assertThat(new BCryptPasswordEncoder().matches("def", savedMember.getPassword())).isEqualTo(true);
+        assertThat(savedMember.getPassword()).isEqualTo(member.getPassword());
         assertThat(savedMember.getNickname()).isEqualTo("nick");
         assertThat(savedMember.getAuthority()).isEqualTo("ROLE_USER");
     }
