@@ -1,16 +1,19 @@
 package cnu.swacademy.wbbackend.domain.hall;
 
 import cnu.swacademy.wbbackend.domain.seat.Seat;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import jakarta.persistence.*;
 import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.Setter;
+import lombok.ToString;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 
 @Entity
-@Getter @Setter @EqualsAndHashCode
+@Getter @Setter @EqualsAndHashCode(of = {"id"})
 @Table(name="hall")
 public class Hall {
 
