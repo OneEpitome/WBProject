@@ -16,4 +16,9 @@ public class HallService {
         return hallRepository.findHallByName(hallName)
                 .orElseThrow(() -> new RuntimeException(hallName + " is Not Found"));
     }
+
+    public Hall findById(Long hallId) {
+        return hallRepository.findById(hallId)
+                .orElseThrow(() -> new RuntimeException("Hall ID : " + hallId + " is Not Found"));
+    }
 }
