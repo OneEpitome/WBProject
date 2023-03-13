@@ -4,10 +4,7 @@ import cnu.swacademy.wbbackend.domain.hall.Hall;
 import cnu.swacademy.wbbackend.domain.hall.HallRepository;
 import cnu.swacademy.wbbackend.domain.hall.HallService;
 import org.assertj.core.api.Assertions;
-import org.junit.jupiter.api.AfterEach;
-import org.junit.jupiter.api.BeforeEach;
-import org.junit.jupiter.api.DisplayName;
-import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.context.SpringBootTest;
@@ -24,6 +21,8 @@ import static org.assertj.core.api.Assertions.*;
 @SpringBootTest
 public class HallControllerTest {
 
+    private static final String hallName = "Hanhwa-Eagles Park";
+
     @Autowired
     MockMvc mockMvc;
 
@@ -35,7 +34,6 @@ public class HallControllerTest {
 
     @BeforeEach
     void setup() {
-        String hallName = "Hanhwa-Eagles Park";
         Hall hall = new Hall();
         hall.setName(hallName);
 
@@ -46,6 +44,7 @@ public class HallControllerTest {
     void cleanup() {
         hallRepository.deleteAll();
     }
+
 
     @Test
     @DisplayName("/api/hall/create 를 통해 Hall Entity 를 생성할 수 있다.")
@@ -71,7 +70,7 @@ public class HallControllerTest {
 
         //when
         //then
-        mockMvc.perform(MockMvcRequestBuilders.get("/api/hall/Hanhwa-Eagles Park"))
+        mockMvc.perform(MockMvcRequestBuilders.get("/api/hall/" + hallName))
                 .andExpect(MockMvcResultMatchers.jsonPath("id").exists())
                 .andExpect(MockMvcResultMatchers.jsonPath("name").exists())
                 .andExpect(MockMvcResultMatchers.jsonPath("seatList").exists());

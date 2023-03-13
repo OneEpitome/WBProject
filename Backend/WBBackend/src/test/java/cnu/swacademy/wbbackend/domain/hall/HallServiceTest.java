@@ -6,6 +6,7 @@ import jakarta.persistence.EntityManager;
 import jakarta.transaction.Transactional;
 import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.AfterEach;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -18,6 +19,7 @@ import static org.assertj.core.api.Assertions.assertThat;
 
 @SpringBootTest
 public class HallServiceTest {
+    private static String hallName = "Hanhwa-Eagles Park";
 
     @Autowired
     HallService hallService;
@@ -28,6 +30,10 @@ public class HallServiceTest {
     @Autowired
     EntityManager entityManager;
 
+    @BeforeEach
+    void setup() {
+        hallRepository.deleteAll();
+    }
     @AfterEach
     void cleanup() {
         hallRepository.deleteAll();
@@ -53,8 +59,6 @@ public class HallServiceTest {
     @DisplayName("Hall 이름으로 Hall Entity 를 조회할 수 있다.")
     void findByName() {
         //given
-        String hallName = "Hanhwa-Eagles Park";
-
         Hall hall = new Hall();
         hall.setName(hallName);
         hallService.save(hall);

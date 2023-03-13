@@ -70,7 +70,8 @@ class MemberControllerTest {
 
         //when
         //then
-        mockMvc.perform(get("/api/member/1"))
+        Long memberId = memberRepository.findAll().get(0).getId();
+        mockMvc.perform(get("/api/member/"+ memberId))
                 .andExpect(MockMvcResultMatchers.jsonPath("username").exists())
                 .andExpect(MockMvcResultMatchers.jsonPath("nickname").exists())
                 .andExpect(MockMvcResultMatchers.jsonPath("reviewList").exists())

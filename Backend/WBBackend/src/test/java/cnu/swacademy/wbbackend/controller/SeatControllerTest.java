@@ -33,6 +33,8 @@ public class SeatControllerTest {
 
     @Autowired
     HallService hallService;
+    @Autowired
+    HallRepository hallRepository;
 
     @Autowired
     MockMvc mockMvc;
@@ -61,10 +63,12 @@ public class SeatControllerTest {
 
         //when
         //then
-        mockMvc.perform(MockMvcRequestBuilders.post("/api/seat/create").param("hallId", "1"))
+        Long hallId = hallRepository.findAll().get(0).getId();
+        mockMvc.perform(MockMvcRequestBuilders.post("/api/seat/create")
+                        .param("hallId", hallId.toString()))
                 .andExpect(MockMvcResultMatchers.jsonPath("id").exists())
                 .andExpect(MockMvcResultMatchers.jsonPath("reviewList").exists());
         assertThat(seatRepository.count()).isEqualTo(1L);
-        assertThat(seatRepository.findById(1L).get().getHall().getName()).isEqualTo(hallName);
+        assertThat(seatRepository.findAll().get(0).getHall().getName()).isEqualTo(hallName);
     }
 }

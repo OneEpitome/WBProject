@@ -1,7 +1,9 @@
 package cnu.swacademy.wbbackend.domain.seat;
 
 import cnu.swacademy.wbbackend.domain.hall.Hall;
+import cnu.swacademy.wbbackend.domain.hall.HallRepository;
 import cnu.swacademy.wbbackend.domain.hall.HallService;
+import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -22,14 +24,23 @@ class SeatServiceTest {
 
     @Autowired
     HallService hallService;
+    @Autowired
+    HallRepository hallRepository;
 
     private static String hallName = "Hanhwa-Eagles Park";
 
     @BeforeEach
     void setup() {
+        hallRepository.deleteAll();
         Hall hall = new Hall();
         hall.setName(hallName);
         hallService.save(hall);
+    }
+
+    @AfterEach
+    void cleanup() {
+        seatRepository.deleteAll();
+        hallRepository.deleteAll();
     }
 
     @Test

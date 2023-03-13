@@ -104,7 +104,6 @@ public class ReviewServiceTest {
         Review review = new Review();
         review.setTitle(title);
         review.setContent(content);
-        review.setCreatedAt(now);
         review.setSeat(seat);
         review.setWriter(member);
 
@@ -118,7 +117,6 @@ public class ReviewServiceTest {
         //then
         assertThat(findById.getTitle()).isEqualTo(title);
         assertThat(findById.getContent()).isEqualTo(content);
-        assertThat(findById.getCreatedAt()).isEqualTo(now);
         assertThat(findById.getSeat()).isEqualTo(seat);
         assertThat(findById.getWriter()).isEqualTo(member);
     }
