@@ -25,6 +25,8 @@ public class Review {
     @ManyToOne
     private Member writer;
 
+    private String writerName;
+
     @Column(columnDefinition = "TIMESTAMP")
     private LocalDateTime createdAt;
 
@@ -38,13 +40,31 @@ public class Review {
 
     private Integer likes;
 
+    @JoinColumn(name = "seat_id", referencedColumnName = "id")
     @JsonBackReference
     @ManyToOne
     private Seat seat;
+
+    @Column(name = "seat_id", updatable = false, insertable = false)
+    private Long seatId;
 
     public Review(LocalDateTime createdAt, String title, String content) {
         this.createdAt = createdAt;
         this.title = title;
         this.content = content;
+    }
+
+    /*
+    * 필수적인 메소드인지 테스트 필요
+    * */
+    public void setWriter(Member writer) {
+        this.writer = writer;
+        this.writerName = writer.getNickname();
+        writer.getReviewList().add(this);
+    }
+
+    public void setSeat(Seat seat) {
+        this.seat = seat;
+        seat.getReviewList().add(this);
     }
 }
