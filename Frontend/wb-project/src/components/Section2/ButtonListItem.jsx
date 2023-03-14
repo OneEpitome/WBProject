@@ -1,11 +1,6 @@
 import React from 'react';
 import styled from 'styled-components';
 
-const ListItem = styled.li`
-  list-style: none;
-  margin: 5px;
-`;
-
 const Button = styled.button`
   font-size: large;
   outline: none;
@@ -24,8 +19,6 @@ const Button = styled.button`
 
 export default function ButtonListItem({ children }) {
   return (
-    <ListItem>
-      <Button>{children}</Button>
-    </ListItem>
+    <Button>{children}</Button>
   );
 }
