@@ -3,17 +3,13 @@ package cnu.swacademy.wbbackend.controller;
 import cnu.swacademy.wbbackend.domain.hall.Hall;
 import cnu.swacademy.wbbackend.domain.hall.HallRepository;
 import cnu.swacademy.wbbackend.domain.hall.HallService;
-import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
-import org.springframework.test.web.servlet.result.JsonPathResultMatchers;
 import org.springframework.test.web.servlet.result.MockMvcResultMatchers;
-import org.springframework.util.LinkedMultiValueMap;
-import org.springframework.util.MultiValueMap;
 
 import static org.assertj.core.api.Assertions.*;
 

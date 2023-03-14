@@ -9,7 +9,6 @@ import cnu.swacademy.wbbackend.domain.member.MemberService;
 import cnu.swacademy.wbbackend.domain.seat.Seat;
 import cnu.swacademy.wbbackend.domain.seat.SeatRepository;
 import cnu.swacademy.wbbackend.domain.seat.SeatService;
-import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;

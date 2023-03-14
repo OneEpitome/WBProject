@@ -1,10 +1,6 @@
 package cnu.swacademy.wbbackend.domain.hall;
 
-import cnu.swacademy.wbbackend.domain.review.Review;
-import cnu.swacademy.wbbackend.domain.seat.Seat;
 import jakarta.persistence.EntityManager;
-import jakarta.transaction.Transactional;
-import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
@@ -12,8 +8,6 @@ import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 
-import java.time.LocalDateTime;
-import java.util.List;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
