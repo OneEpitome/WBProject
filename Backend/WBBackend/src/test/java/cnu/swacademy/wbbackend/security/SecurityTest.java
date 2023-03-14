@@ -16,7 +16,6 @@ import org.springframework.test.web.servlet.MockMvc;
 import static org.springframework.security.test.web.servlet.request.SecurityMockMvcRequestBuilders.formLogin;
 import static org.springframework.security.test.web.servlet.response.SecurityMockMvcResultMatchers.authenticated;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
-import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.redirectedUrl;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
@@ -43,14 +42,14 @@ class SecurityTest {
     @WithAnonymousUser
     void anonymousTest() throws Exception {
         mockMvc.perform(get("/api/authenticated"))
-                .andDo(print()).andExpect(redirectedUrl("http://localhost/login"));
+                .andExpect(redirectedUrl("http://localhost/login"));
     }
 
     @Test
     @DisplayName("권한 있는 사용자가 접근할 경우 OK. mock 이라 404 Not Found 발생")
     @WithMockUser
     void authenticatedUserTest() throws Exception {
-        mockMvc.perform(get("/api/authenticated")).andDo(print()).andExpect(status().isNotFound());
+        mockMvc.perform(get("/api/authenticated")).andExpect(status().isNotFound());
     }
 
     @Test
@@ -58,7 +57,7 @@ class SecurityTest {
     void formLoginTest() throws Exception {
         String username = "newUser";
         String password = "pass";
-        Member enroll = enroll(username, password);
+        enroll(username, password);
 
         mockMvc.perform(formLogin().user(username).password(password))
                 .andExpect(authenticated().withUsername(username).withRoles("USER"));

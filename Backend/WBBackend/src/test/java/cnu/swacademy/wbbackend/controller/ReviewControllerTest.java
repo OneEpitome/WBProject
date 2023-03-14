@@ -91,7 +91,7 @@ public class ReviewControllerTest {
         //when
         //then
         mockMvc.perform(MockMvcRequestBuilders.post("/api/review/save")
-                .params(params))
+                        .params(params))
                 .andExpect(MockMvcResultMatchers.jsonPath("title").exists())
                 .andExpect(MockMvcResultMatchers.jsonPath("content").exists())
                 .andExpect(MockMvcResultMatchers.jsonPath("createdAt").exists())

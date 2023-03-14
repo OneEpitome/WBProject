@@ -1,7 +1,9 @@
 package cnu.swacademy.wbbackend.domain.seat;
 
 import cnu.swacademy.wbbackend.domain.hall.Hall;
+import cnu.swacademy.wbbackend.domain.hall.HallRepository;
 import cnu.swacademy.wbbackend.domain.hall.HallService;
+import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -9,7 +11,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 
 import static org.assertj.core.api.Assertions.assertThat;
-import static org.junit.jupiter.api.Assertions.*;
 
 @SpringBootTest
 class SeatServiceTest {
@@ -22,6 +23,8 @@ class SeatServiceTest {
 
     @Autowired
     HallService hallService;
+    @Autowired
+    HallRepository hallRepository;
 
     private static String hallName = "Hanhwa-Eagles Park";
 
@@ -30,6 +33,12 @@ class SeatServiceTest {
         Hall hall = new Hall();
         hall.setName(hallName);
         hallService.save(hall);
+    }
+
+    @AfterEach
+    void cleanup() {
+        seatRepository.deleteAll();
+        hallRepository.deleteAll();
     }
 
     @Test

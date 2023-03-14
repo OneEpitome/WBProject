@@ -1,6 +1,5 @@
 package cnu.swacademy.wbbackend.domain.member;
 
-import jakarta.annotation.PostConstruct;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.core.authority.AuthorityUtils;
 import org.springframework.security.core.userdetails.User;

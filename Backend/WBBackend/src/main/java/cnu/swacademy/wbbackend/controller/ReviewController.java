@@ -6,7 +6,6 @@ import cnu.swacademy.wbbackend.domain.review.Review;
 import cnu.swacademy.wbbackend.domain.review.ReviewService;
 import cnu.swacademy.wbbackend.domain.seat.Seat;
 import cnu.swacademy.wbbackend.domain.seat.SeatRepository;
-import cnu.swacademy.wbbackend.domain.seat.SeatService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.web.bind.annotation.*;

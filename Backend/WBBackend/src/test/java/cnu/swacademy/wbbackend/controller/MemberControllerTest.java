@@ -1,27 +1,19 @@
 package cnu.swacademy.wbbackend.controller;
 
 import cnu.swacademy.wbbackend.domain.member.MemberRepository;
-import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.security.test.web.servlet.response.SecurityMockMvcResultMatchers;
 import org.springframework.test.web.servlet.MockMvc;
-import org.springframework.test.web.servlet.ResultMatcher;
-import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
-import org.springframework.test.web.servlet.result.MockMvcResultHandlers;
 import org.springframework.test.web.servlet.result.MockMvcResultMatchers;
 import org.springframework.util.LinkedMultiValueMap;
 import org.springframework.util.MultiValueMap;
 
-import java.util.HashMap;
-import java.util.Map;
 
 import static org.assertj.core.api.Assertions.*;
-import static org.junit.jupiter.api.Assertions.*;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
 
 @SpringBootTest
@@ -50,7 +42,6 @@ class MemberControllerTest {
 
         //when
         mockMvc.perform(post("/api/member/create").params(params));
-
         //then
         assertThat(memberRepository.findMemberByUsername("mockUser")).isNotEmpty();
     }
@@ -70,7 +61,8 @@ class MemberControllerTest {
 
         //when
         //then
-        mockMvc.perform(get("/api/member/1"))
+        Long memberId = memberRepository.findAll().get(0).getId();
+        mockMvc.perform(get("/api/member/"+ memberId))
                 .andExpect(MockMvcResultMatchers.jsonPath("username").exists())
                 .andExpect(MockMvcResultMatchers.jsonPath("nickname").exists())
                 .andExpect(MockMvcResultMatchers.jsonPath("reviewList").exists())

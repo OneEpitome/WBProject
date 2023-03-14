@@ -54,10 +54,11 @@ public class MemberServiceTest {
         String nickname = "nick1";
         String authority = "ROLE_USER";
         Member member = new Member(username, password, nickname, authority);
-        memberService.save(member);
+        Member saved = memberService.save(member);
+        Long memberId = saved.getId();
 
         //when
-        Optional<Member> findById = memberService.findById(2L);
+        Optional<Member> findById = memberService.findById(memberId);
         /* securityConfig 의 mock 객체에 의해 2L 로 insert 됨.
             BeforeEach 의 setup 메소드에서 제거해도 2L 로 insert.
          */

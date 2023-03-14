@@ -3,9 +3,7 @@ package cnu.swacademy.wbbackend.controller;
 import cnu.swacademy.wbbackend.domain.hall.Hall;
 import cnu.swacademy.wbbackend.domain.hall.HallRepository;
 import cnu.swacademy.wbbackend.domain.hall.HallService;
-import cnu.swacademy.wbbackend.domain.seat.Seat;
 import cnu.swacademy.wbbackend.domain.seat.SeatRepository;
-import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
@@ -15,10 +13,7 @@ import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMock
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
-import org.springframework.test.web.servlet.result.MockMvcResultHandlers;
 import org.springframework.test.web.servlet.result.MockMvcResultMatchers;
-import org.springframework.util.LinkedMultiValueMap;
-import org.springframework.util.MultiValueMap;
 
 import static org.assertj.core.api.Assertions.*;
 
@@ -33,6 +28,8 @@ public class SeatControllerTest {
 
     @Autowired
     HallService hallService;
+    @Autowired
+    HallRepository hallRepository;
 
     @Autowired
     MockMvc mockMvc;
@@ -61,10 +58,12 @@ public class SeatControllerTest {
 
         //when
         //then
-        mockMvc.perform(MockMvcRequestBuilders.post("/api/seat/create").param("hallId", "1"))
+        Long hallId = hallRepository.findAll().get(0).getId();
+        mockMvc.perform(MockMvcRequestBuilders.post("/api/seat/create")
+                        .param("hallId", hallId.toString()))
                 .andExpect(MockMvcResultMatchers.jsonPath("id").exists())
                 .andExpect(MockMvcResultMatchers.jsonPath("reviewList").exists());
         assertThat(seatRepository.count()).isEqualTo(1L);
-        assertThat(seatRepository.findById(1L).get().getHall().getName()).isEqualTo(hallName);
+        assertThat(seatRepository.findAll().get(0).getHall().getName()).isEqualTo(hallName);
     }
 }

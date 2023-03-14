@@ -1,11 +1,8 @@
 package cnu.swacademy.wbbackend.domain.seat;
 
 import cnu.swacademy.wbbackend.domain.hall.Hall;
-import cnu.swacademy.wbbackend.domain.hall.HallRepository;
-import cnu.swacademy.wbbackend.domain.hall.HallService;
 import cnu.swacademy.wbbackend.domain.review.Review;
 import com.fasterxml.jackson.annotation.JsonBackReference;
-import com.fasterxml.jackson.annotation.JsonManagedReference;
 import jakarta.persistence.*;
 import lombok.*;
 
