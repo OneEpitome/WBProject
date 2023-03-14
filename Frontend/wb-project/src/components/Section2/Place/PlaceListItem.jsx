@@ -53,7 +53,7 @@ const Team = styled.p`
   margin: 0;
 `;
 
-export default function Place({ src, alt, name, team, isReady }) {
+export default function PlaceListItem({ src, alt, name, team, isReady }) {
   return (
     <List>
       <ImageBox>
