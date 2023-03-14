@@ -58,7 +58,7 @@ class SecurityTest {
     void formLoginTest() throws Exception {
         String username = "newUser";
         String password = "pass";
-        Member enroll = enroll(username, password);
+        enroll(username, password);
 
         mockMvc.perform(formLogin().user(username).password(password))
                 .andExpect(authenticated().withUsername(username).withRoles("USER"));

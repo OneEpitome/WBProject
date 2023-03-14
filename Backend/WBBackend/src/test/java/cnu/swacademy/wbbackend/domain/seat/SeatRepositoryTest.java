@@ -1,6 +1,7 @@
 package cnu.swacademy.wbbackend.domain.seat;
 
 import cnu.swacademy.wbbackend.domain.hall.Hall;
+import cnu.swacademy.wbbackend.domain.hall.HallRepository;
 import cnu.swacademy.wbbackend.domain.hall.HallService;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
@@ -15,6 +16,8 @@ import static org.assertj.core.api.Assertions.assertThat;
 public class SeatRepositoryTest {
 
     private static String hallName = "Hanhwa-Eagles Park";
+    @Autowired
+    HallRepository hallRepository;
 
     @Autowired
     HallService hallService;
@@ -31,6 +34,7 @@ public class SeatRepositoryTest {
 
     @AfterEach
     void cleanup() {
+        hallRepository.deleteAll();
         seatRepository.deleteAll();
     }
 

@@ -31,7 +31,6 @@ class SeatServiceTest {
 
     @BeforeEach
     void setup() {
-        hallRepository.deleteAll();
         Hall hall = new Hall();
         hall.setName(hallName);
         hallService.save(hall);
