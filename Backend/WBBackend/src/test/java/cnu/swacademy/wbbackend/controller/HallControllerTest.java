@@ -50,7 +50,6 @@ public class HallControllerTest {
 
         //when
         mockMvc.perform(MockMvcRequestBuilders.post("/api/hall/create").param("name", hallName));
-
         //then
         assertThat(hallRepository.count()).isEqualTo(2L);
         assertThat(hallService.findByName(hallName).getName()).isEqualTo(hallName);

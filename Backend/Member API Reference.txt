@@ -1,0 +1,33 @@
+Member API Reference
+
+uri: "/api/member/create"
+method: post
+params: String username, String password, String nickname
+request:
+	form:
+		param: username, password, nickname
+
+response:
+	{"id":2,
+	"username":"mockUser",
+	"password":"$2a$10$xTv63ZgrNopG3TMqmfvh2OZU55tUlnV",	
+	"nickname":"nickkname",
+	"authority":"ROLE_USER",
+	"reviewList":null}
+
+-> Member Entity 를 생성하고 Member Entity 를 반환받음
+
+uri: "/api/member/{memberId}"
+method: get
+params: PathVariable Long memberId
+request:
+	pathvariable:
+		memberId
+
+response:
+	{"reviewList":[],
+	"authority":"ROLE_USER",
+	"nickname":"nickname",
+	"username":"user"}
+
+-> memberId 로 멤버를 조회하여 Member 에 대한 정보 반환

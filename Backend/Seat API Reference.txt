@@ -1,0 +1,15 @@
+Seat API Reference
+
+uri: "/api/seat/create"
+method: post
+param: Long hallId
+request: 
+	form:
+		parameter: Long hallId
+
+response:
+	body:
+		{"id":1,
+		"reviewList":[]}
+
+-> seat Entity 를 생성하고 생성된 엔티티를 반환받음

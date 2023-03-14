@@ -1,0 +1,42 @@
+Review API Reference
+
+uri: "/api/review/save"
+method: post
+params: String title, String content, Long seatId, Long memberId
+request:
+	form:
+		title
+		content,
+		seatId,
+		memberId
+response:
+	{"id":1,
+	"writerName":"nickname",
+	"createdAt":"2023-03-14T12:01:20.987387",
+	"title":"Title1",
+	"content":"Content1",
+	"filename":null,
+	"filepath":null,
+	"likes":null,
+	"seatId":1}
+-> review Entity 생성 후 정보 반환
+
+uri: "/api/review/{reviewId}"
+method: get
+params: PathVariable Long reviewId
+response:
+	{"id":1,
+	"writerName":"nickname",
+	"createdAt":"2023-03-14T12:02:42.732958",
+	"title":"Title",
+	"content":"Content",
+	"filename":null,
+	"filepath":null,
+	"likes":null,
+	"seatId":1}
+-> Review ID 로 review 조회 후 정보 반환
+
+uri: "/api/review/{reviewId}"
+method: delete
+params: PathVariable Long reviewId
+response: None

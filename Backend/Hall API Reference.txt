@@ -1,0 +1,30 @@
+Hall 관련 API
+
+uri : "/api/hall/create
+method : post
+params : String hallName
+
+Request : 
+	Form:
+		parameters:
+			hallName: "Hanhwa-Eagles Stadium"
+		method: post
+
+Resoponse:
+	body:
+		{"id":2,
+		"name":"Hanhwa-Eagles Stadium",
+		"seatList":[]}
+-> hallName 을 받아 Hall Entity 생성 후 DB에 저장
+
+
+
+uri : "/api/hall/{hallName}
+method : get
+Response:
+	body:
+		{"id":1,
+		"name":"Hanhwa-Eagles Park",
+		"seatList":[]}
+-> hallName 을pathVariable 로 받아 Hall Entity 정보 반환
+

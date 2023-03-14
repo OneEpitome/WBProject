@@ -12,11 +12,8 @@ import org.springframework.test.web.servlet.result.MockMvcResultMatchers;
 import org.springframework.util.LinkedMultiValueMap;
 import org.springframework.util.MultiValueMap;
 
-import java.util.HashMap;
-import java.util.Map;
 
 import static org.assertj.core.api.Assertions.*;
-import static org.junit.jupiter.api.Assertions.*;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
 
 @SpringBootTest
@@ -45,7 +42,6 @@ class MemberControllerTest {
 
         //when
         mockMvc.perform(post("/api/member/create").params(params));
-
         //then
         assertThat(memberRepository.findMemberByUsername("mockUser")).isNotEmpty();
     }
