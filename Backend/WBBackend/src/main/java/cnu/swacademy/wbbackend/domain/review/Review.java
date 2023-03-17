@@ -8,12 +8,14 @@ import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+import org.hibernate.annotations.ColumnDefault;
+import org.hibernate.annotations.DynamicInsert;
 
 import java.time.LocalDateTime;
 
 @Getter @Setter @EqualsAndHashCode
 @NoArgsConstructor
-@Entity
+@Entity @DynamicInsert
 @Table(name = "review")
 public class Review {
 
@@ -48,10 +50,22 @@ public class Review {
     @Column(name = "seat_id", updatable = false, insertable = false)
     private Long seatId;
 
+    @ColumnDefault(value = "0L")
+    @Column(name = "heart_count")
+    private Long heart_count = 0L;
+
     public Review(LocalDateTime createdAt, String title, String content) {
         this.createdAt = createdAt;
         this.title = title;
         this.content = content;
+    }
+
+    public void incHeartCount() {
+        ++this.heart_count;
+    }
+
+    public void decHeartCount() {
+        --this.heart_count;
     }
 
     /*
