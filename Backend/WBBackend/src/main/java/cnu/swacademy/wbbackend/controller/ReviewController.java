@@ -30,7 +30,7 @@ public class ReviewController {
     public Review save(@ModelAttribute Review review, @RequestParam Long seatId, @RequestParam Long memberId, MultipartFile file) throws Exception {
         Seat seat = seatRepository.findById(seatId).get();
         Member member = memberService.findById(memberId).get(); // memberService 의 findById 메소드 수정 필요
-        String projectPath = System.getProperty("user.dir")+"/src/main/resources/static/files"; // 저장 경로 지정
+        String projectPath = System.getProperty("user.dir") + File.separator + "src" + File.separator + "main" + File.separator + "resources" + File.separator + "static" + File.separator + "files"; // 저장 경로 지정
 
         review.setSeat(seat);
         review.setWriter(member);
