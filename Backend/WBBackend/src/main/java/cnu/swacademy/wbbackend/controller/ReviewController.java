@@ -27,17 +27,14 @@ public class ReviewController {
     private final ReviewService reviewService;
 
     @PostMapping("/save")
-    public Review save(@ModelAttribute Review review, @RequestParam Long seatId, @RequestParam Long memberId) {
+    public Review save(@ModelAttribute Review review, @RequestParam Long seatId, @RequestParam Long memberId, MultipartFile file) throws Exception {
         Seat seat = seatRepository.findById(seatId).get();
         Member member = memberService.findById(memberId).get(); // memberService 의 findById 메소드 수정 필요
+        String projectPath = System.getProperty("user.dir")+"/src/main/resources/static/files"; // 저장 경로 지정
+
         review.setSeat(seat);
         review.setWriter(member);
 
-        return reviewService.save(review);
-    }
-
-    public void uploadFile(Review review, MultipartFile file) throws Exception{
-        String projectPath = System.getProperty("user.dir")+"\\src\\main\\resources\\static\\files"; // 저장 경로 지정
         UUID uuid = UUID.randomUUID(); // 식별자 생성
         String fileName = uuid+"_"+file.getOriginalFilename();
         File saveFile = new File(projectPath,fileName); // 빈 껍데기 생성 (경로, 이름)
@@ -47,7 +44,7 @@ public class ReviewController {
         review.setFilename(fileName);
         review.setFilepath("/files/"+fileName);
 
-        reviewRepository.save(review);
+        return reviewService.save(review);
     }
 
     @GetMapping("/{reviewId}")
