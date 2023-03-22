@@ -1,8 +1,10 @@
-import React from 'react';
+import React, { useState } from 'react';
 import Text from '../Text/Text';
 import SeatList from './SeatList';
-import VenueImg from '../../image/venue/한화생명이글스파크.jpg';
 import styled from 'styled-components';
+import { SEAT_DATA } from './SEAT_DATA';
+
+import VenueImg from '../../image/venue/한화생명이글스파크.jpg';
 
 const Section = styled.section`
   margin: 15px 150px;
@@ -17,12 +19,20 @@ const Container = styled.div`
 `
 
 export default function Venue() {
+  const [selectedSeat, setSelectedSeat] = useState(VenueImg);
+
+  const onClickListButton = (e) => {
+    const newSeat = e.target.innerText;
+    const foundData = SEAT_DATA.find(data => data.text === newSeat).src;
+    setSelectedSeat(foundData);
+  }
+
   return (
     <Section>
       <Text size={28} strong={true}>한화생명이글스파크</Text>
       <Container>
         <img
-          src={VenueImg}
+          src={selectedSeat}
           alt="한화생명이글스파크"
           style={{
             width: '65%',
@@ -30,7 +40,7 @@ export default function Venue() {
             border: 'solid 3px black'
           }}
         />
-        <SeatList />
+        <SeatList onClickListButton={onClickListButton} />
       </Container>
     </Section>
   );

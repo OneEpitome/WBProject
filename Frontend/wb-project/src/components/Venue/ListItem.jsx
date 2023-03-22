@@ -22,24 +22,24 @@ const Button = styled.button`
   }
 `;
 
-export default function ListItem() {
+export default function ListItem({ onClickListButton }) {
   return (
     <Container>
-      <Button>1루 내야 지정석 1층</Button>
-      <Button>3루 내야 지정석 1층</Button>
-      <Button>중앙 가족석 5인</Button>
-      <Button>1루 내야 지정석 1층</Button>
-      <Button>3루 내야 지정석 1층</Button>
-      <Button>중앙 가족석 5인</Button>
-      <Button>1루 내야 지정석 1층</Button>
-      <Button>3루 내야 지정석 1층</Button>
-      <Button>중앙 가족석 5인</Button>
-      <Button>1루 내야 지정석 1층</Button>
-      <Button>3루 내야 지정석 1층</Button>
-      <Button>중앙 가족석 5인</Button>
-      <Button>1루 내야 지정석 1층</Button>
-      <Button>3루 내야 지정석 1층</Button>
-      <Button>중앙 가족석 5인</Button>
+      <Button onClick={onClickListButton}>1루 내야 지정석 1층</Button>
+      <Button onClick={onClickListButton}>3루 내야 지정석 1층</Button>
+      <Button onClick={onClickListButton}>중앙 가족석 5인</Button>
+      <Button onClick={onClickListButton}>1루 내야 지정석 1층</Button>
+      <Button onClick={onClickListButton}>3루 내야 지정석 1층</Button>
+      <Button onClick={onClickListButton}>중앙 가족석 5인</Button>
+      <Button onClick={onClickListButton}>1루 내야 지정석 1층</Button>
+      <Button onClick={onClickListButton}>3루 내야 지정석 1층</Button>
+      <Button onClick={onClickListButton}>중앙 가족석 5인</Button>
+      <Button onClick={onClickListButton}>1루 내야 지정석 1층</Button>
+      <Button onClick={onClickListButton}>3루 내야 지정석 1층</Button>
+      <Button onClick={onClickListButton}>중앙 가족석 5인</Button>
+      <Button onClick={onClickListButton}>1루 내야 지정석 1층</Button>
+      <Button onClick={onClickListButton}>3루 내야 지정석 1층</Button>
+      <Button onClick={onClickListButton}>중앙 가족석 5인</Button>
     </Container>
   );
 }
