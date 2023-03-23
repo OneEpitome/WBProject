@@ -4,7 +4,7 @@ import SeatList from './SeatList';
 import styled from 'styled-components';
 import { SEAT_DATA } from './SEAT_DATA';
 
-import VenueImg from '../../image/venue/한화생명이글스파크.jpg';
+import VenueImg from '../../images/venue/한화생명이글스파크/한화생명이글스파크.png';
 
 const Section = styled.section`
   margin: 15px 150px;
