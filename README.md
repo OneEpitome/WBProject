@@ -14,6 +14,7 @@ https://www.figma.com/file/RELGjls1yWMyBEVLi3v6BY/event-storming?node-id=0%3A1&t
 <img width="995" alt="image" src="https://user-images.githubusercontent.com/96767857/223369293-189fac7c-8ec9-4058-b960-c0ba896c1846.png">
 
 ER Diagram
-<img width="951" alt="image" src="https://user-images.githubusercontent.com/96767857/224457670-e43071c8-58a0-4eda-a50d-9690fbfbd0aa.png">
+<img width="741" alt="image" src="https://user-images.githubusercontent.com/96767857/225971408-bb476bf6-c555-40c8-ad82-2f1e164e1edd.png">
+
 
 

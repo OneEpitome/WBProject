@@ -33,6 +33,12 @@ public class Member {
     @OneToMany(mappedBy = "writer", fetch = FetchType.EAGER, orphanRemoval = true)
     private List<Review> reviewList;
 
+    public Member(String username, String password, String nickname) {
+        this.username = username;
+        this.password = password;
+        this.nickname = nickname;
+    }
+
     public Member(String username, String password, String nickname, String authority) {
         this.username = username;
         this.password = password;
