@@ -24,10 +24,10 @@ const Button = styled.button`
   }
 `
 
-export default function SeatList({ onClickListButton }) {
+export default function SeatList({ onClickListButton, seatData }) {
   return (
     <Container>
-      <ListItem onClickListButton={onClickListButton} />
+      <ListItem onClickListButton={onClickListButton} seatData={seatData} />
       <Button>선택된 좌석 보기</Button>
     </Container>
   );

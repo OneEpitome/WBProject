@@ -22,15 +22,14 @@ const Button = styled.button`
   }
 `;
 
-export default function ListItem({ onClickListButton }) {
+export default function ListItem({ onClickListButton, seatData }) {
   return (
     <Container>
-      <Button onClick={onClickListButton}>W석</Button>
-      <Button onClick={onClickListButton}>W석 코어</Button>
-      <Button onClick={onClickListButton}>S석</Button>
-      <Button onClick={onClickListButton}>S석 코어</Button>
-      <Button onClick={onClickListButton}>E석</Button>
-      <Button onClick={onClickListButton}>E석 코어</Button>
+      {
+        seatData.map((data) => (
+          <Button onClick={onClickListButton}>{data.sector}</Button>
+        ))
+      }
     </Container>
   );
 }

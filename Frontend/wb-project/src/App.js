@@ -1,14 +1,14 @@
 import './App.css';
 import Header from './components/Header/Header';
-import Section1 from './components/Section1/Section1';
-import Section2 from './components/Section2/Section2';
+import VenueDaejeonW from './components/Venue/VenueDaejeonW';
+import VenueHanwha from './components/Venue/VenueHanhwa';
 
 function App() {
   return (
     <div>
       <Header />
-      <Section1 />
-      <Section2 />
+      <VenueDaejeonW />
+      <VenueHanwha />
     </div>
   );
 }
