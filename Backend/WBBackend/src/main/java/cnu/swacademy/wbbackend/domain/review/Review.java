@@ -3,11 +3,9 @@ package cnu.swacademy.wbbackend.domain.review;
 import cnu.swacademy.wbbackend.domain.member.Member;
 import cnu.swacademy.wbbackend.domain.seat.Seat;
 import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
-import lombok.EqualsAndHashCode;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
+import lombok.*;
 import org.hibernate.annotations.ColumnDefault;
 import org.hibernate.annotations.DynamicInsert;
 
@@ -23,6 +21,7 @@ public class Review {
     @Column(name = "id")
     private Long id;
 
+    @JsonIgnore
     @JsonBackReference
     @ManyToOne
     private Member writer;
@@ -44,6 +43,7 @@ public class Review {
 
     @JoinColumn(name = "seat_id", referencedColumnName = "id")
     @JsonBackReference
+    @JsonIgnore // 테스트 코드에서 json 직렬화 문제 발생해서 달아줌
     @ManyToOne
     private Seat seat;
 
