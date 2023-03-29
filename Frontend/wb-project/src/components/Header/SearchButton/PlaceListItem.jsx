@@ -1,5 +1,6 @@
 import React from 'react';
 import styled from 'styled-components';
+import StyledLink from '../../UI/StyledLink';
 
 const ListItem = styled.li`
   width: 90%;
@@ -11,10 +12,12 @@ const ListItem = styled.li`
   cursor: pointer;
 `
 
-export default function PlaceListItem({ emoji }) {
+export default function PlaceListItem({ venue, onClickPlaceListItem }) {
   return (
-    <ListItem>
-      <span>{emoji.symbol} {emoji.title}</span>
-    </ListItem>
+    <StyledLink to={venue.link}>
+      <ListItem onClick={onClickPlaceListItem}>
+        <span>{venue.symbol} {venue.title}</span>
+      </ListItem>
+    </StyledLink>
   );
 }

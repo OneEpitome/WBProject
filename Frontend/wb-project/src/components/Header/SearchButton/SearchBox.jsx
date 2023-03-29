@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import styled from 'styled-components';
 import { ImSearch } from 'react-icons/im'
 import PlaceList from './PlaceList';
-import emojiJson from '../../../data/emoji.json';
+import venueJson from '../../../data/venue.json';
 
 const Container = styled.div`
   display: flex;
@@ -29,7 +29,7 @@ const Icon = styled.div`
   font-size: 28px;
 `;
 
-export default function SearchBox() {
+export default function SearchBox({ onClickPlaceListItem }) {
   const [keyword, setKeyword] = useState('');
   return (
     <>
@@ -40,7 +40,7 @@ export default function SearchBox() {
           onChange={(e) => { setKeyword(e.target.value) }}
         />
       </Container>
-      <PlaceList emojis={emojiJson} keyword={keyword} />
+      <PlaceList venues={venueJson} keyword={keyword} onClickPlaceListItem={onClickPlaceListItem} />
     </>
   );
 }

@@ -8,17 +8,17 @@ const Container = styled.ul`
   list-style: none;
 `
 
-const PlaceList = ({ emojis, keyword }) => {
+const PlaceList = ({ venues, keyword, onClickPlaceListItem }) => {
   return (
     <Container>
       {
-        emojis
-          .filter(emoji => emoji.title.indexOf(keyword) >= 0 ||
-            emoji.keywords.indexOf(keyword) >= 0
+        venues
+          .filter(venue => venue.title.indexOf(keyword) >= 0 ||
+            venue.keywords.indexOf(keyword) >= 0
           )
           .slice(0, 5)
-          .map(emoji =>
-            (<PlaceListItem key={emoji.title} emoji={emoji} />)
+          .map(venue =>
+            (<PlaceListItem key={venue.title} venue={venue} onClickPlaceListItem={onClickPlaceListItem} />)
           )
       }
     </Container>

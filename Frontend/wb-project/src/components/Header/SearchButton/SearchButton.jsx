@@ -7,6 +7,9 @@ import SearchBox from './SearchBox';
 
 export default function SearchButton() {
   const [visible, setVisible] = useState(false);
+  const onClickPlaceListItem = () => {
+    setVisible(false);
+  };
   return (
     <>
       <Button onClick={() => setVisible(true)}>
@@ -21,7 +24,7 @@ export default function SearchButton() {
             right: '10px',
           }}
         ><GiCancel onClick={() => setVisible(false)} /></Button>
-        <SearchBox />
+        <SearchBox onClickPlaceListItem={onClickPlaceListItem} />
       </Modal>
     </>
   );
