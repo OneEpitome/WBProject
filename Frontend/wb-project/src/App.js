@@ -1,14 +1,26 @@
+import { createBrowserRouter, RouterProvider } from 'react-router-dom';
 import './App.css';
-import Header from './components/Header/Header';
+import HomePage from './pages/HomePage';
+import RootLayout from './pages/RootLayout';
 import VenueDaejeonW from './components/Venue/VenueDaejeonW';
-import VenueHanwha from './components/Venue/VenueHanhwa';
+import VenueHanhwa from './components/Venue/VenueHanhwa';
+
+const router = createBrowserRouter([
+  {
+    path: '/',
+    element: <RootLayout />,
+    children: [
+      { path: '/', element: <HomePage /> },
+      { path: '/daejeon-worldcup', element: <VenueDaejeonW /> },
+      { path: '/hanwha-eagles', element: <VenueHanhwa /> },
+    ],
+  },
+])
 
 function App() {
   return (
     <div>
-      <Header />
-      <VenueDaejeonW />
-      <VenueHanwha />
+      <RouterProvider router={router} />
     </div>
   );
 }
