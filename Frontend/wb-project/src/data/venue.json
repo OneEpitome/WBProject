@@ -1,0 +1,20 @@
+[
+  {
+    "title": "대전월드컵경기장",
+    "symbol": "🏟️⚽️",
+    "keywords": "대전 월드컵 축구장 축구 대전시티즌 대전하나시티즌 daejeon 경기장",
+    "link": "/daejeon-worldcup"
+  },
+  {
+    "title": "한화생명이글스파크",
+    "symbol": "🏟️⚾️",
+    "keywords": "한화 한화이글스 야구 야구장 대전 daejeon 경기장",
+    "link": "/hanwha-eagles"
+  },
+  {
+    "title": "충남대 정심화홀",
+    "symbol": "🏛️🎭",
+    "keywords": "대전 충남대 정심화홀 공연장 공연",
+    "link": "/"
+  }
+]

@@ -1,7 +1,10 @@
 import React from 'react';
+import { Link } from 'react-router-dom';
 import styled from 'styled-components';
 
-const List = styled.li`
+const List = styled(Link)`
+  color: black;
+  text-decoration: none;
   position: relative;
   margin: 0 auto;
   width: 150px;
@@ -54,8 +57,19 @@ const Team = styled.p`
 `;
 
 export default function PlaceListItem({ src, alt, name, team, isReady }) {
+
+  const linkData = {
+    대전월드컵경기장: '/daejeon-worldcup',
+    한화생명이글스파크: '/hanwha-eagles',
+    '충남대 정심화홀': '',
+  };
+
   return (
-    <List>
+    <List
+      to={
+        isReady && linkData[name]
+      }
+    >
       <ImageBox>
         <Image
           src={src}

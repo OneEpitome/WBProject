@@ -1,6 +1,7 @@
 import React from 'react';
 import { MdEventSeat } from 'react-icons/md';
 import styled from 'styled-components'
+import StyledLink from '../UI/StyledLink';
 import Navbar from './Navbar';
 
 const Container = styled.header`
@@ -37,11 +38,13 @@ export default function Header() {
   return (
     <Container>
       <Section>
-        <Title>
-          <MdEventSeat />
-          <span>어디서볼</span>
-          <QuestionMark>?</QuestionMark>
-        </ Title>
+        <StyledLink to='/'>
+          <Title>
+            <MdEventSeat />
+            <span>어디서볼</span>
+            <QuestionMark>?</QuestionMark>
+          </ Title>
+        </StyledLink>
         <Navbar />
       </Section>
     </Container>
