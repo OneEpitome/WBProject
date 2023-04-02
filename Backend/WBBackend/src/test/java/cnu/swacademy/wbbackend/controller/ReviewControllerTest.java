@@ -115,7 +115,7 @@ public class ReviewControllerTest {
         params.add("memberId", memberId.toString());
         params.add("seatId", seatId.toString());
         MockMultipartFile file = new MockMultipartFile(
-                "file",
+                "imageFile",
                 "test.jpg",
                 "image/jpeg",
                 "test image".getBytes()
