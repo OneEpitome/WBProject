@@ -1,4 +1,4 @@
-# WhereBallProject
+# Project 어디서볼?
 CNU SW Academy 팀프로젝트 Whereball
 
 프로토타입
