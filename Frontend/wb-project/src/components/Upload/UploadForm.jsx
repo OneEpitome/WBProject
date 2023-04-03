@@ -1,5 +1,5 @@
 import axios from "axios";
-import React from "react";
+import React, { useState } from "react";
 import styled from "styled-components";
 import useForm from "../../hooks/useForm";
 import { Section } from "../Section/Section";
@@ -17,6 +17,21 @@ const sleep = () => {
 };
 
 export default function UploadForm() {
+  const [previewImg, setPreviewImg] = useState('https://cdn-icons-png.flaticon.com/512/2271/2271664.png');
+  const insertImg = (e) => {
+    const reader = new FileReader();
+    const img = e.target.files[0];
+    if (img) {
+      reader.readAsDataURL(img);
+    }
+
+    reader.onloadend = () => {
+      const previewImgUrl = reader.result;
+
+      setPreviewImg(previewImgUrl);
+    }
+  };
+
   const { isLoading, errors, handleChange, handleSubmit } = useForm({
     initialValues: {
       title: "",
@@ -66,7 +81,23 @@ export default function UploadForm() {
       <Form onSubmit={handleSubmit}>
         <h1>후기 작성하기</h1>
         <div>
-          <input type="file" name="imageFile" onChange={handleChange} />
+          <img
+            src={previewImg}
+            alt="좌석 이미지"
+          />
+          <label htmlFor="file">좌석 이미지 업로드 하기</label>
+          <input
+            type="file"
+            id='file'
+            name="imageFile"
+            style={{
+              display: 'none',
+            }}
+            onChange={(e) => {
+              handleChange(e);
+              insertImg(e);
+            }}
+          />
         </div>
         <div>
           <input
