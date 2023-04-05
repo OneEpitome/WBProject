@@ -5,6 +5,7 @@ import RootLayout from './pages/RootLayout';
 import VenueDaejeonW from './components/Venue/VenueDaejeonW';
 import VenueHanhwa from './components/Venue/VenueHanhwa';
 import UploadForm from './components/Upload/UploadForm';
+import SignInForm from './components/SignIn/SignInForm';
 
 const router = createBrowserRouter([
   {
@@ -14,7 +15,8 @@ const router = createBrowserRouter([
       { path: '/', element: <HomePage /> },
       { path: '/daejeon-worldcup', element: <VenueDaejeonW /> },
       { path: '/hanwha-eagles', element: <VenueHanhwa /> },
-      { path: '/review-test', element: <UploadForm /> }
+      { path: '/review-test', element: <UploadForm /> },
+      { path: '/signin-test', element: <SignInForm /> },
     ],
   },
 ])
