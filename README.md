@@ -14,7 +14,15 @@ https://www.figma.com/file/RELGjls1yWMyBEVLi3v6BY/event-storming?node-id=0%3A1&t
 <img width="995" alt="image" src="https://user-images.githubusercontent.com/96767857/223369293-189fac7c-8ec9-4058-b960-c0ba896c1846.png">
 
 UML
+
 <img width="741" alt="image" src="https://user-images.githubusercontent.com/96767857/225971408-bb476bf6-c555-40c8-ad82-2f1e164e1edd.png">
+
+## Docker Compose
+WBProject 디렉토리에서 Docker Compose 명령어를 사용하여 어플리케이션을 구동시킬 수 있습니다.
+
+```
+docker-compose up
+```
 
 
 
