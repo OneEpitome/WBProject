@@ -1,0 +1,22 @@
+version: "3.7"
+
+services:
+
+  frontend:
+    image: rkddlfah02/wbfront:0.0.1
+    container_name: frontend
+    ports:
+      - "3000:3000"
+    networks:
+      - wb
+
+  backend:
+    image: rkddlfah02/wbbackend:0.0.1
+    container_name: server
+    ports:
+      - "8080:8080"
+    networks:
+      - wb
+
+networks:
+  wb:
