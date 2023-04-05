@@ -1,8 +1,8 @@
 package cnu.swacademy.wbbackend.controller;
 
-import cnu.swacademy.wbbackend.domain.member.Member;
-import cnu.swacademy.wbbackend.domain.member.MemberService;
-import cnu.swacademy.wbbackend.domain.member.form.RegisterMemberForm;
+import cnu.swacademy.wbbackend.entity.Member;
+import cnu.swacademy.wbbackend.service.MemberService;
+import cnu.swacademy.wbbackend.model.RegisterMemberForm;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;

@@ -1,8 +1,10 @@
-package cnu.swacademy.wbbackend.domain.heart;
+package cnu.swacademy.wbbackend.service;
 
-import cnu.swacademy.wbbackend.domain.member.Member;
-import cnu.swacademy.wbbackend.domain.review.Review;
-import cnu.swacademy.wbbackend.domain.review.ReviewRepository;
+import cnu.swacademy.wbbackend.entity.Heart;
+import cnu.swacademy.wbbackend.entity.Member;
+import cnu.swacademy.wbbackend.entity.Review;
+import cnu.swacademy.wbbackend.repository.HeartRepository;
+import cnu.swacademy.wbbackend.repository.ReviewRepository;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;

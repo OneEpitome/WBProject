@@ -1,18 +1,16 @@
 package cnu.swacademy.wbbackend.controller;
 
-import cnu.swacademy.wbbackend.domain.heart.HeartService;
-import cnu.swacademy.wbbackend.domain.member.Member;
-import cnu.swacademy.wbbackend.domain.member.MemberService;
-import cnu.swacademy.wbbackend.domain.review.Review;
-import cnu.swacademy.wbbackend.domain.review.ReviewService;
+import cnu.swacademy.wbbackend.service.HeartService;
+import cnu.swacademy.wbbackend.entity.Member;
+import cnu.swacademy.wbbackend.service.MemberService;
+import cnu.swacademy.wbbackend.entity.Review;
+import cnu.swacademy.wbbackend.service.ReviewService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
-import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.HashMap;
 import java.util.Map;
-import java.util.Optional;
 
 @RestController
 @RequestMapping("/api/heart")

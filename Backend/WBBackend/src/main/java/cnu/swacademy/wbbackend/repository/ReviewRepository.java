@@ -1,5 +1,6 @@
-package cnu.swacademy.wbbackend.domain.review;
+package cnu.swacademy.wbbackend.repository;
 
+import cnu.swacademy.wbbackend.entity.Review;
 import org.springframework.data.jpa.repository.JpaRepository;
 
 public interface ReviewRepository extends JpaRepository<Review, Long> {

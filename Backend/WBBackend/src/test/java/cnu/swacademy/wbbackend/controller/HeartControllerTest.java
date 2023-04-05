@@ -1,13 +1,13 @@
 package cnu.swacademy.wbbackend.controller;
 
-import cnu.swacademy.wbbackend.domain.heart.HeartRepository;
-import cnu.swacademy.wbbackend.domain.heart.HeartService;
-import cnu.swacademy.wbbackend.domain.member.Member;
-import cnu.swacademy.wbbackend.domain.member.MemberRepository;
-import cnu.swacademy.wbbackend.domain.member.MemberService;
-import cnu.swacademy.wbbackend.domain.review.Review;
-import cnu.swacademy.wbbackend.domain.review.ReviewRepository;
-import cnu.swacademy.wbbackend.domain.review.ReviewService;
+import cnu.swacademy.wbbackend.repository.HeartRepository;
+import cnu.swacademy.wbbackend.service.HeartService;
+import cnu.swacademy.wbbackend.entity.Member;
+import cnu.swacademy.wbbackend.repository.MemberRepository;
+import cnu.swacademy.wbbackend.service.MemberService;
+import cnu.swacademy.wbbackend.entity.Review;
+import cnu.swacademy.wbbackend.repository.ReviewRepository;
+import cnu.swacademy.wbbackend.service.ReviewService;
 import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.Test;

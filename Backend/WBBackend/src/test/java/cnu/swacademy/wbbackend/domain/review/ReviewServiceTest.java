@@ -1,14 +1,17 @@
 package cnu.swacademy.wbbackend.domain.review;
 
-import cnu.swacademy.wbbackend.domain.hall.Hall;
-import cnu.swacademy.wbbackend.domain.hall.HallRepository;
-import cnu.swacademy.wbbackend.domain.hall.HallService;
-import cnu.swacademy.wbbackend.domain.member.Member;
-import cnu.swacademy.wbbackend.domain.member.MemberRepository;
-import cnu.swacademy.wbbackend.domain.member.MemberService;
-import cnu.swacademy.wbbackend.domain.seat.Seat;
-import cnu.swacademy.wbbackend.domain.seat.SeatRepository;
-import cnu.swacademy.wbbackend.domain.seat.SeatService;
+import cnu.swacademy.wbbackend.entity.Hall;
+import cnu.swacademy.wbbackend.repository.HallRepository;
+import cnu.swacademy.wbbackend.service.HallService;
+import cnu.swacademy.wbbackend.entity.Member;
+import cnu.swacademy.wbbackend.repository.MemberRepository;
+import cnu.swacademy.wbbackend.service.MemberService;
+import cnu.swacademy.wbbackend.entity.Review;
+import cnu.swacademy.wbbackend.entity.Seat;
+import cnu.swacademy.wbbackend.repository.ReviewRepository;
+import cnu.swacademy.wbbackend.repository.SeatRepository;
+import cnu.swacademy.wbbackend.service.ReviewService;
+import cnu.swacademy.wbbackend.service.SeatService;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;

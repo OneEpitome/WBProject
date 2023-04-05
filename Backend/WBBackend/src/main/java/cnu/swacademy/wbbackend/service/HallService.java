@@ -1,5 +1,7 @@
-package cnu.swacademy.wbbackend.domain.hall;
+package cnu.swacademy.wbbackend.service;
 
+import cnu.swacademy.wbbackend.entity.Hall;
+import cnu.swacademy.wbbackend.repository.HallRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 

@@ -1,8 +1,8 @@
 package cnu.swacademy.wbbackend.security;
 
-import cnu.swacademy.wbbackend.domain.member.Member;
-import cnu.swacademy.wbbackend.domain.member.MemberRepository;
-import cnu.swacademy.wbbackend.domain.member.MemberService;
+import cnu.swacademy.wbbackend.entity.Member;
+import cnu.swacademy.wbbackend.repository.MemberRepository;
+import cnu.swacademy.wbbackend.service.MemberService;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;

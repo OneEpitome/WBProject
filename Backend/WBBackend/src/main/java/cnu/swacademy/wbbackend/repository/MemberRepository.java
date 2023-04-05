@@ -1,5 +1,6 @@
-package cnu.swacademy.wbbackend.domain.member;
+package cnu.swacademy.wbbackend.repository;
 
+import cnu.swacademy.wbbackend.entity.Member;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 

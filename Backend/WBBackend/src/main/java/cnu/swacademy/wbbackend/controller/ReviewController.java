@@ -1,12 +1,12 @@
 package cnu.swacademy.wbbackend.controller;
 
-import cnu.swacademy.wbbackend.domain.member.Member;
-import cnu.swacademy.wbbackend.domain.member.MemberService;
-import cnu.swacademy.wbbackend.domain.review.Review;
-import cnu.swacademy.wbbackend.domain.review.ReviewRepository;
-import cnu.swacademy.wbbackend.domain.review.ReviewService;
-import cnu.swacademy.wbbackend.domain.seat.Seat;
-import cnu.swacademy.wbbackend.domain.seat.SeatRepository;
+import cnu.swacademy.wbbackend.entity.Member;
+import cnu.swacademy.wbbackend.service.MemberService;
+import cnu.swacademy.wbbackend.entity.Review;
+import cnu.swacademy.wbbackend.repository.ReviewRepository;
+import cnu.swacademy.wbbackend.service.ReviewService;
+import cnu.swacademy.wbbackend.entity.Seat;
+import cnu.swacademy.wbbackend.repository.SeatRepository;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.web.bind.annotation.*;

@@ -1,4 +1,4 @@
-package cnu.swacademy.wbbackend.domain.member.form;
+package cnu.swacademy.wbbackend.model;
 
 import jakarta.validation.constraints.NotBlank;
 import lombok.Getter;

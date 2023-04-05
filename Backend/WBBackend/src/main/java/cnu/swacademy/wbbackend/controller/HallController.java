@@ -1,7 +1,7 @@
 package cnu.swacademy.wbbackend.controller;
 
-import cnu.swacademy.wbbackend.domain.hall.Hall;
-import cnu.swacademy.wbbackend.domain.hall.HallService;
+import cnu.swacademy.wbbackend.entity.Hall;
+import cnu.swacademy.wbbackend.service.HallService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.web.bind.annotation.*;

@@ -1,6 +1,5 @@
-package cnu.swacademy.wbbackend.domain.hall;
+package cnu.swacademy.wbbackend.entity;
 
-import cnu.swacademy.wbbackend.domain.seat.Seat;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
 import jakarta.persistence.*;
 import lombok.EqualsAndHashCode;

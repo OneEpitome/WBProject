@@ -1,5 +1,7 @@
-package cnu.swacademy.wbbackend.domain.review;
+package cnu.swacademy.wbbackend.service;
 
+import cnu.swacademy.wbbackend.entity.Review;
+import cnu.swacademy.wbbackend.repository.ReviewRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 

@@ -1,6 +1,5 @@
-package cnu.swacademy.wbbackend.domain.member;
+package cnu.swacademy.wbbackend.entity;
 
-import cnu.swacademy.wbbackend.domain.review.Review;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
 import jakarta.persistence.*;
 import lombok.*;

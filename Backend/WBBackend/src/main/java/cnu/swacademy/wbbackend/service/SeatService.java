@@ -1,6 +1,7 @@
-package cnu.swacademy.wbbackend.domain.seat;
+package cnu.swacademy.wbbackend.service;
 
-import jakarta.annotation.PostConstruct;
+import cnu.swacademy.wbbackend.entity.Seat;
+import cnu.swacademy.wbbackend.repository.SeatRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 

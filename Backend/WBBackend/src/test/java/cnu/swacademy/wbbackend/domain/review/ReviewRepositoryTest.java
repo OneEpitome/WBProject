@@ -1,5 +1,7 @@
 package cnu.swacademy.wbbackend.domain.review;
 
+import cnu.swacademy.wbbackend.entity.Review;
+import cnu.swacademy.wbbackend.repository.ReviewRepository;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;

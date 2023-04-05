@@ -1,17 +1,17 @@
 package cnu.swacademy.wbbackend.controller;
 
-import cnu.swacademy.wbbackend.domain.hall.Hall;
-import cnu.swacademy.wbbackend.domain.hall.HallRepository;
-import cnu.swacademy.wbbackend.domain.hall.HallService;
-import cnu.swacademy.wbbackend.domain.member.Member;
-import cnu.swacademy.wbbackend.domain.member.MemberRepository;
-import cnu.swacademy.wbbackend.domain.member.MemberService;
-import cnu.swacademy.wbbackend.domain.review.Review;
-import cnu.swacademy.wbbackend.domain.review.ReviewRepository;
-import cnu.swacademy.wbbackend.domain.review.ReviewService;
-import cnu.swacademy.wbbackend.domain.seat.Seat;
-import cnu.swacademy.wbbackend.domain.seat.SeatRepository;
-import cnu.swacademy.wbbackend.domain.seat.SeatService;
+import cnu.swacademy.wbbackend.entity.Hall;
+import cnu.swacademy.wbbackend.repository.HallRepository;
+import cnu.swacademy.wbbackend.service.HallService;
+import cnu.swacademy.wbbackend.entity.Member;
+import cnu.swacademy.wbbackend.repository.MemberRepository;
+import cnu.swacademy.wbbackend.service.MemberService;
+import cnu.swacademy.wbbackend.entity.Review;
+import cnu.swacademy.wbbackend.repository.ReviewRepository;
+import cnu.swacademy.wbbackend.service.ReviewService;
+import cnu.swacademy.wbbackend.entity.Seat;
+import cnu.swacademy.wbbackend.repository.SeatRepository;
+import cnu.swacademy.wbbackend.service.SeatService;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule;
 import org.assertj.core.api.Assertions;
@@ -26,8 +26,6 @@ import org.springframework.http.MediaType;
 import org.springframework.mock.web.MockMultipartFile;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.MvcResult;
-import org.springframework.test.web.servlet.ResultActions;
-import org.springframework.test.web.servlet.ResultMatcher;
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 import org.springframework.test.web.servlet.result.MockMvcResultMatchers;
 import org.springframework.util.LinkedMultiValueMap;
@@ -35,7 +33,6 @@ import org.springframework.util.MultiValueMap;
 
 import java.io.File;
 import java.time.LocalDateTime;
-import java.util.regex.Matcher;
 
 @AutoConfigureMockMvc
 @SpringBootTest

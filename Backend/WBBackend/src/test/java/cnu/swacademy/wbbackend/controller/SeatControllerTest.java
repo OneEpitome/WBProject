@@ -1,9 +1,9 @@
 package cnu.swacademy.wbbackend.controller;
 
-import cnu.swacademy.wbbackend.domain.hall.Hall;
-import cnu.swacademy.wbbackend.domain.hall.HallRepository;
-import cnu.swacademy.wbbackend.domain.hall.HallService;
-import cnu.swacademy.wbbackend.domain.seat.SeatRepository;
+import cnu.swacademy.wbbackend.entity.Hall;
+import cnu.swacademy.wbbackend.repository.HallRepository;
+import cnu.swacademy.wbbackend.service.HallService;
+import cnu.swacademy.wbbackend.repository.SeatRepository;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;

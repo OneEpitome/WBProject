@@ -1,8 +1,8 @@
 package cnu.swacademy.wbbackend.controller;
 
-import cnu.swacademy.wbbackend.domain.hall.Hall;
-import cnu.swacademy.wbbackend.domain.hall.HallRepository;
-import cnu.swacademy.wbbackend.domain.hall.HallService;
+import cnu.swacademy.wbbackend.entity.Hall;
+import cnu.swacademy.wbbackend.repository.HallRepository;
+import cnu.swacademy.wbbackend.service.HallService;
 import org.junit.jupiter.api.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;

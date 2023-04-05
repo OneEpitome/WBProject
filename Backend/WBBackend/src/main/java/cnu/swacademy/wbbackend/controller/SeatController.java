@@ -1,10 +1,9 @@
 package cnu.swacademy.wbbackend.controller;
 
-import cnu.swacademy.wbbackend.domain.hall.Hall;
-import cnu.swacademy.wbbackend.domain.hall.HallService;
-import cnu.swacademy.wbbackend.domain.seat.Seat;
-import cnu.swacademy.wbbackend.domain.seat.SeatRepository;
-import cnu.swacademy.wbbackend.domain.seat.SeatService;
+import cnu.swacademy.wbbackend.entity.Hall;
+import cnu.swacademy.wbbackend.service.HallService;
+import cnu.swacademy.wbbackend.entity.Seat;
+import cnu.swacademy.wbbackend.service.SeatService;
 import jakarta.annotation.PostConstruct;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;

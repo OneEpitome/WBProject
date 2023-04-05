@@ -1,11 +1,8 @@
-package cnu.swacademy.wbbackend.domain.heart;
+package cnu.swacademy.wbbackend.entity;
 
-import cnu.swacademy.wbbackend.domain.member.Member;
-import cnu.swacademy.wbbackend.domain.review.Review;
 import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
-import lombok.RequiredArgsConstructor;
 import lombok.Setter;
 
 @Getter @Setter

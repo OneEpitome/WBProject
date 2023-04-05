@@ -1,5 +1,6 @@
-package cnu.swacademy.wbbackend.domain.hall;
+package cnu.swacademy.wbbackend.repository;
 
+import cnu.swacademy.wbbackend.entity.Hall;
 import org.springframework.data.jpa.repository.JpaRepository;
 
 import java.util.Optional;

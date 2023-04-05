@@ -1,5 +1,7 @@
-package cnu.swacademy.wbbackend.domain.member;
+package cnu.swacademy.wbbackend.service;
 
+import cnu.swacademy.wbbackend.entity.Member;
+import cnu.swacademy.wbbackend.repository.MemberRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.core.authority.AuthorityUtils;
 import org.springframework.security.core.userdetails.User;
