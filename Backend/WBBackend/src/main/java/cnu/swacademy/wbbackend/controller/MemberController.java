@@ -19,7 +19,7 @@ import java.util.Optional;
 
 @Slf4j
 @RequiredArgsConstructor
-@RequestMapping("/api/member")
+@RequestMapping("/api/members")
 @RestController
 public class MemberController {
 
@@ -31,7 +31,7 @@ public class MemberController {
 //        return save;
 //    }
 
-    @PostMapping("/create")
+    @PostMapping
     public ResponseEntity<Object> register(@Validated @ModelAttribute RegisterMemberForm registerMemberForm,
                                            BindingResult bindingResult) {
         if (bindingResult.hasErrors()) {

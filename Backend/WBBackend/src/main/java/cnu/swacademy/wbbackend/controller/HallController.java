@@ -8,19 +8,18 @@ import org.springframework.web.bind.annotation.*;
 
 @Slf4j
 @RequiredArgsConstructor
-@RequestMapping("/api/hall")
+@RequestMapping("/api/halls")
 @RestController
 public class HallController {
-
     private final HallService hallService;
 
-    @PostMapping("/create")
+    @PostMapping
     public Hall createHall(@ModelAttribute Hall hall) {
         return hallService.save(hall);
     }
 
     @GetMapping("/{hallName}")
-    public Hall readHall(@PathVariable String hallName) {
+    public Hall getHall(@PathVariable String hallName) {
         return hallService.findByName(hallName);
     }
 }

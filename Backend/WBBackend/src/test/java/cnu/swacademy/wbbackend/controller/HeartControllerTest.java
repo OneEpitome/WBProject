@@ -61,7 +61,7 @@ public class HeartControllerTest {
         params.add("reviewId", review.getId().toString());
 
         //then
-        mockMvc.perform(MockMvcRequestBuilders.get("/api/heart").params(params))
+        mockMvc.perform(MockMvcRequestBuilders.get("/api/recommendations").params(params))
                 .andExpect(MockMvcResultMatchers.jsonPath("status").value(true));
     }
 
@@ -77,7 +77,7 @@ public class HeartControllerTest {
         params.add("memberId", member.getId().toString());
         params.add("reviewId", review.getId().toString());
 
-        mockMvc.perform(MockMvcRequestBuilders.post("/api/heart").params(params))
+        mockMvc.perform(MockMvcRequestBuilders.post("/api/recommendations").params(params))
                 .andExpect(MockMvcResultMatchers.jsonPath("status").value(true));
         Assertions.assertThat(reviewRepository.findById(review.getId()).get().getHeart_count()).isEqualTo(1L);
     }
@@ -95,7 +95,7 @@ public class HeartControllerTest {
         params.add("memberId", member.getId().toString());
         params.add("reviewId", review.getId().toString());
 
-        mockMvc.perform(MockMvcRequestBuilders.post("/api/heart").params(params))
+        mockMvc.perform(MockMvcRequestBuilders.post("/api/recommendations").params(params))
                 .andExpect(MockMvcResultMatchers.jsonPath("status").value(false));
         Assertions.assertThat(reviewRepository.findById(review.getId()).get().getHeart_count()).isEqualTo(0L);
     }

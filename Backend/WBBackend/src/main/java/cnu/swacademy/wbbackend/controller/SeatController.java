@@ -9,15 +9,15 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;
 
 @RequiredArgsConstructor
-@RequestMapping("/api/seat")
+@RequestMapping("/api/seats")
 @RestController
 public class SeatController {
 
     private final SeatService seatService;
     private final HallService hallService;
 
-    @PostMapping("/create")
-    public Seat save(@ModelAttribute Seat seat, @RequestParam Long hallId) {
+    @PostMapping
+    public Seat createSeat(@ModelAttribute Seat seat, @RequestParam Long hallId) {
         Hall hall = hallService.findById(hallId);
         seat.setHall(hall);
 

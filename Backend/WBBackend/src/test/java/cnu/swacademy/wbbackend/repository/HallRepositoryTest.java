@@ -1,4 +1,4 @@
-package cnu.swacademy.wbbackend.domain.hall;
+package cnu.swacademy.wbbackend.repository;
 
 import cnu.swacademy.wbbackend.entity.Hall;
 import cnu.swacademy.wbbackend.repository.HallRepository;

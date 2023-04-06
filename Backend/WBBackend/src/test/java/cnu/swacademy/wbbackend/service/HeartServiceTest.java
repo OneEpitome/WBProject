@@ -1,4 +1,4 @@
-package cnu.swacademy.wbbackend.domain.heart;
+package cnu.swacademy.wbbackend.service;
 
 import cnu.swacademy.wbbackend.entity.Member;
 import cnu.swacademy.wbbackend.repository.HeartRepository;

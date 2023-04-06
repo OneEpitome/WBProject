@@ -17,7 +17,7 @@ import java.util.UUID;
 
 @Slf4j
 @RequiredArgsConstructor
-@RequestMapping("/api/review")
+@RequestMapping("/api/reviews")
 @RestController
 public class ReviewController {
 
@@ -29,7 +29,7 @@ public class ReviewController {
             "src" + File.separator + "main" + File.separator + "resources" + File.separator +
             "static" + File.separator + "images"; // 저장 경로 지정
 
-    @PostMapping("/save")
+    @PostMapping
     public Review save(@ModelAttribute Review review, @RequestParam Long seatId,
                        @RequestParam Long memberId, @RequestParam(required = false) MultipartFile imageFile) throws Exception {
         Seat seat = seatRepository.findById(seatId).get();

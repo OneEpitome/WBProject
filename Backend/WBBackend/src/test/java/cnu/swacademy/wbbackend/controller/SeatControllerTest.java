@@ -36,6 +36,7 @@ public class SeatControllerTest {
 
     @AfterEach
     void cleanup() {
+        hallRepository.deleteAll();
         seatRepository.deleteAll();
     }
 
@@ -43,13 +44,12 @@ public class SeatControllerTest {
     void setup() {
         Hall hall = new Hall();
         hall.setName(hallName);
-
         hallService.save(hall);
     }
 
     @Test
     @DisplayName("Seat Controller 를 사용하여 Seat Entity 를 추가할 수 있다.")
-    void save() throws Exception {
+    void createSeat() throws Exception {
         //given
         /*
         * setup 에 mock Hall Entity 등록됨.
@@ -58,12 +58,11 @@ public class SeatControllerTest {
 
         //when
         //then
-        Long hallId = hallRepository.findAll().get(0).getId();
-        mockMvc.perform(MockMvcRequestBuilders.post("/api/seat/create")
+        Long hallId = hallRepository.findHallByName(hallName).orElseThrow().getId();
+        mockMvc.perform(MockMvcRequestBuilders.post("/api/seats")
                         .param("hallId", hallId.toString()))
                 .andExpect(MockMvcResultMatchers.jsonPath("id").exists())
                 .andExpect(MockMvcResultMatchers.jsonPath("reviewList").exists());
-        assertThat(seatRepository.count()).isEqualTo(1L);
-        assertThat(seatRepository.findAll().get(0).getHall().getName()).isEqualTo(hallName);
+        assertThat(hallRepository.findById(hallId).get().getSeatList().get(0).getHall().getName()).isEqualTo(hallName);
     }
 }

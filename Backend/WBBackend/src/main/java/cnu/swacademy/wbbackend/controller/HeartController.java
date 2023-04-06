@@ -13,7 +13,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 @RestController
-@RequestMapping("/api/heart")
+@RequestMapping("/api/recommendations")
 @RequiredArgsConstructor
 public class HeartController {
     private final HeartService heartService;

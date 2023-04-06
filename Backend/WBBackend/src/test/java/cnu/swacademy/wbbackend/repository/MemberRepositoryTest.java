@@ -1,4 +1,4 @@
-package cnu.swacademy.wbbackend.domain.member;
+package cnu.swacademy.wbbackend.repository;
 
 import cnu.swacademy.wbbackend.entity.Member;
 import cnu.swacademy.wbbackend.repository.MemberRepository;

@@ -120,7 +120,7 @@ public class ReviewControllerTest {
 
         //when
         //then
-        MvcResult result = mockMvc.perform(MockMvcRequestBuilders.multipart("/api/review/save")
+        MvcResult result = mockMvc.perform(MockMvcRequestBuilders.multipart("/api/reviews")
                         .file(file)
                         .contentType(MediaType.MULTIPART_FORM_DATA)
                         .params(params)
@@ -157,7 +157,7 @@ public class ReviewControllerTest {
 
         //when
         Long reviewId = save.getId();
-        mockMvc.perform(MockMvcRequestBuilders.get("/api/review/" + reviewId))
+        mockMvc.perform(MockMvcRequestBuilders.get("/api/reviews/" + reviewId))
                 .andExpect(MockMvcResultMatchers.jsonPath("title").value(title))
                 .andExpect(MockMvcResultMatchers.jsonPath("content").value(content))
                 .andExpect(MockMvcResultMatchers.jsonPath("writerName").value(member.getNickname()))
@@ -183,7 +183,7 @@ public class ReviewControllerTest {
         Review save = reviewService.save(review);
 
         //when
-        mockMvc.perform(MockMvcRequestBuilders.delete("/api/review/" + save.getId()));
+        mockMvc.perform(MockMvcRequestBuilders.delete("/api/reviews/" + save.getId()));
 
         //then
         Assertions.assertThat(reviewRepository.count()).isEqualTo(0L);

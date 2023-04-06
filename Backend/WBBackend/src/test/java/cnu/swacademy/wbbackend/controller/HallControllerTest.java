@@ -3,6 +3,7 @@ package cnu.swacademy.wbbackend.controller;
 import cnu.swacademy.wbbackend.entity.Hall;
 import cnu.swacademy.wbbackend.repository.HallRepository;
 import cnu.swacademy.wbbackend.service.HallService;
+import org.hamcrest.Matchers;
 import org.junit.jupiter.api.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
@@ -10,8 +11,6 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 import org.springframework.test.web.servlet.result.MockMvcResultMatchers;
-
-import static org.assertj.core.api.Assertions.*;
 
 @AutoConfigureMockMvc
 @SpringBootTest
@@ -43,16 +42,17 @@ public class HallControllerTest {
 
 
     @Test
-    @DisplayName("/api/hall/create 를 통해 Hall Entity 를 생성할 수 있다.")
-    void save() throws Exception {
+    @DisplayName("/api/halls 를 통해 Hall Entity 를 생성할 수 있다.")
+    void createHall() throws Exception {
         //given
         String hallName = "Hanbat Baseball Stadium";
 
         //when
-        mockMvc.perform(MockMvcRequestBuilders.post("/api/hall/create").param("name", hallName));
         //then
-        assertThat(hallRepository.count()).isEqualTo(2L);
-        assertThat(hallService.findByName(hallName).getName()).isEqualTo(hallName);
+        mockMvc.perform(MockMvcRequestBuilders.post("/api/halls").param("name", hallName))
+                .andExpect(MockMvcResultMatchers.status().isOk())
+                .andExpect(MockMvcResultMatchers.jsonPath("$.id").exists())
+                .andExpect(MockMvcResultMatchers.jsonPath("$.name", Matchers.is(hallName)));
     }
 
     @Test
@@ -65,9 +65,9 @@ public class HallControllerTest {
 
         //when
         //then
-        mockMvc.perform(MockMvcRequestBuilders.get("/api/hall/" + hallName))
+        mockMvc.perform(MockMvcRequestBuilders.get("/api/halls/" + hallName))
                 .andExpect(MockMvcResultMatchers.jsonPath("id").exists())
-                .andExpect(MockMvcResultMatchers.jsonPath("name").exists())
+                .andExpect(MockMvcResultMatchers.jsonPath("name", Matchers.is(hallName)))
                 .andExpect(MockMvcResultMatchers.jsonPath("seatList").exists());
     }
 }

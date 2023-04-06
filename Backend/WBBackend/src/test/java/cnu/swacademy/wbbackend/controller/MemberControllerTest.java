@@ -42,7 +42,7 @@ class MemberControllerTest {
         params.add("nickname", "nickkname");
 
         //when
-        mockMvc.perform(post("/api/member/create").params(params));
+        mockMvc.perform(post("/api/members").params(params));
         //then
         assertThat(memberRepository.findMemberByUsername("mockUser")).isNotEmpty();
     }
@@ -57,7 +57,7 @@ class MemberControllerTest {
 
         //when
         //then
-        mockMvc.perform(post("/api/member/create")
+        mockMvc.perform(post("/api/members")
                         .params(params))
                 .andExpect(MockMvcResultMatchers.status().is4xxClientError());
     }
@@ -73,7 +73,7 @@ class MemberControllerTest {
         //when
         //then
         Long memberId = memberRepository.findAll().get(0).getId();
-        mockMvc.perform(get("/api/member/"+ memberId))
+        mockMvc.perform(get("/api/members/"+ memberId))
                 .andExpect(MockMvcResultMatchers.jsonPath("username").exists())
                 .andExpect(MockMvcResultMatchers.jsonPath("nickname").exists())
                 .andExpect(MockMvcResultMatchers.jsonPath("reviewList").exists())

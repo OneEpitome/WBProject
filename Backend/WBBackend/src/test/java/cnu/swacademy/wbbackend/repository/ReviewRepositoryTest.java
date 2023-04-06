@@ -1,4 +1,4 @@
-package cnu.swacademy.wbbackend.domain.review;
+package cnu.swacademy.wbbackend.repository;
 
 import cnu.swacademy.wbbackend.entity.Review;
 import cnu.swacademy.wbbackend.repository.ReviewRepository;
