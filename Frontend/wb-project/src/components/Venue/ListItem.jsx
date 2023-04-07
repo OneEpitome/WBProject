@@ -27,7 +27,7 @@ export default function ListItem({ onClickListButton, seatData }) {
     <Container>
       {
         seatData.map((data) => (
-          <Button onClick={onClickListButton}>{data.sector}</Button>
+          <Button key={data.id} onClick={onClickListButton}>{data.sector}</Button>
         ))
       }
     </Container>
