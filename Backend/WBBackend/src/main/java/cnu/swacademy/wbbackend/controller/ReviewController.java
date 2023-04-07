@@ -30,7 +30,8 @@ public class ReviewController {
             "static" + File.separator + "images"; // 저장 경로 지정
 
     @PostMapping("/save")
-    public Review save(@ModelAttribute Review review, @RequestParam Long seatId, @RequestParam Long memberId, MultipartFile file) throws Exception {
+    public Review save(@ModelAttribute Review review, @RequestParam Long seatId,
+                       @RequestParam Long memberId, @RequestParam(required = false) MultipartFile imageFile) throws Exception {
         Seat seat = seatRepository.findById(seatId).get();
         Member member = memberService.findById(memberId).get(); // memberService 의 findById 메소드 수정 필요
 
@@ -38,9 +39,9 @@ public class ReviewController {
         review.setWriter(member);
 
         UUID uuid = UUID.randomUUID(); // 식별자 생성
-        String fileName = uuid+"_"+file.getOriginalFilename();
+        String fileName = uuid+"_"+ imageFile.getOriginalFilename();
         File saveFile = new File(projectPath,fileName); // 빈 껍데기 생성 (경로, 이름)
-        file.transferTo(saveFile);
+        imageFile.transferTo(saveFile);
 
         //경로랑 이름넣기
         review.setFilename(fileName);

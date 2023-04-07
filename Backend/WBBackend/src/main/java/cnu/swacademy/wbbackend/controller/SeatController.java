@@ -3,7 +3,9 @@ package cnu.swacademy.wbbackend.controller;
 import cnu.swacademy.wbbackend.domain.hall.Hall;
 import cnu.swacademy.wbbackend.domain.hall.HallService;
 import cnu.swacademy.wbbackend.domain.seat.Seat;
+import cnu.swacademy.wbbackend.domain.seat.SeatRepository;
 import cnu.swacademy.wbbackend.domain.seat.SeatService;
+import jakarta.annotation.PostConstruct;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;
 
@@ -25,5 +27,15 @@ public class SeatController {
         * */
 
         return seatService.save(seat);
+    }
+
+    @PostConstruct
+    public void setup() {
+        Hall hall = new Hall();
+        hallService.save(hall);
+
+        Seat seat = new Seat();
+        seat.setHall(hall);
+        seatService.save(seat);
     }
 }
