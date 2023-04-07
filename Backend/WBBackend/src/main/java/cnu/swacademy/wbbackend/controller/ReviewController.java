@@ -47,7 +47,7 @@ public class ReviewController {
         review.setFilename(fileName);
         review.setFilepath("/files/"+fileName);
 
-        return reviewService.save(review);
+        return reviewService.createReview(review);
     }
 
     @GetMapping("/{reviewId}")

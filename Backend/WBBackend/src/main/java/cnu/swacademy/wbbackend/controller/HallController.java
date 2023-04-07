@@ -18,6 +18,8 @@ public class HallController {
         return hallService.save(hall);
     }
 
+
+    // FindAll 로 가져온 뒤 자바에서 getName 일치하는 것 찾는 것과 where 절로 쿼리를 날리는 것 중 무엇이 빠를까?
     @GetMapping("/{hallName}")
     public Hall getHall(@PathVariable String hallName) {
         return hallService.findByName(hallName);

@@ -153,7 +153,7 @@ public class ReviewControllerTest {
         review.setWriter(member);
         review.setSeat(seat);
 
-        Review save = reviewService.save(review);
+        Review save = reviewService.createReview(review);
 
         //when
         Long reviewId = save.getId();
@@ -180,7 +180,7 @@ public class ReviewControllerTest {
         review.setWriter(member);
         review.setSeat(seat);
 
-        Review save = reviewService.save(review);
+        Review save = reviewService.createReview(review);
 
         //when
         mockMvc.perform(MockMvcRequestBuilders.delete("/api/reviews/" + save.getId()));

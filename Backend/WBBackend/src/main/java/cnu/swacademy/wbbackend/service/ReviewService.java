@@ -13,7 +13,7 @@ public class ReviewService {
 
     private final ReviewRepository reviewRepository;
 
-    public Review save(Review review) {
+    public Review createReview(Review review) {
         review.setCreatedAt(LocalDateTime.now());
         return reviewRepository.save(review);
     }

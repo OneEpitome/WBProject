@@ -22,14 +22,8 @@ import java.util.Optional;
 @RequestMapping("/api/members")
 @RestController
 public class MemberController {
-
     private final MemberService memberService;
 
-//    @PostMapping("/create")
-//    public Member createMember(@ModelAttribute Member member) {
-//        Member save = memberService.save(member);
-//        return save;
-//    }
 
     @PostMapping
     public ResponseEntity<Object> register(@Validated @ModelAttribute RegisterMemberForm registerMemberForm,
@@ -47,6 +41,7 @@ public class MemberController {
         return ResponseEntity.ok("회원가입 성공");
     }
 
+    // 본인의 정보만 가져올 수 있도록 SpringSecurity Authorization 필요.
     @GetMapping("/{memberId}")
     public ResponseEntity<Object> readMember(@PathVariable Long memberId) {
         Optional<Member> optionalMember = memberService.findById(memberId);

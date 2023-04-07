@@ -1,8 +1,8 @@
 version: "3.7"
 
 services:
-
   frontend:
+    platform: linux/arm64/v8
     image: rkddlfah02/wbfront:0.0.1
     container_name: frontend
     ports:
@@ -11,6 +11,7 @@ services:
       - wb
 
   backend:
+    platform: linux/arm64/v8
     image: rkddlfah02/wbbackend:0.0.1
     container_name: server
     ports:

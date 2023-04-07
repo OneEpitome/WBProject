@@ -87,7 +87,7 @@ public class ReviewServiceTest {
         review.setWriter(member);
 
         //when
-        reviewService.save(review);
+        reviewService.createReview(review);
 
         //then
         assertThat(reviewRepository.count()).isEqualTo(1L);
@@ -109,7 +109,7 @@ public class ReviewServiceTest {
         review.setSeat(seat);
         review.setWriter(member);
 
-        Review save = reviewService.save(review);
+        Review save = reviewService.createReview(review);
 
 
         //when
@@ -144,8 +144,8 @@ public class ReviewServiceTest {
         review2.setSeat(seat);
         review2.setWriter(member);
 
-        Review save = reviewService.save(review1);
-        reviewService.save(review2);
+        Review save = reviewService.createReview(review1);
+        reviewService.createReview(review2);
 
         //when
         Long id = save.getId();

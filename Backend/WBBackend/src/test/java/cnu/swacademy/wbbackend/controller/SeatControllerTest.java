@@ -20,7 +20,6 @@ import static org.assertj.core.api.Assertions.*;
 @AutoConfigureMockMvc
 @SpringBootTest
 public class SeatControllerTest {
-
     private static String hallName = "Hanhwa-Eagles Park";
 
     @Autowired
