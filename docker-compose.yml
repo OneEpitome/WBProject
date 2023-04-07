@@ -3,7 +3,7 @@ version: "3.7"
 services:
   frontend:
     platform: linux/arm64/v8
-    image: rkddlfah02/wbfront:0.0.1
+    image: rkddlfah02/wbfront:test
     container_name: frontend
     ports:
       - "3000:3000"
@@ -12,12 +12,14 @@ services:
 
   backend:
     platform: linux/arm64/v8
-    image: rkddlfah02/wbbackend:0.0.1
+    image: rkddlfah02/wbbackend:test
     container_name: server
     ports:
       - "8080:8080"
     networks:
       - wb
+    volumes:
+      - ./images:/whereball/src/main/resources/static/images
 
 networks:
   wb:

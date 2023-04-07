@@ -26,7 +26,7 @@ public class MemberController {
 
 
     @PostMapping
-    public ResponseEntity<Object> register(@Validated @ModelAttribute RegisterMemberForm registerMemberForm,
+    public ResponseEntity<Object> register(@Validated @RequestBody RegisterMemberForm registerMemberForm,
                                            BindingResult bindingResult) {
         if (bindingResult.hasErrors()) {
             List<FieldError> fieldErrors = bindingResult.getFieldErrors();

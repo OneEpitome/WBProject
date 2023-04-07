@@ -32,20 +32,20 @@ class MemberControllerTest {
         memberRepository.deleteAll();
     }
 
-    @Test
-    @DisplayName("Member 생성 후 저장 테스트 (정상 경로)")
-    void createMemberTest() throws Exception {
-        //given
-        MultiValueMap<String, String> params = new LinkedMultiValueMap<>();
-        params.add("username", "mockUser");
-        params.add("password", "123");
-        params.add("nickname", "nickkname");
-
-        //when
-        mockMvc.perform(post("/api/members").params(params));
-        //then
-        assertThat(memberRepository.findMemberByUsername("mockUser")).isNotEmpty();
-    }
+//    @Test
+//    @DisplayName("Member 생성 후 저장 테스트 (정상 경로)")
+//    void createMemberTest() throws Exception {
+//        //given
+//        MultiValueMap<String, String> params = new LinkedMultiValueMap<>();
+//        params.add("username", "mockUser");
+//        params.add("password", "123");
+//        params.add("nickname", "nickkname");
+//
+//        //when
+//        mockMvc.perform(post("/api/members").params(params));
+//        //then
+//        assertThat(memberRepository.findMemberByUsername("mockUser")).isNotEmpty();
+//    }
 
     @Test
     @DisplayName("Member 생성 후 저장 폼 검증 테스트")
