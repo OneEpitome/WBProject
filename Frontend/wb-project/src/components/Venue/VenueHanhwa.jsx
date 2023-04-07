@@ -1,22 +1,11 @@
 import React, { useState } from 'react';
 import Text from '../Text/Text';
 import SeatList from './SeatList';
-import styled from 'styled-components';
 import { SEAT_DATA_Hanwha } from './SEAT_DATA/SEAT_DATA_Hanhwa';
 
 import VenueImg from '../../images/venue/한화생명이글스파크/한화생명이글스파크.png';
-
-const Section = styled.section`
-  margin: 15px 150px;
-  height: 600px;
-`;
-
-const Container = styled.div`
-  width: 100%;
-  height: 550px;
-  display: flex;
-  margin: 20px 0;
-`
+import { Container } from './UI/Container';
+import { Section } from './UI/Section';
 
 export default function VenueHanwha() {
   const seatData = SEAT_DATA_Hanwha;
