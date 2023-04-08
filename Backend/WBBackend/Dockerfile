@@ -1,7 +1,7 @@
-FROM openjdk
+FROM gradle
 
 WORKDIR /whereball
-RUN mkdir -p src/main/resources/static/images
-COPY ./build/libs .
+COPY . .
+RUN ./gradlew clean build -x test && cp build/libs/*.jar ./app.jar
 
-CMD ["java", "-jar", "WBBackend-0.0.1-SNAPSHOT.jar"]
+CMD ["java", "-jar", "app.jar"]
