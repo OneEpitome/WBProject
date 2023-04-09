@@ -1,22 +1,25 @@
 import React, { useState } from 'react';
+import { Link } from 'react-router-dom';
 import styled from 'styled-components';
 
 const Container = styled.div`
-  height: 400px;
+  height: 440px;
   overflow-y: scroll;
   border: solid 3px black;
   border-left: none;
-  border-bottom: none;
 `
 
-const Button = styled.button`
-  width: 100%;
+const Button = styled(Link)`
+  display: block;
   font-size: 20px;
   padding: 5px 40px;
   border: none;
   background-color: transparent;
   border-radius: 20px;
   cursor: pointer;
+
+  text-decoration: none;
+  color: black;
 
   &:hover {
     background-color: lightgrey;
@@ -28,7 +31,7 @@ const DetailContainer = styled.div`
   border-radius: 20px;
 `;
 
-const ListItem = React.memo(({ onClickListButton, onGetDetailData, seatData }) => {
+export default function ListItem({ onClickListButton, onGetDetailData, seatData }) {
   const [selected, setSelected] = useState('');
 
   const onClickListButton2 = (e) => {
@@ -56,6 +59,7 @@ const ListItem = React.memo(({ onClickListButton, onGetDetailData, seatData }) =
                 <DetailContainer>
                   {data.details.map((detail) => (
                     <Button
+                      to={detail}
                       key={detail}
                       onClick={onClickDetailButton}
                     >{detail}</Button>
@@ -68,6 +72,4 @@ const ListItem = React.memo(({ onClickListButton, onGetDetailData, seatData }) =
       }
     </Container >
   );
-});
-
-export default ListItem;
+}
