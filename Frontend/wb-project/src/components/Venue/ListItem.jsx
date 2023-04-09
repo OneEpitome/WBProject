@@ -28,11 +28,15 @@ const DetailContainer = styled.div`
   border-radius: 20px;
 `;
 
-export default function ListItem({ onClickListButton, seatData }) {
+const ListItem = React.memo(({ onClickListButton, onGetDetailData, seatData }) => {
   const [selected, setSelected] = useState('');
 
   const onClickListButton2 = (e) => {
     setSelected(e.target.innerText);
+  };
+
+  const onClickDetailButton = (e) => {
+    onGetDetailData(e.target.innerText);
   };
 
   return (
@@ -51,7 +55,10 @@ export default function ListItem({ onClickListButton, seatData }) {
                 (data.id === selected) &&
                 <DetailContainer>
                   {data.details.map((detail) => (
-                    <Button key={detail}>{detail}</Button>
+                    <Button
+                      key={detail}
+                      onClick={onClickDetailButton}
+                    >{detail}</Button>
                   ))}
                 </DetailContainer>
               }
@@ -61,4 +68,6 @@ export default function ListItem({ onClickListButton, seatData }) {
       }
     </Container >
   );
-}
+});
+
+export default ListItem;
