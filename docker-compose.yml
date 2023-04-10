@@ -20,14 +20,28 @@ services:
     container_name: frontend
     networks:
       - wb
+    deploy:
+      mode: replicated
+      replicas: 2
+      update_config:
+        parallelism: 1
+        delay: 30s
 
   backend:
     image: rkddlfah02/wbbackend:test
     container_name: server
     networks:
       - wb
+    ports:
+      - 8080:8080
     volumes:
       - ./images:/whereball/src/main/resources/static/images
+    deploy:
+      mode: replicated
+      replicas: 2
+      update_config:
+        parallelism: 1
+        delay: 30s
 
 networks:
   wb:
