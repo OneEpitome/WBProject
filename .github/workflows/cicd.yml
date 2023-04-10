@@ -74,7 +74,7 @@ jobs:
           gcloud compute scp ./docker-compose.yml ${{ secrets.GCP_VM_USERNAME }}@instance-1:~/WProject/docker-compose.yml --zone asia-northeast3-a
           gcloud compute ssh ${{ secrets.GCP_VM_USERNAME }}@instance-1 --zone asia-northeast3-a -- "sudo docker login -u ${{ secrets.DOCKER_HUB_USERNAME }} -p ${{ secrets.DOCKER_HUB_ACCESS_TOKEN }}"
           gcloud compute ssh ${{ secrets.GCP_VM_USERNAME }}@instance-1 --zone asia-northeast3-a -- "sudo aa-remove-unknown"
-          gcloud compute ssh ${{ secrets.GCP_VM_USERNAME }}@instance-1 --zone asia-northeast3-a -- "sudo docker system prune -f --volumes"
           gcloud compute ssh ${{ secrets.GCP_VM_USERNAME }}@instance-1 --zone asia-northeast3-a -- "sudo docker-compose -f ~/WProject/docker-compose.yml down"
+          gcloud compute ssh ${{ secrets.GCP_VM_USERNAME }}@instance-1 --zone asia-northeast3-a -- "sudo docker system prune -f --volumes"
           gcloud compute ssh ${{ secrets.GCP_VM_USERNAME }}@instance-1 --zone asia-northeast3-a -- "sudo docker-compose -f ~/WProject/docker-compose.yml pull"
           gcloud compute ssh ${{ secrets.GCP_VM_USERNAME }}@instance-1 --zone asia-northeast3-a -- "sudo docker-compose -f ~/WProject/docker-compose.yml up -d"

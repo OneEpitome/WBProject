@@ -158,10 +158,10 @@ public class ReviewControllerTest {
         //when
         Long reviewId = save.getId();
         mockMvc.perform(MockMvcRequestBuilders.get("/api/reviews/" + reviewId))
-                .andExpect(MockMvcResultMatchers.jsonPath("title").value(title))
-                .andExpect(MockMvcResultMatchers.jsonPath("content").value(content))
-                .andExpect(MockMvcResultMatchers.jsonPath("writerName").value(member.getNickname()))
-                .andExpect(MockMvcResultMatchers.jsonPath("seatId").value(seat.getId()));
+                .andExpect(MockMvcResultMatchers.jsonPath("$.title").value(title))
+                .andExpect(MockMvcResultMatchers.jsonPath("$.content").value(content))
+                .andExpect(MockMvcResultMatchers.jsonPath("$.writerName").value(member.getNickname()))
+                .andExpect(MockMvcResultMatchers.jsonPath("$.seatId").value(seat.getId()));
     }
 
     @Test
