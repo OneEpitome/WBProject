@@ -1,21 +1,29 @@
-version: "3.7"
+version: "3"
 
 services:
+  nginx:
+    image: nginx:stable-alpine
+    container_name: nginx
+    restart: on-failure
+    ports:
+      - "80:80"
+    volumes:
+      - ./nginx/nginx.conf:/etc/nginx/nginx.conf
+    depends_on:
+      - frontend
+      - backend
+    networks:
+      - wb
+
   frontend:
-    platform: linux/arm64/v8
     image: rkddlfah02/wbfront:test
     container_name: frontend
-    ports:
-      - "3000:3000"
     networks:
       - wb
 
   backend:
-    platform: linux/arm64/v8
     image: rkddlfah02/wbbackend:test
     container_name: server
-    ports:
-      - "8080:8080"
     networks:
       - wb
     volumes:
