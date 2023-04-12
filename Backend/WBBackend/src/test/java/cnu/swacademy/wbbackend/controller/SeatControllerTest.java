@@ -1,67 +1,78 @@
 package cnu.swacademy.wbbackend.controller;
 
+import cnu.swacademy.wbbackend.dto.SeatCreationDTO;
 import cnu.swacademy.wbbackend.entity.Hall;
-import cnu.swacademy.wbbackend.repository.HallRepository;
-import cnu.swacademy.wbbackend.service.HallService;
-import cnu.swacademy.wbbackend.repository.SeatRepository;
-import org.junit.jupiter.api.AfterEach;
+import cnu.swacademy.wbbackend.entity.Seat;
+import cnu.swacademy.wbbackend.service.SeatService;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import org.junit.jupiter.api.BeforeEach;
-import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.extension.ExtendWith;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
-import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
+import org.springframework.boot.test.mock.mockito.MockBean;
+import org.springframework.http.MediaType;
+import org.springframework.security.test.context.support.WithMockUser;
+import org.springframework.test.context.junit.jupiter.SpringExtension;
 import org.springframework.test.web.servlet.MockMvc;
-import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
-import org.springframework.test.web.servlet.result.MockMvcResultMatchers;
 
-import static org.assertj.core.api.Assertions.*;
+import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.Mockito.when;
+import static org.springframework.security.test.web.servlet.request.SecurityMockMvcRequestPostProcessors.csrf;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
-@AutoConfigureMockMvc
-@SpringBootTest
+/**
+ * SeatControllerTest is a test class for testing the SeatController.
+ */
+@ExtendWith(SpringExtension.class)
+@WebMvcTest(SeatController.class)
 public class SeatControllerTest {
-    private static String hallName = "Hanhwa-Eagles Park";
 
     @Autowired
-    SeatRepository seatRepository;
+    private MockMvc mockMvc;
 
     @Autowired
-    HallService hallService;
-    @Autowired
-    HallRepository hallRepository;
+    private ObjectMapper objectMapper;
 
-    @Autowired
-    MockMvc mockMvc;
+    @MockBean
+    private SeatService seatService;
 
-    @AfterEach
-    void cleanup() {
-        hallRepository.deleteAll();
-        seatRepository.deleteAll();
-    }
+    private SeatCreationDTO seatDTO;
+    private Seat seat;
 
+    /**
+     * Sets up the test data before each test case.
+     */
     @BeforeEach
-    void setup() {
+    void setUp() {
         Hall hall = new Hall();
-        hall.setName(hallName);
-        hallService.save(hall);
+        hall.setId(1L);
+        hall.setName("Hall 1");
+
+        seatDTO = new SeatCreationDTO("A1", "Hall 1");
+
+        seat = new Seat();
+        seat.setId(1L);
+        seat.setSeatName("A1");
+        seat.setHall(hall);
     }
 
+    /**
+     * Tests the createSeat method of the SeatController.
+     */
     @Test
-    @DisplayName("Seat Controller 를 사용하여 Seat Entity 를 추가할 수 있다.")
+    @WithMockUser // @WithMockUser 와 csrf() 는 @WebMvcTest 가 스프링 시큐리티 설정을 제대로 못 읽기 때문에 추가함.
     void createSeat() throws Exception {
-        //given
-        /*
-        * setup 에 mock Hall Entity 등록됨.
-        *
-        * */
+        when(seatService.save(any(SeatCreationDTO.class))).thenReturn(seat);
 
-        //when
-        //then
-        Long hallId = hallRepository.findHallByName(hallName).orElseThrow().getId();
-        mockMvc.perform(MockMvcRequestBuilders.post("/api/seats")
-                        .param("hallId", hallId.toString()))
-                .andExpect(MockMvcResultMatchers.jsonPath("id").exists())
-                .andExpect(MockMvcResultMatchers.jsonPath("reviewList").exists());
-        assertThat(hallRepository.findById(hallId).get().getSeatList().get(0).getHall().getName()).isEqualTo(hallName);
+        mockMvc.perform(post("/api/seats").with(csrf())
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .content(objectMapper.writeValueAsString(seatDTO)))
+                .andExpect(status().isCreated())
+                .andExpect(jsonPath("$.id").value(1L))
+                .andExpect(jsonPath("$.seatName").value("A1"))
+                .andExpect(jsonPath("$.reviewList").exists());
     }
 }

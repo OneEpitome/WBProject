@@ -1,60 +1,116 @@
 package cnu.swacademy.wbbackend.repository;
 
 import cnu.swacademy.wbbackend.entity.Hall;
-import cnu.swacademy.wbbackend.repository.HallRepository;
-import cnu.swacademy.wbbackend.service.HallService;
 import cnu.swacademy.wbbackend.entity.Seat;
-import cnu.swacademy.wbbackend.repository.SeatRepository;
-import org.junit.jupiter.api.AfterEach;
-import org.junit.jupiter.api.BeforeEach;
-import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
+import org.springframework.boot.test.autoconfigure.orm.jpa.TestEntityManager;
+
+import java.util.List;
+import java.util.Optional;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
-@SpringBootTest
+@DataJpaTest
 public class SeatRepositoryTest {
 
-    private static String hallName = "Hanhwa-Eagles Park";
     @Autowired
-    HallRepository hallRepository;
+    private TestEntityManager entityManager;
 
     @Autowired
-    HallService hallService;
+    private SeatRepository seatRepository;
 
-    @Autowired
-    SeatRepository seatRepository;
-
-    @BeforeEach
-    void setup() {
+    @Test
+    public void testSaveAndFindById() {
+        // given
         Hall hall = new Hall();
-        hall.setName(hallName);
-        hallService.save(hall);
-    }
+        hall.setName("Hall 1");
+        entityManager.persist(hall);
 
-    @AfterEach
-    void cleanup() {
-        hallRepository.deleteAll();
-        seatRepository.deleteAll();
+        Seat seat = new Seat();
+        seat.setSeatName("A1");
+        seat.setHall(hall);
+        entityManager.persist(seat);
+        entityManager.flush();
+
+        // when
+        Optional<Seat> foundSeat = seatRepository.findById(seat.getId());
+
+        // then
+        assertThat(foundSeat.isPresent()).isTrue();
+        assertThat(foundSeat.get().getSeatName()).isEqualTo(seat.getSeatName());
+        assertThat(foundSeat.get().getHall()).isEqualTo(hall);
     }
 
     @Test
-    @DisplayName("SeatRepository 를 통한 Seat Entity 저장")
-    void save() {
-        //given
+    public void testUpdateSeat() {
+        // given
+        Hall hall = new Hall();
+        hall.setName("Hall 1");
+        entityManager.persist(hall);
+
         Seat seat = new Seat();
-
-        Hall hall = hallService.findByName(hallName);
+        seat.setSeatName("A1");
         seat.setHall(hall);
+        entityManager.persist(seat);
+        entityManager.flush();
 
-        //when
+        // when
+        seat.setSeatName("A2");
         seatRepository.save(seat);
 
-        //then
-        Hall findByName = hallService.findByName(hallName);
-        assertThat(seatRepository.count()).isEqualTo(1L);
-        assertThat(seat.getHall()).isEqualTo(findByName);
+        // then
+        Optional<Seat> updatedSeat = seatRepository.findById(seat.getId());
+        assertThat(updatedSeat.isPresent()).isTrue();
+        assertThat(updatedSeat.get().getSeatName()).isEqualTo("A2");
+    }
+
+    @Test
+    public void testDeleteSeat() {
+        // given
+        Hall hall = new Hall();
+        hall.setName("Hall 1");
+        entityManager.persist(hall);
+
+        Seat seat = new Seat();
+        seat.setSeatName("A1");
+        seat.setHall(hall);
+        entityManager.persist(seat);
+        entityManager.flush();
+
+        // when
+        seatRepository.deleteById(seat.getId());
+
+        // then
+        Optional<Seat> deletedSeat = seatRepository.findById(seat.getId());
+        assertThat(deletedSeat.isPresent()).isFalse();
+    }
+
+    @Test
+    public void testFindAll() {
+        // given
+        Hall hall = new Hall();
+        hall.setName("Hall 1");
+        entityManager.persist(hall);
+
+        Seat seat1 = new Seat();
+        seat1.setSeatName("A1");
+        seat1.setHall(hall);
+        entityManager.persist(seat1);
+
+        Seat seat2 = new Seat();
+        seat2.setSeatName("A2");
+        seat2.setHall(hall);
+        entityManager.persist(seat2);
+
+        entityManager.flush();
+
+        // when
+        List<Seat> seats = seatRepository.findAll();
+
+        // then
+        assertThat(seats).hasSize(2);
+        assertThat(seats).contains(seat1, seat2);
     }
 }
