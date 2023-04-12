@@ -1,162 +1,87 @@
 package cnu.swacademy.wbbackend.service;
 
-import cnu.swacademy.wbbackend.entity.Hall;
-import cnu.swacademy.wbbackend.repository.HallRepository;
-import cnu.swacademy.wbbackend.service.HallService;
-import cnu.swacademy.wbbackend.entity.Member;
-import cnu.swacademy.wbbackend.repository.MemberRepository;
-import cnu.swacademy.wbbackend.service.MemberService;
-import cnu.swacademy.wbbackend.entity.Review;
-import cnu.swacademy.wbbackend.entity.Seat;
+import cnu.swacademy.wbbackend.entity.*;
+import cnu.swacademy.wbbackend.exception.ReviewNotFoundException;
 import cnu.swacademy.wbbackend.repository.ReviewRepository;
-import cnu.swacademy.wbbackend.repository.SeatRepository;
-import cnu.swacademy.wbbackend.service.ReviewService;
-import cnu.swacademy.wbbackend.service.SeatService;
-import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
-import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.extension.ExtendWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.boot.test.mock.mockito.MockBean;
+import org.springframework.test.context.junit.jupiter.SpringExtension;
 
-import java.time.LocalDateTime;
+import java.util.Optional;
 
-import static org.assertj.core.api.Assertions.*;
+import static org.junit.jupiter.api.Assertions.*;
+import static org.mockito.Mockito.*;
 
+@ExtendWith(SpringExtension.class)
 @SpringBootTest
 public class ReviewServiceTest {
-    @Autowired
-    HallService hallService;
-    @Autowired
-    HallRepository hallRepository;
 
     @Autowired
-    SeatService seatService;
+    private ReviewService reviewService;
 
-    @Autowired
-    SeatRepository seatRepository;
+    @MockBean
+    private ReviewRepository reviewRepository;
 
-    @Autowired
-    MemberService memberService;
-
-    @Autowired
-    MemberRepository memberRepository;
-
-    @Autowired
-    ReviewRepository reviewRepository;
-
-    @Autowired
-    ReviewService reviewService;
+    private Review review;
+    private Member member;
+    private Hall hall;
+    private Seat seat;
 
     @BeforeEach
-    void setup() {
-        Hall hall = hallService.save(new Hall());
+    public void setUp() {
+        member = new Member("username", "password", "nickname");
+        hall = new Hall();
+        hall.setName("Test Hall");
 
-        Seat seat = new Seat();
-        seat.setHall(hall);
-        seatService.save(seat);
+        seat = new Seat();
+        seat.setSeatName("Test Seat");
+        hall.addSeat(seat);
 
-        memberService.save(
-                new Member("mockUser", "password", "nick1name", "ROLE_USER"));
-    }
-
-    @AfterEach
-    void cleanup() {
-        hallRepository.deleteAll();
-        seatRepository.deleteAll();
-        memberRepository.deleteAll();
-        reviewRepository.deleteAll();
-    }
-
-    @Test
-    void save() {
-        //given
-        String title = "Title";
-        String content = "Content";
-        LocalDateTime now = LocalDateTime.now();
-
-        Review review = new Review();
-        review.setTitle(title);
-        review.setContent(content);
-        review.setCreatedAt(now);
-
-        Seat seat = seatRepository.findAll().get(0);
-        review.setSeat(seat);
-
-        Member member = memberRepository.findAll().get(0);
+        review = new Review();
         review.setWriter(member);
-
-        //when
-        reviewService.createReview(review);
-
-        //then
-        assertThat(reviewRepository.count()).isEqualTo(1L);
-    }
-
-    @Test
-    @DisplayName("ID 로 리뷰를 조회할 수 있다.")
-    void findById() {
-        //given
-        String title = "Title";
-        String content = "Content";
-        LocalDateTime now = LocalDateTime.now();
-        Seat seat = seatRepository.findAll().get(0);
-        Member member = memberRepository.findAll().get(0);
-
-        Review review = new Review();
-        review.setTitle(title);
-        review.setContent(content);
         review.setSeat(seat);
-        review.setWriter(member);
-
-        Review save = reviewService.createReview(review);
-
-
-        //when
-        Long id = save.getId();
-        Review findById = reviewService.findById(id);
-
-        //then
-        assertThat(findById.getTitle()).isEqualTo(title);
-        assertThat(findById.getContent()).isEqualTo(content);
-        assertThat(findById.getSeat()).isEqualTo(seat);
-        assertThat(findById.getWriter()).isEqualTo(member);
+        review.setContent("Test Review");
     }
 
     @Test
-    @DisplayName("ReviewId 로 Review Entity 를 삭제할 수 있다.")
-    void deleteById() {
-        //given
-        Seat seat = seatRepository.findAll().get(0);
-        Member member = memberRepository.findAll().get(0);
+    public void createReviewTest() {
+        when(reviewRepository.save(review)).thenReturn(review);
 
-        Review review1 = new Review();
-        review1.setTitle("Title1");
-        review1.setContent("Content1");
-        review1.setCreatedAt(LocalDateTime.now());
-        review1.setSeat(seat);
-        review1.setWriter(member);
+        Review createdReview = reviewService.createReview(review);
 
-        Review review2 = new Review();
-        review2.setTitle("Title2");
-        review2.setContent("Content2");
-        review2.setCreatedAt(LocalDateTime.now());
-        review2.setSeat(seat);
-        review2.setWriter(member);
+        assertNotNull(createdReview);
+        assertEquals(createdReview.getContent(), review.getContent());
+        assertNotNull(createdReview.getCreatedAt());
+    }
 
-        Review save = reviewService.createReview(review1);
-        reviewService.createReview(review2);
+    @Test
+    public void findByIdTest() {
+        when(reviewRepository.findById(1L)).thenReturn(Optional.of(review));
 
-        //when
-        Long id = save.getId();
-        reviewService.deleteById(id);
+        Review foundReview = reviewService.findById(1L);
 
-        //then
-        assertThat(reviewRepository.count()).isEqualTo(1L);
-        Review remainingReview = reviewRepository.findAll().get(0);
-        assertThat(remainingReview.getTitle()).isEqualTo("Title2");
-        assertThat(remainingReview.getContent()).isEqualTo("Content2");
-        assertThat(remainingReview.getSeat()).isEqualTo(seat);
-        assertThat(remainingReview.getWriter()).isEqualTo(member);
+        assertNotNull(foundReview);
+        assertEquals(foundReview.getContent(), review.getContent());
+    }
+
+    @Test
+    public void findByIdNotFoundTest() {
+        when(reviewRepository.findById(1L)).thenReturn(Optional.empty());
+
+        assertThrows(ReviewNotFoundException.class, () -> reviewService.findById(1L));
+    }
+
+    @Test
+    public void deleteByIdTest() {
+        when(reviewRepository.findById(1L)).thenReturn(Optional.of(review));
+        doNothing().when(reviewRepository).deleteById(1L);
+
+        reviewService.deleteById(1L);
+
+        verify(reviewRepository, times(1)).deleteById(1L);
     }
 }

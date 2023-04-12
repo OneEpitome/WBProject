@@ -10,7 +10,6 @@ import org.hibernate.annotations.DynamicInsert;
 import java.time.LocalDateTime;
 
 @Getter @Setter @EqualsAndHashCode
-@NoArgsConstructor
 @Entity @DynamicInsert
 @Table(name = "review")
 public class Review {
@@ -51,12 +50,6 @@ public class Review {
     @ColumnDefault(value = "0L")
     @Column(name = "heart_count")
     private Long heart_count = 0L;
-
-    public Review(LocalDateTime createdAt, String title, String content) {
-        this.createdAt = createdAt;
-        this.title = title;
-        this.content = content;
-    }
 
     public void incHeartCount() {
         ++this.heart_count;

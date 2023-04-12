@@ -1,39 +1,89 @@
 package cnu.swacademy.wbbackend.repository;
 
+import cnu.swacademy.wbbackend.entity.Hall;
+import cnu.swacademy.wbbackend.entity.Member;
 import cnu.swacademy.wbbackend.entity.Review;
-import cnu.swacademy.wbbackend.repository.ReviewRepository;
-import org.junit.jupiter.api.AfterEach;
+import cnu.swacademy.wbbackend.entity.Seat;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.extension.ExtendWith;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
+import org.springframework.test.context.junit.jupiter.SpringExtension;
 
-import java.time.LocalDateTime;
+import java.util.List;
 
-import static org.assertj.core.api.Assertions.*;
+import static org.assertj.core.api.Assertions.assertThat;
 
-@SpringBootTest
-public class ReviewRepositoryTest {
+@ExtendWith(SpringExtension.class)
+@DataJpaTest
+class ReviewRepositoryTest {
 
     @Autowired
-    ReviewRepository reviewRepository;
+    private ReviewRepository reviewRepository;
 
-    @AfterEach
-    void cleanup() {
-        reviewRepository.deleteAll();
+    @Autowired
+    private SeatRepository seatRepository;
+
+    @Autowired
+    private MemberRepository memberRepository;
+
+    @Autowired
+    private HallRepository hallRepository;
+
+    private Seat seat;
+    private Member member;
+
+    @BeforeEach
+    void setUp() {
+        Hall hall = new Hall();
+        hall.setName("Test Hall");
+        hall = hallRepository.save(hall);
+
+        seat = new Seat();
+        seat.setSeatName("A1");
+        seat.setHall(hall);
+        seat = seatRepository.save(seat);
+
+        member = new Member();
+        member.setUsername("test@example.com");
+        member.setPassword("testpassword");
+        member.setNickname("Test User");
+        member = memberRepository.save(member);
     }
 
     @Test
-    void save() {
-        //given
-        String title = "title";
-        String content = "content";
-        LocalDateTime createdAt = LocalDateTime.now();
-        Review review = new Review(createdAt, title, content);
-        //when
-        Review save = reviewRepository.save(review);
-        //then
-        assertThat(reviewRepository.findAll().get(0).getTitle()).isEqualTo(title);
-        assertThat(reviewRepository.findAll().get(0).getContent()).isEqualTo(content);
-        assertThat(reviewRepository.findAll().get(0).getCreatedAt()).isEqualTo(createdAt);
+    void saveAndFindReview() {
+        Review review = new Review();
+        review.setContent("Test content");
+        review.setWriter(member);
+        review.setSeat(seat);
+
+        review = reviewRepository.save(review);
+
+        Review foundReview = reviewRepository.findById(review.getId()).orElse(null);
+
+        assertThat(foundReview).isNotNull();
+        assertThat(foundReview.getId()).isEqualTo(review.getId());
+        assertThat(foundReview.getContent()).isEqualTo(review.getContent());
+        assertThat(foundReview.getWriter().getId()).isEqualTo(member.getId());
+        assertThat(foundReview.getSeat().getId()).isEqualTo(seat.getId());
+    }
+
+    @Test
+    void deleteReview() {
+        Review review = new Review();
+        review.setContent("Test content");
+        review.setWriter(member);
+        review.setSeat(seat);
+
+        review = reviewRepository.save(review);
+        Long reviewId = review.getId();
+
+        reviewRepository.deleteById(reviewId);
+
+        Review foundReview = reviewRepository.findById(reviewId).orElse(null);
+
+        assertThat(foundReview).isNull();
     }
 }
