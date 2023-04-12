@@ -1,58 +1,47 @@
 package cnu.swacademy.wbbackend.repository;
 
 import cnu.swacademy.wbbackend.entity.Member;
-import cnu.swacademy.wbbackend.repository.MemberRepository;
-import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
+import org.springframework.boot.test.autoconfigure.orm.jpa.TestEntityManager;
 
 import java.util.Optional;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
-@SpringBootTest
+@DataJpaTest
 class MemberRepositoryTest {
+    @Autowired
+    private TestEntityManager testEntityManager;
 
     @Autowired
-    MemberRepository memberRepository;
+    private MemberRepository memberRepository;
 
-    @BeforeEach
-    void clear() {
-        memberRepository.deleteAll();
+    @Test
+    void findByUsername_ExistingUsername_ReturnsMember() {
+        // given
+        Member member = new Member("testUser", "testPassword", "testNickname");
+        testEntityManager.persist(member);
+
+        // when
+        Optional<Member> foundMember = memberRepository.findByUsername("testUser");
+
+        // then
+        assertThat(foundMember.isPresent()).isTrue();
+        assertThat(foundMember.get()).isEqualTo(member);
     }
 
     @Test
-    void save() {
-        //given
-        Member member = new Member("abc", "def", "nick", "ROLE_USER");
+    void findByUsername_NonExistingUsername_ReturnsEmptyOptional() {
+        // given
+        Member member = new Member("testUser", "testPassword", "testNickname");
+        testEntityManager.persist(member);
 
-        //when
-        Member savedMember = memberRepository.save(member);
+        // when
+        Optional<Member> foundMember = memberRepository.findByUsername("nonExistingUser");
 
-        //then
-        assertThat(savedMember.getUsername()).isEqualTo("abc");
-        assertThat(savedMember.getPassword()).isEqualTo(member.getPassword());
-        assertThat(savedMember.getNickname()).isEqualTo("nick");
-        assertThat(savedMember.getAuthority()).isEqualTo("ROLE_USER");
-    }
-
-    @Test
-    void findByUsername() {
-        //given
-        Member member = new Member("abc", "def", "nick", "ROLE_USER");
-        memberRepository.save(member);
-
-        //when
-        Optional<Member> findMemberByUsername = memberRepository.findMemberByUsername("abc");
-        Member savedMember = findMemberByUsername.get();
-
-        //then
-        assertThat(findMemberByUsername).isNotEmpty();
-        assertThat(savedMember.getUsername()).isEqualTo("abc");
-        assertThat(savedMember.getPassword()).isEqualTo("def");
-        assertThat(savedMember.getNickname()).isEqualTo("nick");
-        assertThat(savedMember.getAuthority()).isEqualTo("ROLE_USER");
-
+        // then
+        assertThat(foundMember.isPresent()).isFalse();
     }
 }

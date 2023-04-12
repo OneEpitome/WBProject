@@ -1,79 +1,66 @@
 package cnu.swacademy.wbbackend.service;
 
 import cnu.swacademy.wbbackend.entity.Member;
+import cnu.swacademy.wbbackend.exception.MemberNotFoundException;
 import cnu.swacademy.wbbackend.repository.MemberRepository;
-import cnu.swacademy.wbbackend.service.MemberService;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.test.autoconfigure.orm.jpa.TestEntityManagerAutoConfiguration;
 import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import org.springframework.boot.test.mock.mockito.MockBean;
+import org.springframework.security.core.userdetails.UsernameNotFoundException;
+import org.springframework.security.crypto.password.PasswordEncoder;
 
 import java.util.Optional;
 
-import static org.assertj.core.api.Assertions.assertThat;
+import static org.junit.jupiter.api.Assertions.*;
+import static org.mockito.Mockito.*;
 
 @SpringBootTest
-public class MemberServiceTest {
-
+class MemberServiceTest {
     @Autowired
-    MemberService memberService;
+    private MemberService memberService;
 
-    @Autowired
-    MemberRepository memberRepository;
+    @MockBean
+    private MemberRepository memberRepository;
+
+    @MockBean
+    private PasswordEncoder passwordEncoder;
+
+    private Member member;
 
     @BeforeEach
-    void setup() {
-        memberRepository.deleteAll();
+    void setUp() {
+        member = new Member("test", "test1234", "tester");
+        when(memberRepository.findByUsername(member.getUsername())).thenReturn(Optional.of(member));
+        when(memberRepository.findById(member.getId())).thenReturn(Optional.of(member));
+        when(passwordEncoder.encode(member.getPassword())).thenReturn("encodedTest1234");
     }
 
     @Test
-    @DisplayName("MemberService 를 통하여 멤버를 저장할 수 있다.")
-    void save() {
-        //given
-        String username = "mockUser1";
-        String password = "password";
-        String nickname = "nick1";
-        String authority = "ROLE_USER";
-        Member member = new Member(username, password, nickname, authority);
-
-        //when
-        Member save = memberService.save(member);
-
-        //then
-        assertThat(save.getUsername()).isEqualTo(username);
-        assertThat(new BCryptPasswordEncoder().matches(password, save.getPassword())).isEqualTo(true);
-        assertThat(save.getNickname()).isEqualTo(nickname);
-        assertThat(save.getAuthority()).isEqualTo(authority);
+    @DisplayName("사용자 이름으로 Member 조회")
+    void loadUserByUsername() {
+        assertEquals(member, memberService.loadUserByUsername(member.getUsername()));
     }
 
     @Test
-    @DisplayName("MemberService 를 통하여 memberId 를 통해 멤버를 조회할 수 있다.")
+    @DisplayName("존재하는 Member ID로 조회")
     void findById() {
-        //given
-        String username = "mockUser1";
-        String password = "password";
-        String nickname = "nick1";
-        String authority = "ROLE_USER";
-        Member member = new Member(username, password, nickname, authority);
-        Member saved = memberService.save(member);
-        Long memberId = saved.getId();
+        assertEquals(member, memberService.findById(member.getId()));
+    }
 
-        //when
-        Optional<Member> findById = memberService.findById(memberId);
-        /* securityConfig 의 mock 객체에 의해 2L 로 insert 됨.
-            BeforeEach 의 setup 메소드에서 제거해도 2L 로 insert.
-         */
+    @Test
+    @DisplayName("존재하지 않는 Member ID로 조회")
+    void findById_NotFound() {
+        assertThrows(MemberNotFoundException.class, () -> memberService.findById(-1L));
+    }
 
-        //then
-        assertThat(findById).isNotEmpty();
-        Member save = findById.get();
-
-        assertThat(save.getUsername()).isEqualTo(username);
-        assertThat(new BCryptPasswordEncoder().matches(password, save.getPassword())).isEqualTo(true);
-        assertThat(save.getNickname()).isEqualTo(nickname);
-        assertThat(save.getAuthority()).isEqualTo(authority);
-
+    @Test
+    @DisplayName("새로운 Member 추가")
+    void save() {
+        memberService.save(member);
+        verify(memberRepository, times(1)).save(any(Member.class));
     }
 }

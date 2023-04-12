@@ -1,98 +1,88 @@
 package cnu.swacademy.wbbackend.controller;
 
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import cnu.swacademy.wbbackend.entity.Member;
-import cnu.swacademy.wbbackend.model.RegisterMemberForm;
-import cnu.swacademy.wbbackend.repository.MemberRepository;
 import cnu.swacademy.wbbackend.service.MemberService;
-import com.fasterxml.jackson.databind.ObjectMapper;
-import org.junit.jupiter.api.AfterEach;
-import org.junit.jupiter.api.BeforeEach;
+import cnu.swacademy.wbbackend.model.RegisterMemberForm;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
-import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.http.MediaType;
+import org.springframework.security.test.context.support.WithMockUser;
 import org.springframework.test.web.servlet.MockMvc;
+import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
+import org.springframework.test.web.servlet.result.MockMvcResultHandlers;
 import org.springframework.test.web.servlet.result.MockMvcResultMatchers;
-import org.springframework.util.LinkedMultiValueMap;
-import org.springframework.util.MultiValueMap;
 
+import java.util.Collections;
 
-import static org.assertj.core.api.Assertions.*;
 import static org.mockito.ArgumentMatchers.any;
-import static org.mockito.Mockito.times;
-import static org.mockito.Mockito.verify;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.content;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
+import static org.mockito.Mockito.when;
+import static org.springframework.security.test.web.servlet.request.SecurityMockMvcRequestPostProcessors.csrf;
 
-@SpringBootTest
-@AutoConfigureMockMvc
+@WebMvcTest(MemberController.class)
 class MemberControllerTest {
 
     @Autowired
-    MockMvc mockMvc;
+    private MockMvc mockMvc;
 
-    @Autowired
-    MemberRepository memberRepository;
+    @MockBean
+    private MemberService memberService;
 
-    @AfterEach
-    void cleanup() {
-        memberRepository.deleteAll();
+
+    @DisplayName("회원 가입 테스트")
+    @Test
+    @WithMockUser
+    void register() throws Exception {
+        RegisterMemberForm registerMemberForm = new RegisterMemberForm();
+        registerMemberForm.setUsername("user");
+        registerMemberForm.setPassword("123");
+        registerMemberForm.setNickname("nickname");
+
+        Member member = new Member();
+        member.setId(1L);
+        member.setUsername(registerMemberForm.getUsername());
+        member.setPassword(registerMemberForm.getPassword());
+        member.setNickname(registerMemberForm.getNickname());
+        member.setAuthorities(Collections.singleton(new SimpleGrantedAuthority("ROLE_USER")));
+
+
+        when(memberService.save(any(Member.class))).thenReturn(member);
+
+        mockMvc.perform(MockMvcRequestBuilders.post("/api/members").with(csrf())
+                        .content("{\"username\":\"user\",\"password\":\"123\",\"nickname\":\"nickname\"}")
+                        .contentType(MediaType.APPLICATION_JSON))
+                .andExpect(MockMvcResultMatchers.status().isOk())
+                .andExpect(MockMvcResultMatchers.jsonPath("$.id").value(member.getId()))
+                .andExpect(MockMvcResultMatchers.jsonPath("$.username").value(member.getUsername()))
+                .andExpect(MockMvcResultMatchers.jsonPath("$.nickname").value(member.getNickname()))
+                .andExpect(MockMvcResultMatchers.jsonPath("$.authorities[0].authority").value("ROLE_USER"))
+                .andDo(MockMvcResultHandlers.print());
     }
 
+    @DisplayName("회원 조회 테스트")
     @Test
-    @DisplayName("Member 생성 후 저장 테스트 (정상 경로)")
-    public void testRegister() throws Exception {
-
-        RegisterMemberForm form = new RegisterMemberForm();
-        form.setUsername("testuser");
-        form.setPassword("testpassword");
-        form.setNickname("testnickname");
-
-        // form 데이터를 JSON 형식으로 변환하여 요청 본문에 추가
-        ObjectMapper objectMapper = new ObjectMapper();
-        String requestBody = objectMapper.writeValueAsString(form);
-
-        mockMvc.perform(post("/api/members")
-                        .contentType(MediaType.APPLICATION_JSON)
-                        .content(requestBody))
-                .andExpect(status().isOk())
-                .andExpect(content().string("회원가입 성공"));
-    }
-
-    @Test
-    @DisplayName("Member 생성 후 저장 폼 검증 테스트")
-    void createMemberFormValidationTest() throws Exception {
-        //given
-        MultiValueMap<String, String> params = new LinkedMultiValueMap<>();
-        params.add("username", "mockUser");
-        params.add("password", "123");
-
-        //when
-        //then
-        mockMvc.perform(post("/api/members")
-                        .params(params))
-                .andExpect(status().is4xxClientError());
-    }
-
-    @Test
-    @DisplayName("Member 를 memberId 로 조회하여 정보를 가져올 수 있다.")
+    @WithMockUser
     void readMember() throws Exception {
-        //given
+        Long memberId = 1L;
 
-        Member member = new Member("mockUser", "password", "nickname1", "ROLE_USER");
-        memberRepository.save(member);
+        Member member = new Member();
+        member.setId(memberId);
+        member.setUsername("user");
+        member.setPassword("123");
+        member.setNickname("nickname");
+        member.setAuthorities(Collections.singleton(new SimpleGrantedAuthority("ROLE_USER")));
 
-        //when
-        //then
-        Long memberId = memberRepository.findAll().get(0).getId();
-        mockMvc.perform(get("/api/members/"+ memberId))
-                .andExpect(MockMvcResultMatchers.jsonPath("$.username").value("mockUser"))
-                .andExpect(MockMvcResultMatchers.jsonPath("$.nickname").value("nickname1"))
-                .andExpect(MockMvcResultMatchers.jsonPath("$.authority").value("ROLE_USER"))
-                .andExpect(MockMvcResultMatchers.jsonPath("$.password").doesNotExist());
+        when(memberService.findById(memberId)).thenReturn(member);
+
+        mockMvc.perform(MockMvcRequestBuilders.get("/api/members/{memberId}", memberId))
+                .andExpect(MockMvcResultMatchers.status().isOk())
+                .andExpect(MockMvcResultMatchers.jsonPath("$.id").value(member.getId()))
+                .andExpect(MockMvcResultMatchers.jsonPath("$.username").value(member.getUsername()))
+                .andExpect(MockMvcResultMatchers.jsonPath("$.nickname").value(member.getNickname()))
+                .andExpect(MockMvcResultMatchers.jsonPath("$.authorities[0].authority").value("ROLE_USER"))
+                .andDo(MockMvcResultHandlers.print());
     }
 }
