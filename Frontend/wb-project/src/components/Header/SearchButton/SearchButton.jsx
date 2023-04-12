@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { BiSearchAlt2 } from 'react-icons/bi';
-import { Button } from '../Button';
+import { Button } from '../../UI/Button';
 import Modal from '../../UI/Modal';
 import { GiCancel } from 'react-icons/gi';
 import SearchBox from './SearchBox';
