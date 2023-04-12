@@ -1,22 +1,11 @@
 import React, { useState } from 'react';
 import Text from '../Text/Text';
 import SeatList from './SeatList';
-import styled from 'styled-components';
 import { SEAT_DATA_DaejeonW } from './SEAT_DATA/SEAT_DATA_DaejeonW';
 
 import VenueImg from '../../images/venue/대전월드컵경기장/대전월드컵경기장.png';
-
-const Section = styled.section`
-  margin: 15px 150px;
-  height: 600px;
-`;
-
-const Container = styled.div`
-  width: 100%;
-  height: 550px;
-  display: flex;
-  margin: 20px 0;
-`
+import { Container } from './UI/Container';
+import { Section } from './UI/Section';
 
 export default function VenueDaejeonW() {
   const seatData = SEAT_DATA_DaejeonW;
