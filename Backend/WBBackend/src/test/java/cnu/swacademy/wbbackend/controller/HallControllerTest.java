@@ -1,73 +1,82 @@
 package cnu.swacademy.wbbackend.controller;
 
 import cnu.swacademy.wbbackend.entity.Hall;
-import cnu.swacademy.wbbackend.repository.HallRepository;
 import cnu.swacademy.wbbackend.service.HallService;
-import org.hamcrest.Matchers;
-import org.junit.jupiter.api.*;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
-import org.springframework.boot.test.context.SpringBootTest;
+import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.extension.ExtendWith;
+import org.mockito.InjectMocks;
+import org.mockito.Mock;
+import org.mockito.junit.jupiter.MockitoExtension;
+import org.springframework.http.MediaType;
 import org.springframework.test.web.servlet.MockMvc;
-import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
-import org.springframework.test.web.servlet.result.MockMvcResultMatchers;
+import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 
-@AutoConfigureMockMvc
-@SpringBootTest
+import static org.mockito.Mockito.*;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
+
+/**
+ * The HallControllerTest class provides unit tests for the HallController class.
+ */
+@ExtendWith(MockitoExtension.class)
 public class HallControllerTest {
 
-    private static final String hallName = "Hanhwa-Eagles Park";
+    private MockMvc mockMvc;
 
-    @Autowired
-    MockMvc mockMvc;
+    @Mock
+    private HallService hallService;
 
-    @Autowired
-    HallService hallService;
+    @InjectMocks
+    private HallController hallController;
 
-    @Autowired
-    HallRepository hallRepository;
-
-    @BeforeEach
-    void setup() {
+    /**
+     * Tests the createHall method in {@link HallController}.
+     * It checks if the method creates a new hall and returns it with the generated ID.
+     */
+    @Test
+    void createHall() throws Exception {
+        String hallName = "Test Hall";
         Hall hall = new Hall();
         hall.setName(hallName);
 
-        hallService.save(hall);
+        Hall savedHall = new Hall();
+        savedHall.setId(1L);
+        savedHall.setName(hallName);
+
+        when(hallService.save(hall)).thenReturn(savedHall);
+
+        mockMvc = MockMvcBuilders.standaloneSetup(hallController).build();
+
+        mockMvc.perform(post("/api/halls")
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .content("{\"name\": \"" + hallName + "\"}"))
+                .andExpect(status().isOk())
+                .andExpect(jsonPath("$.id").value(savedHall.getId()))
+                .andExpect(jsonPath("$.name").value(hallName));
+
+        verify(hallService, times(1)).save(hall);
     }
 
-    @AfterEach
-    void cleanup() {
-        hallRepository.deleteAll();
-    }
-
-
+    /**
+     * Tests the getHall method in {@link HallController}.
+     * It checks if the method retrieves the hall with the given name.
+     */
     @Test
-    @DisplayName("/api/halls 를 통해 Hall Entity 를 생성할 수 있다.")
-    void createHall() throws Exception {
-        //given
-        String hallName = "Hanbat Baseball Stadium";
+    void getHall() throws Exception {
+        String hallName = "Test Hall";
+        Hall hall = new Hall();
+        hall.setId(1L);
+        hall.setName(hallName);
 
-        //when
-        //then
-        mockMvc.perform(MockMvcRequestBuilders.post("/api/halls").param("name", hallName))
-                .andExpect(MockMvcResultMatchers.status().isOk())
-                .andExpect(MockMvcResultMatchers.jsonPath("$.id").exists())
-                .andExpect(MockMvcResultMatchers.jsonPath("$.name", Matchers.is(hallName)));
-    }
+        when(hallService.findByName(hallName)).thenReturn(hall);
 
-    @Test
-    @DisplayName("/api/hall/{hallName} 으로 Hall Entity 를 조회할 수 있다.")
-    void findByName() throws Exception {
-        //given
-        /*
-        * setup 으로 대체, hallName : Hanhwa-Eagles Park
-        * */
+        mockMvc = MockMvcBuilders.standaloneSetup(hallController).build();
 
-        //when
-        //then
-        mockMvc.perform(MockMvcRequestBuilders.get("/api/halls/" + hallName))
-                .andExpect(MockMvcResultMatchers.jsonPath("id").exists())
-                .andExpect(MockMvcResultMatchers.jsonPath("name", Matchers.is(hallName)))
-                .andExpect(MockMvcResultMatchers.jsonPath("seatList").exists());
+        mockMvc.perform(get("/api/halls/{hallName}", hallName))
+                .andExpect(status().isOk())
+                .andExpect(jsonPath("$.id").value(hall.getId()))
+                .andExpect(jsonPath("$.name").value(hallName));
+
+        verify(hallService, times(1)).findByName(hallName);
     }
 }

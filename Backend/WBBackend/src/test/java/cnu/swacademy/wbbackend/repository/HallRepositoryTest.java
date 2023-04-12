@@ -1,34 +1,43 @@
 package cnu.swacademy.wbbackend.repository;
 
 import cnu.swacademy.wbbackend.entity.Hall;
-import cnu.swacademy.wbbackend.repository.HallRepository;
-import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
+
+import java.util.Optional;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
-@SpringBootTest
-public class HallRepositoryTest {
+/**
+ * HallRepositoryTest is a test class for testing the {@link HallRepository}.
+ * It uses the @DataJpaTest annotation for setting up an embedded database
+ * and configuring Spring Data JPA.
+ */
+@DataJpaTest
+class HallRepositoryTest {
+
+
     @Autowired
-    HallRepository hallRepository;
+    private HallRepository hallRepository;
 
-    @AfterEach
-    void cleanup() {
-        hallRepository.deleteAll();
-    }
-
+    /**
+     * Tests the findByName method in {@link HallRepository}.
+     * It checks if the method returns the correct Hall entity based on the given hall name.
+     */
     @Test
-    void save() {
-
-        //given
+    void findByName() {
+        // Given
+        String hallName = "Test Hall";
         Hall hall = new Hall();
+        hall.setName(hallName);
+        hallRepository.save(hall);
 
-        //when
-        Hall save = hallRepository.save(hall);
+        // When
+        Optional<Hall> foundHall = hallRepository.findByName(hallName);
 
-        //then
-        assertThat(hallRepository.findAll()).contains(save);
+        // Then
+        assertThat(foundHall).isPresent();
+        assertThat(foundHall.get().getName()).isEqualTo(hallName);
     }
 }
