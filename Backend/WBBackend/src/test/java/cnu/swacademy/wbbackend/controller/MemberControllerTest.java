@@ -1,87 +1,88 @@
 package cnu.swacademy.wbbackend.controller;
 
-import cnu.swacademy.wbbackend.domain.member.Member;
-import cnu.swacademy.wbbackend.domain.member.MemberRepository;
-import org.junit.jupiter.api.AfterEach;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.authority.SimpleGrantedAuthority;
+import cnu.swacademy.wbbackend.entity.Member;
+import cnu.swacademy.wbbackend.service.MemberService;
+import cnu.swacademy.wbbackend.model.RegisterMemberForm;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
-import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
+import org.springframework.boot.test.mock.mockito.MockBean;
+import org.springframework.http.MediaType;
+import org.springframework.security.test.context.support.WithMockUser;
 import org.springframework.test.web.servlet.MockMvc;
-import org.springframework.test.web.servlet.MvcResult;
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
+import org.springframework.test.web.servlet.result.MockMvcResultHandlers;
 import org.springframework.test.web.servlet.result.MockMvcResultMatchers;
-import org.springframework.util.LinkedMultiValueMap;
-import org.springframework.util.MultiValueMap;
 
+import java.util.Collections;
 
-import java.nio.charset.StandardCharsets;
+import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.Mockito.when;
+import static org.springframework.security.test.web.servlet.request.SecurityMockMvcRequestPostProcessors.csrf;
 
-import static org.assertj.core.api.Assertions.*;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
-
-@SpringBootTest
-@AutoConfigureMockMvc
+@WebMvcTest(MemberController.class)
 class MemberControllerTest {
 
     @Autowired
-    MockMvc mockMvc;
+    private MockMvc mockMvc;
 
-    @Autowired
-    MemberRepository memberRepository;
+    @MockBean
+    private MemberService memberService;
 
-    @AfterEach
-    void cleanup() {
-        memberRepository.deleteAll();
+
+    @DisplayName("회원 가입 테스트")
+    @Test
+    @WithMockUser
+    void register() throws Exception {
+        RegisterMemberForm registerMemberForm = new RegisterMemberForm();
+        registerMemberForm.setUsername("user");
+        registerMemberForm.setPassword("123");
+        registerMemberForm.setNickname("nickname");
+
+        Member member = new Member();
+        member.setId(1L);
+        member.setUsername(registerMemberForm.getUsername());
+        member.setPassword(registerMemberForm.getPassword());
+        member.setNickname(registerMemberForm.getNickname());
+        member.setAuthorities(Collections.singleton(new SimpleGrantedAuthority("ROLE_USER")));
+
+
+        when(memberService.save(any(Member.class))).thenReturn(member);
+
+        mockMvc.perform(MockMvcRequestBuilders.post("/api/members").with(csrf())
+                        .content("{\"username\":\"user\",\"password\":\"123\",\"nickname\":\"nickname\"}")
+                        .contentType(MediaType.APPLICATION_JSON))
+                .andExpect(MockMvcResultMatchers.status().isOk())
+                .andExpect(MockMvcResultMatchers.jsonPath("$.id").value(member.getId()))
+                .andExpect(MockMvcResultMatchers.jsonPath("$.username").value(member.getUsername()))
+                .andExpect(MockMvcResultMatchers.jsonPath("$.nickname").value(member.getNickname()))
+                .andExpect(MockMvcResultMatchers.jsonPath("$.authorities[0].authority").value("ROLE_USER"))
+                .andDo(MockMvcResultHandlers.print());
     }
 
+    @DisplayName("회원 조회 테스트")
     @Test
-    @DisplayName("Member 생성 후 저장 테스트 (정상 경로)")
-    void createMemberTest() throws Exception {
-        //given
-        MultiValueMap<String, String> params = new LinkedMultiValueMap<>();
-        params.add("username", "mockUser");
-        params.add("password", "123");
-        params.add("nickname", "nickkname");
-
-        //when
-        mockMvc.perform(post("/api/member/create").params(params));
-        //then
-        assertThat(memberRepository.findMemberByUsername("mockUser")).isNotEmpty();
-    }
-
-    @Test
-    @DisplayName("Member 생성 후 저장 폼 검증 테스트")
-    void createMemberFormValidationTest() throws Exception {
-        //given
-        MultiValueMap<String, String> params = new LinkedMultiValueMap<>();
-        params.add("username", "mockUser");
-        params.add("password", "123");
-
-        //when
-        //then
-        mockMvc.perform(post("/api/member/create")
-                        .params(params))
-                .andExpect(MockMvcResultMatchers.status().is4xxClientError());
-    }
-
-    @Test
-    @DisplayName("Member 를 memberId 로 조회하여 정보를 가져올 수 있다.")
+    @WithMockUser
     void readMember() throws Exception {
-        //given
+        Long memberId = 1L;
 
-        Member member = new Member("mockUser", "password", "nickname1", "ROLE_USER");
-        memberRepository.save(member);
+        Member member = new Member();
+        member.setId(memberId);
+        member.setUsername("user");
+        member.setPassword("123");
+        member.setNickname("nickname");
+        member.setAuthorities(Collections.singleton(new SimpleGrantedAuthority("ROLE_USER")));
 
-        //when
-        //then
-        Long memberId = memberRepository.findAll().get(0).getId();
-        mockMvc.perform(get("/api/member/"+ memberId))
-                .andExpect(MockMvcResultMatchers.jsonPath("username").exists())
-                .andExpect(MockMvcResultMatchers.jsonPath("nickname").exists())
-                .andExpect(MockMvcResultMatchers.jsonPath("reviewList").exists())
-                .andExpect(MockMvcResultMatchers.jsonPath("authority").exists())
-                .andExpect(MockMvcResultMatchers.jsonPath("password").doesNotExist());
+        when(memberService.findById(memberId)).thenReturn(member);
+
+        mockMvc.perform(MockMvcRequestBuilders.get("/api/members/{memberId}", memberId))
+                .andExpect(MockMvcResultMatchers.status().isOk())
+                .andExpect(MockMvcResultMatchers.jsonPath("$.id").value(member.getId()))
+                .andExpect(MockMvcResultMatchers.jsonPath("$.username").value(member.getUsername()))
+                .andExpect(MockMvcResultMatchers.jsonPath("$.nickname").value(member.getNickname()))
+                .andExpect(MockMvcResultMatchers.jsonPath("$.authorities[0].authority").value("ROLE_USER"))
+                .andDo(MockMvcResultHandlers.print());
     }
 }

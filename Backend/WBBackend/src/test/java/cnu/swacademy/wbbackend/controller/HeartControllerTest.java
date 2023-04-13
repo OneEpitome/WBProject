@@ -1,103 +1,121 @@
 package cnu.swacademy.wbbackend.controller;
 
-import cnu.swacademy.wbbackend.domain.heart.HeartRepository;
-import cnu.swacademy.wbbackend.domain.heart.HeartService;
-import cnu.swacademy.wbbackend.domain.member.Member;
-import cnu.swacademy.wbbackend.domain.member.MemberRepository;
-import cnu.swacademy.wbbackend.domain.member.MemberService;
-import cnu.swacademy.wbbackend.domain.review.Review;
-import cnu.swacademy.wbbackend.domain.review.ReviewRepository;
-import cnu.swacademy.wbbackend.domain.review.ReviewService;
-import org.assertj.core.api.Assertions;
-import org.junit.jupiter.api.AfterEach;
+import cnu.swacademy.wbbackend.entity.Member;
+import cnu.swacademy.wbbackend.entity.Review;
+import cnu.swacademy.wbbackend.service.HeartService;
+import cnu.swacademy.wbbackend.service.MemberService;
+import cnu.swacademy.wbbackend.service.ReviewService;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
-import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
+import org.springframework.boot.test.mock.mockito.MockBean;
+import org.springframework.http.MediaType;
+import org.springframework.security.test.context.support.WithMockUser;
 import org.springframework.test.web.servlet.MockMvc;
-import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
-import org.springframework.test.web.servlet.result.MockMvcResultMatchers;
-import org.springframework.util.LinkedMultiValueMap;
-import org.springframework.util.MultiValueMap;
 
-import java.time.LocalDateTime;
+import static org.mockito.Mockito.when;
+import static org.springframework.security.test.web.servlet.request.SecurityMockMvcRequestPostProcessors.csrf;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.content;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
-@SpringBootTest
-@AutoConfigureMockMvc
+@WebMvcTest(HeartController.class)
 public class HeartControllerTest {
 
     @Autowired
-    HeartService heartService;
-    @Autowired
-    HeartRepository heartRepository;
-    @Autowired
-    MemberService memberService;
-    @Autowired
-    MemberRepository memberRepository;
-    @Autowired
-    ReviewRepository reviewRepository;
-    @Autowired
-    ReviewService reviewService;
-    @Autowired
-    MockMvc mockMvc;
+    private MockMvc mockMvc;
 
-    @AfterEach
-    void cleanup() {
-        heartRepository.deleteAll();
-        memberRepository.deleteAll();
-        reviewRepository.deleteAll();
+    @MockBean
+    private HeartService heartService;
+
+    @MockBean
+    private MemberService memberService;
+
+    @MockBean
+    private ReviewService reviewService;
+
+    @Test
+    @WithMockUser
+    public void checkHeartPressedTest() throws Exception {
+        Long memberId = 1L;
+        Long reviewId = 1L;
+        Member member = new Member("testUser", "testPassword", "testNickname");
+        Review review = new Review();
+        review.setId(1L);
+
+        when(memberService.findById(memberId)).thenReturn(member);
+        when(reviewService.findById(reviewId)).thenReturn(review);
+        when(heartService.checkHeart(member, review)).thenReturn(true);
+
+        mockMvc.perform(get("/api/hearts").with(csrf())
+                        .param("memberId", memberId.toString())
+                        .param("reviewId", reviewId.toString()))
+                .andExpect(status().isOk())
+                .andExpect(content().contentType(MediaType.APPLICATION_JSON))
+                .andExpect(content().json("{\"status\":true}"));
     }
 
     @Test
-    void checkHeart() throws Exception {
-        //given
-        Member member = memberRepository.save(new Member("test", "pass", "testnick", "ROLE_USER"));
-        Review review = reviewRepository.save(new Review(LocalDateTime.now(), "TITLE", "CONTENT"));
-        heartService.heartOrDelete(member, review);
+    @WithMockUser
+    public void checkHeartUnpressedTest() throws Exception {
+        Long memberId = 1L;
+        Long reviewId = 1L;
+        Member member = new Member("testUser", "testPassword", "testNickname");
+        Review review = new Review();
+        review.setId(1L);
 
-        //when
-        MultiValueMap<String, String> params = new LinkedMultiValueMap<>();
-        params.add("memberId", member.getId().toString());
-        params.add("reviewId", review.getId().toString());
+        when(memberService.findById(memberId)).thenReturn(member);
+        when(reviewService.findById(reviewId)).thenReturn(review);
+        when(heartService.checkHeart(member, review)).thenReturn(false);
 
-        //then
-        mockMvc.perform(MockMvcRequestBuilders.get("/api/heart").params(params))
-                .andExpect(MockMvcResultMatchers.jsonPath("status").value(true));
+        mockMvc.perform(get("/api/hearts").with(csrf())
+                        .param("memberId", memberId.toString())
+                        .param("reviewId", reviewId.toString()))
+                .andExpect(status().isOk())
+                .andExpect(content().contentType(MediaType.APPLICATION_JSON))
+                .andExpect(content().json("{\"status\":false}"));
     }
 
     @Test
-    void insertHeart() throws Exception {
-        //given
-        Member member = memberRepository.save(new Member("test", "pass", "testnick", "ROLE_USER"));
-        Review review = reviewRepository.save(new Review(LocalDateTime.now(), "TITLE", "CONTENT"));
+    @WithMockUser
+    public void toggleHeartPressedTest() throws Exception {
+        Long memberId = 1L;
+        Long reviewId = 1L;
+        Member member = new Member("testUser", "testPassword", "testNickname");
+        Review review = new Review();
+        review.setId(1L);
 
-        //when
-        //then
-        MultiValueMap<String, String> params = new LinkedMultiValueMap<>();
-        params.add("memberId", member.getId().toString());
-        params.add("reviewId", review.getId().toString());
+        when(memberService.findById(memberId)).thenReturn(member);
+        when(reviewService.findById(reviewId)).thenReturn(review);
+        when(heartService.toggleHeart(member, review)).thenReturn(false);
 
-        mockMvc.perform(MockMvcRequestBuilders.post("/api/heart").params(params))
-                .andExpect(MockMvcResultMatchers.jsonPath("status").value(true));
-        Assertions.assertThat(reviewRepository.findById(review.getId()).get().getHeart_count()).isEqualTo(1L);
+        mockMvc.perform(post("/api/hearts").with(csrf())
+                        .param("memberId", memberId.toString())
+                        .param("reviewId", reviewId.toString()))
+                .andExpect(status().isOk())
+                .andExpect(content().contentType(MediaType.APPLICATION_JSON))
+                .andExpect(content().json("{\"status\":false}"));
     }
 
     @Test
-    void deleteHeart() throws Exception {
-        //given
-        Member member = memberRepository.save(new Member("test", "pass", "testnick", "ROLE_USER"));
-        Review review = reviewRepository.save(new Review(LocalDateTime.now(), "TITLE", "CONTENT"));
-        heartService.heartOrDelete(member, review);
+    @WithMockUser
+    public void toggleHeartUnpressedTest() throws Exception {
+        Long memberId = 1L;
+        Long reviewId = 1L;
+        Member member = new Member("testUser", "testPassword", "testNickname");
+        Review review = new Review();
+        review.setId(1L);
 
-        //when
-        //then
-        MultiValueMap<String, String> params = new LinkedMultiValueMap<>();
-        params.add("memberId", member.getId().toString());
-        params.add("reviewId", review.getId().toString());
+        when(memberService.findById(memberId)).thenReturn(member);
+        when(reviewService.findById(reviewId)).thenReturn(review);
+        when(heartService.toggleHeart(member, review)).thenReturn(true);
 
-        mockMvc.perform(MockMvcRequestBuilders.post("/api/heart").params(params))
-                .andExpect(MockMvcResultMatchers.jsonPath("status").value(false));
-        Assertions.assertThat(reviewRepository.findById(review.getId()).get().getHeart_count()).isEqualTo(0L);
+        mockMvc.perform(post("/api/hearts").with(csrf())
+                        .param("memberId", memberId.toString())
+                        .param("reviewId", reviewId.toString()))
+                .andExpect(status().isOk())
+                .andExpect(content().contentType(MediaType.APPLICATION_JSON))
+                .andExpect(content().json("{\"status\":true}"));
     }
-
 }

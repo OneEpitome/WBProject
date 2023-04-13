@@ -1,16 +1,19 @@
 package cnu.swacademy.wbbackend.security;
 
-import cnu.swacademy.wbbackend.domain.member.Member;
-import cnu.swacademy.wbbackend.domain.member.MemberService;
+import cnu.swacademy.wbbackend.entity.Member;
+import cnu.swacademy.wbbackend.service.MemberService;
 import jakarta.annotation.PostConstruct;
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
+import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
+
+import java.util.Collections;
 
 @Configuration
 @RequiredArgsConstructor
@@ -51,7 +54,7 @@ public class SecurityConfiguration {
     @PostConstruct
     void setup() {
         memberService.save(
-                new Member("user", "123", "nickname", "ROLE_USER")
+                new Member("user", "123", "nickname", Collections.singleton(new SimpleGrantedAuthority("ROLE_USER")))
         );
     }
 }

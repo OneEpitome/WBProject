@@ -1,14 +1,21 @@
 package cnu.swacademy.wbbackend.controller;
 
-import cnu.swacademy.wbbackend.domain.member.Member;
-import cnu.swacademy.wbbackend.domain.member.MemberService;
-import cnu.swacademy.wbbackend.domain.review.Review;
-import cnu.swacademy.wbbackend.domain.review.ReviewRepository;
-import cnu.swacademy.wbbackend.domain.review.ReviewService;
-import cnu.swacademy.wbbackend.domain.seat.Seat;
-import cnu.swacademy.wbbackend.domain.seat.SeatRepository;
+import cnu.swacademy.wbbackend.dto.ReviewRequestDTO;
+import cnu.swacademy.wbbackend.dto.ReviewResponseDTO;
+import cnu.swacademy.wbbackend.entity.Hall;
+import cnu.swacademy.wbbackend.entity.Member;
+import cnu.swacademy.wbbackend.repository.HallRepository;
+import cnu.swacademy.wbbackend.service.MemberService;
+import cnu.swacademy.wbbackend.entity.Review;
+import cnu.swacademy.wbbackend.service.ReviewService;
+import cnu.swacademy.wbbackend.entity.Seat;
+import cnu.swacademy.wbbackend.service.SeatService;
+import jakarta.annotation.PostConstruct;
+import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -17,46 +24,69 @@ import java.util.UUID;
 
 @Slf4j
 @RequiredArgsConstructor
-@RequestMapping("/api/review")
+@RequestMapping("/api/reviews")
 @RestController
 public class ReviewController {
 
-    private final SeatRepository seatRepository; // seatService 로 이동 필요
-    private final ReviewRepository reviewRepository;
+    private final SeatService seatService;
     private final MemberService memberService;
     private final ReviewService reviewService;
     private static String projectPath = System.getProperty("user.dir") + File.separator +
             "src" + File.separator + "main" + File.separator + "resources" + File.separator +
-            "static" + File.separator + "images"; // 저장 경로 지정
+            "static" + File.separator + "images" + File.separator; // 저장 경로 지정
 
-    @PostMapping("/save")
-    public Review save(@ModelAttribute Review review, @RequestParam Long seatId,
-                       @RequestParam Long memberId, @RequestParam(required = false) MultipartFile imageFile) throws Exception {
-        Seat seat = seatRepository.findById(seatId).get();
-        Member member = memberService.findById(memberId).get(); // memberService 의 findById 메소드 수정 필요
+    @PostMapping
+    public ResponseEntity<ReviewResponseDTO> save(@ModelAttribute ReviewRequestDTO reviewRequestDTO) throws Exception {
 
+        Seat seat = seatService.findById(reviewRequestDTO.getSeatId());
+        Member member = memberService.findById(reviewRequestDTO.getMemberId());
+
+        Review review = new Review();
+        review.setContent(reviewRequestDTO.getContent());
         review.setSeat(seat);
         review.setWriter(member);
 
         UUID uuid = UUID.randomUUID(); // 식별자 생성
-        String fileName = uuid+"_"+ imageFile.getOriginalFilename();
-        File saveFile = new File(projectPath,fileName); // 빈 껍데기 생성 (경로, 이름)
-        imageFile.transferTo(saveFile);
+        String fileName = uuid+"_"+ reviewRequestDTO.getImageFile().getOriginalFilename();
+        File saveFile = new File(projectPath, fileName); // 빈 껍데기 생성 (경로, 이름)
+        reviewRequestDTO.getImageFile().transferTo(saveFile);
 
-        //경로랑 이름넣기
+        // 경로랑 이름 넣기
         review.setFilename(fileName);
-        review.setFilepath("/files/"+fileName);
+        review.setFilepath(projectPath + fileName); // 경로 설정을 변경해줍니다.
 
-        return reviewService.save(review);
+        Review savedReview = reviewService.createReview(review);
+        ReviewResponseDTO reviewResponseDTO = new ReviewResponseDTO(
+                savedReview.getId(),
+                savedReview.getContent(),
+                savedReview.getFilename(),
+                savedReview.getFilepath(),
+                savedReview.getSeat(),
+                savedReview.getWriter(),
+                savedReview.getCreatedAt()
+        );
+        return new ResponseEntity<>(reviewResponseDTO, HttpStatus.CREATED);
     }
 
     @GetMapping("/{reviewId}")
-    public Review findById(@PathVariable Long reviewId) {
-        return reviewService.findById(reviewId);
+    public ResponseEntity<ReviewResponseDTO> findById(@PathVariable Long reviewId) {
+        Review review = reviewService.findById(reviewId);
+        ReviewResponseDTO reviewResponseDTO = new ReviewResponseDTO(
+                review.getId(),
+                review.getContent(),
+                review.getFilename(),
+                review.getFilepath(),
+                review.getSeat(),
+                review.getWriter(),
+                review.getCreatedAt()
+        );
+        return new ResponseEntity<>(reviewResponseDTO, HttpStatus.OK);
     }
 
+
     @DeleteMapping("/{reviewId}")
-    public void deleteById(@PathVariable Long reviewId) {
+    public ResponseEntity<Void> deleteById(@PathVariable Long reviewId) {
         reviewService.deleteById(reviewId);
+        return new ResponseEntity<>(HttpStatus.NO_CONTENT);
     }
 }

@@ -3,7 +3,7 @@ import React, { useState } from "react";
 import styled from "styled-components";
 import useForm from "../../hooks/useForm";
 import { Section } from "../Section/Section";
-import Text from '../Text/Text';
+import Text from "../Text/Text";
 
 const Form = styled.form`
   display: flex;
@@ -11,74 +11,73 @@ const Form = styled.form`
   align-items: center;
   border: 1px solid black;
   border-radius: 20px;
-  padding:10px;
-  width:700px;
+  padding: 10px;
+  width: 700px;
   margin: 10px;
 `;
 
 const ImgBox = styled.div`
-  display:flex;
+  display: flex;
   flex-direction: column;
-  align-items:center;
+  align-items: center;
 `;
 
 const InputBox = styled.div`
-  display:flex;
+  display: flex;
   flex-direction: column;
 `;
 
 const Input = styled.input`
   margin: 5px;
-  font-size:32px;
-  border:1px solid black;
-  border-radius:10px;
+  font-size: 32px;
+  border: 1px solid black;
+  border-radius: 10px;
   padding: 5px 10px;
-  width:500px;
+  width: 500px;
 `;
 
 const PreviewImg = styled.img`
-  width:100%;
+  width: 100%;
   height: 400px;
 `;
 
 const Label = styled.label`
   background-color: #80a9db;
-  color:white;
+  color: white;
   padding: 5px 25px;
   border-radius: 20px;
-  margin:10px 0;
-  font-size:24px;
+  margin: 10px 0;
+  font-size: 24px;
 
   &:hover {
-    cursor:pointer;
+    cursor: pointer;
   }
 `;
 
 const WarningMessage = styled.span`
-  color:red;
-  font-weight:bold;
-  font-size:20px;
-  margin:0 20px;
+  color: red;
+  font-weight: bold;
+  font-size: 20px;
+  margin: 0 20px;
 `;
 
 const Button = styled.button`
-  outline:none;
-  border:none;
-  background-color:black;
-  color:white;
-  border-radius:20px;
-  padding:10px 15px;
+  outline: none;
+  border: none;
+  background-color: black;
+  color: white;
+  border-radius: 20px;
+  padding: 10px 15px;
   margin: 10px;
-  font-size:24px;
-  width:530px;
+  font-size: 24px;
+  width: 530px;
 
   &:hover {
-    cursor:pointer;
-    background-color:grey;
-    color:black;
+    cursor: pointer;
+    background-color: grey;
+    color: black;
   }
 `;
-
 
 const sleep = () => {
   return new Promise((resolve) => {
@@ -87,7 +86,9 @@ const sleep = () => {
 };
 
 export default function UploadForm() {
-  const [previewImg, setPreviewImg] = useState('https://www.pngall.com/wp-content/uploads/7/Gallery.png');
+  const [previewImg, setPreviewImg] = useState(
+    "https://www.pngall.com/wp-content/uploads/7/Gallery.png"
+  );
   const insertImg = (e) => {
     const reader = new FileReader();
     const img = e.target.files[0];
@@ -99,7 +100,7 @@ export default function UploadForm() {
       const previewImgUrl = reader.result;
 
       setPreviewImg(previewImgUrl);
-    }
+    };
   };
 
   const { isLoading, errors, handleChange, handleSubmit } = useForm({
@@ -114,9 +115,8 @@ export default function UploadForm() {
     onSubmit: async (values) => {
       await sleep();
 
-      const url = "http://localhost:3000/api/review/save";
+      const url = "/api/reviews";
       const data = JSON.stringify(values);
-      // const config = { headers: { "Content-Type": "multipart/form-data" } }; //before : application/json
       const config = { headers: { "Content-Type": "multipart/form-data" } };
 
       // FormData 객체를 생성하고 데이터를 추가합니다.
@@ -150,27 +150,21 @@ export default function UploadForm() {
   return (
     <Section
       style={{
-        alignItems: 'center',
+        alignItems: "center",
       }}
     >
-      <Text
-        strong={true}
-        size='32px'
-      >후기 작성하기</Text>
-      <Form
-        onSubmit={handleSubmit}
-      >
+      <Text strong={true} size="32px">
+        후기 작성하기
+      </Text>
+      <Form onSubmit={handleSubmit}>
         <ImgBox>
-          <PreviewImg
-            src={previewImg}
-            alt="좌석 이미지"
-          />
+          <PreviewImg src={previewImg} alt="좌석 이미지" />
           <Input
             type="file"
-            id='file'
+            id="file"
             name="imageFile"
             style={{
-              display: 'none',
+              display: "none",
             }}
             onChange={(e) => {
               handleChange(e);
