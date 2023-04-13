@@ -3,7 +3,7 @@ import Text from '../Text/Text';
 import SeatList from './SeatList';
 import { SEAT_DATA_Hanwha } from './SEAT_DATA/SEAT_DATA_Hanhwa';
 
-import VenueImg from '../../images/venue/한화생명이글스파크/한화생명이글스파크.png';
+import VenueImg from '../../images/venue/hanwha-eagles/한화생명이글스파크.png';
 import { Container } from './UI/Container';
 import { Section } from './UI/Section';
 

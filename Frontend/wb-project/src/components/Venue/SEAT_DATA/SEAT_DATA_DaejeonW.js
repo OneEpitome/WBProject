@@ -1,13 +1,13 @@
-import W from '../../../images/venue/대전월드컵경기장/W석.png';
-import W_Core from '../../../images/venue/대전월드컵경기장/W석 코어.png';
-import E from '../../../images/venue/대전월드컵경기장/E석.png';
-import E_Core from '../../../images/venue/대전월드컵경기장/E석 코어.png';
-import S from '../../../images/venue/대전월드컵경기장/S석.png';
-import S_Core from '../../../images/venue/대전월드컵경기장/S석 코어.png';
-import Table from '../../../images/venue/대전월드컵경기장/TABLE석.png'
-import Pub from '../../../images/venue/대전월드컵경기장/하나라운지펍.png'
-import Deck from '../../../images/venue/대전월드컵경기장/데크존(4인).png'
-import N from '../../../images/venue/대전월드컵경기장/N석(원정석).png'
+import W from '../../../images/venue/daejeon-worldcup/W석.png';
+import W_Core from '../../../images/venue/daejeon-worldcup/W석 코어.png';
+import E from '../../../images/venue/daejeon-worldcup/E석.png';
+import E_Core from '../../../images/venue/daejeon-worldcup/E석 코어.png';
+import S from '../../../images/venue/daejeon-worldcup/S석.png';
+import S_Core from '../../../images/venue/daejeon-worldcup/S석 코어.png';
+import Table from '../../../images/venue/daejeon-worldcup/TABLE석.png'
+import Pub from '../../../images/venue/daejeon-worldcup/하나라운지펍.png'
+import Deck from '../../../images/venue/daejeon-worldcup/데크존(4인).png'
+import N from '../../../images/venue/daejeon-worldcup/N석(원정석).png'
 
 export const SEAT_DATA_DaejeonW = [
   {
