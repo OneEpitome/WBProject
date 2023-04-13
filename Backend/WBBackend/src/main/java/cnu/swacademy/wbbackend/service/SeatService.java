@@ -50,4 +50,17 @@ public class SeatService {
         return seatRepository.findById(id)
                 .orElseThrow(() -> new SeatNotFoundException("Seat ID : " + id + " is not found"));
     }
+
+    /**
+     * Finds a seat by its hall name and seat name.
+     *
+     * @param hallName the name of the hall.
+     * @param seatName the name of the seat.
+     * @return the seat found.
+     * @throws SeatNotFoundException if the seat with the given hall name and seat name is not found.
+     */
+    public Seat findByHallNameAndSeatName(String hallName, String seatName) {
+        return seatRepository.findByHallNameAndSeatName(hallName, seatName)
+                .orElseThrow(() -> new SeatNotFoundException("Seat with hall name: " + hallName + " and seat name: " + seatName + " is not found"));
+    }
 }

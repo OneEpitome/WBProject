@@ -113,4 +113,26 @@ public class SeatRepositoryTest {
         assertThat(seats).hasSize(2);
         assertThat(seats).contains(seat1, seat2);
     }
+
+    @Test
+    public void testFindByHallNameAndSeatName() {
+        // Given
+        Hall hall = new Hall();
+        hall.setName("Test Hall");
+        entityManager.persist(hall);
+
+        Seat seat = new Seat();
+        seat.setSeatName("Test Seat");
+        seat.setHall(hall);
+        entityManager.persist(seat);
+        entityManager.flush();
+
+        // When
+        Optional<Seat> foundSeat = seatRepository.findByHallNameAndSeatName(hall.getName(), seat.getSeatName());
+
+        // Then
+        assertThat(foundSeat.isPresent()).isTrue();
+        assertThat(foundSeat.get().getSeatName()).isEqualTo(seat.getSeatName());
+        assertThat(foundSeat.get().getHall().getName()).isEqualTo(hall.getName());
+    }
 }
