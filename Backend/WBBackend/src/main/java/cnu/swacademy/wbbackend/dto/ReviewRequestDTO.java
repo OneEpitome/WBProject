@@ -8,7 +8,6 @@ import org.springframework.web.multipart.MultipartFile;
 @Setter
 public class ReviewRequestDTO {
     private String content;
-    private Integer score;
     private Long seatId;
     private Long memberId;
     private MultipartFile imageFile;

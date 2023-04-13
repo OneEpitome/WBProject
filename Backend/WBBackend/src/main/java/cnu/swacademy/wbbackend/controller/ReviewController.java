@@ -2,22 +2,17 @@ package cnu.swacademy.wbbackend.controller;
 
 import cnu.swacademy.wbbackend.dto.ReviewRequestDTO;
 import cnu.swacademy.wbbackend.dto.ReviewResponseDTO;
-import cnu.swacademy.wbbackend.entity.Hall;
 import cnu.swacademy.wbbackend.entity.Member;
-import cnu.swacademy.wbbackend.repository.HallRepository;
 import cnu.swacademy.wbbackend.service.MemberService;
 import cnu.swacademy.wbbackend.entity.Review;
 import cnu.swacademy.wbbackend.service.ReviewService;
 import cnu.swacademy.wbbackend.entity.Seat;
 import cnu.swacademy.wbbackend.service.SeatService;
-import jakarta.annotation.PostConstruct;
-import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-import org.springframework.web.multipart.MultipartFile;
 
 import java.io.File;
 import java.util.UUID;

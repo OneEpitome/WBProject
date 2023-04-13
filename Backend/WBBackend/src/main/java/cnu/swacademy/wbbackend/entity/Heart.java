@@ -8,8 +8,9 @@ import lombok.Setter;
 @Getter @Setter
 @NoArgsConstructor
 @Entity
+@Table(name = "heart")
 public class Heart {
-    @Id @GeneratedValue(strategy = GenerationType.SEQUENCE)
+    @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
     @Column(name = "member_id", updatable = false, insertable = false)

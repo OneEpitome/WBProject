@@ -14,7 +14,7 @@ import java.time.LocalDateTime;
 @Table(name = "review")
 public class Review {
 
-    @Id @GeneratedValue(strategy = GenerationType.SEQUENCE)
+    @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id")
     private Long id;
 
@@ -36,8 +36,6 @@ public class Review {
 
     private String filepath;
 
-    private Integer likes;
-
     @JoinColumn(name = "seat_id", referencedColumnName = "id")
     @JsonBackReference
     @JsonIgnore // 테스트 코드에서 json 직렬화 문제 발생해서 달아줌
@@ -47,16 +45,16 @@ public class Review {
     @Column(name = "seat_id", updatable = false, insertable = false)
     private Long seatId;
 
-    @ColumnDefault(value = "0L")
+    @ColumnDefault(value = "0")
     @Column(name = "heart_count")
-    private Long heart_count = 0L;
+    private Long heartCount = 0L;
 
     public void incHeartCount() {
-        ++this.heart_count;
+        ++this.heartCount;
     }
 
     public void decHeartCount() {
-        --this.heart_count;
+        --this.heartCount;
     }
 
     /*
