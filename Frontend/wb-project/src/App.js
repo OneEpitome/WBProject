@@ -16,9 +16,9 @@ const router = createBrowserRouter([
       { path: '/', element: <HomePage /> },
       { path: '/daejeon-worldcup', element: <VenueDaejeonW /> },
       { path: '/hanwha-eagles', element: <VenueHanhwa /> },
-      { path: '/s23', element: <S23 /> },
       { path: '/review-test', element: <UploadForm /> },
       { path: '/signin-test', element: <SignInForm /> },
+      { path: 'daejeon-worldcup/S23', element: <S23 /> },
     ],
   },
 ])
