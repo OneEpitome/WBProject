@@ -3,6 +3,7 @@ package cnu.swacademy.wbbackend.controller;
 import cnu.swacademy.wbbackend.dto.SeatCreationDTO;
 import cnu.swacademy.wbbackend.entity.Seat;
 import cnu.swacademy.wbbackend.service.SeatService;
+import jakarta.annotation.PostConstruct;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -32,5 +33,14 @@ public class SeatController {
     public ResponseEntity<Seat> createSeat(@Validated @RequestBody SeatCreationDTO seatDTO) {
         Seat savedSeat = seatService.save(seatDTO);
         return ResponseEntity.status(HttpStatus.CREATED).body(savedSeat);
+    }
+
+    // for dev
+    @PostConstruct
+    public void setup() {
+        SeatCreationDTO seatCreationDTO = new SeatCreationDTO();
+        seatCreationDTO.setHallName("Junshimhwa-Hall");
+        seatCreationDTO.setSeatName("A1");
+        seatService.save(seatCreationDTO);
     }
 }
