@@ -14,6 +14,7 @@ const router = createBrowserRouter([
     element: <RootLayout />,
     children: [
       { path: '/', element: <HomePage /> },
+      { path: '/upload', element: <UploadForm /> },
       { path: '/daejeon-worldcup', element: <VenueDaejeonW /> },
       { path: '/hanwha-eagles', element: <VenueHanhwa /> },
       { path: '/review-test', element: <UploadForm /> },
