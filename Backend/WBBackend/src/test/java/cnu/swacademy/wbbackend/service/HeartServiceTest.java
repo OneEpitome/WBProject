@@ -1,78 +1,103 @@
 package cnu.swacademy.wbbackend.service;
 
+import cnu.swacademy.wbbackend.entity.Heart;
 import cnu.swacademy.wbbackend.entity.Member;
-import cnu.swacademy.wbbackend.repository.HeartRepository;
-import cnu.swacademy.wbbackend.repository.MemberRepository;
 import cnu.swacademy.wbbackend.entity.Review;
+import cnu.swacademy.wbbackend.repository.HeartRepository;
 import cnu.swacademy.wbbackend.repository.ReviewRepository;
-import cnu.swacademy.wbbackend.service.HeartService;
-import org.junit.jupiter.api.AfterEach;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.test.context.SpringBootTest;
+import org.junit.jupiter.api.extension.ExtendWith;
+import org.mockito.InjectMocks;
+import org.mockito.Mock;
+import org.mockito.junit.jupiter.MockitoExtension;
+import org.springframework.security.core.authority.SimpleGrantedAuthority;
 
-import java.time.LocalDateTime;
+import java.util.Collections;
+import java.util.Optional;
 
 import static org.assertj.core.api.Assertions.assertThat;
+import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.Mockito.*;
 
-@SpringBootTest
+@ExtendWith(MockitoExtension.class)
 public class HeartServiceTest {
 
-    @Autowired
-    HeartService heartService;
-    @Autowired
-    HeartRepository heartRepository;
+    @InjectMocks
+    private HeartService heartService;
 
-    @Autowired
-    MemberRepository memberRepository;
+    @Mock
+    private HeartRepository heartRepository;
 
-    @Autowired
-    ReviewRepository reviewRepository;
+    @Mock
+    private ReviewRepository reviewRepository;
 
-    @AfterEach
-    void cleanup() {
-        heartRepository.deleteAll();
-        memberRepository.deleteAll();
-        reviewRepository.deleteAll();
+    private Member member;
+    private Review review;
+
+    @BeforeEach
+    public void setUp() {
+        member = new Member("testUser", "testPassword", "testNickname", Collections.singleton(new SimpleGrantedAuthority("ROLE_USER")));
+        member.setId(1L);
+
+        review = new Review();
+        review.setWriter(member);
+        review.setTitle("Test Title");
+        review.setContent("Test Content");
+        review.setHeart_count(0L);
+        review.setId(2L);
     }
 
     @Test
-    void heart() {
-        //given
-        Member member = memberRepository.save(new Member("test", "pass", "testnick", "ROLE_USER"));
-        Review review = reviewRepository.save(new Review(LocalDateTime.now(), "TITLE", "CONTENT"));
+    public void toggleHeartTest() {
+        // Given
+        when(heartRepository.findHeartByMemberIdAndReviewId(member.getId(), review.getId())).thenReturn(Optional.empty());
+        when(reviewRepository.findById(review.getId())).thenReturn(Optional.of(review));
 
-        //when
-        heartService.heartOrDelete(member, review);
+        // When
+        boolean heartResult = heartService.toggleHeart(member, review);
 
-        //then
-        assertThat(reviewRepository.findById(review.getId()).get().getHeart_count()).isEqualTo(1L);
+        // Then
+        assertThat(heartResult).isTrue();
+        assertThat(review.getHeart_count()).isEqualTo(1L);
+        verify(heartRepository).save(any(Heart.class));
+
+        // Given
+        Heart heart = new Heart();
+        heart.setMember(member);
+        heart.setReview(review);
+        when(heartRepository.findHeartByMemberIdAndReviewId(member.getId(), review.getId())).thenReturn(Optional.of(heart));
+
+        // When
+        boolean deleteResult = heartService.toggleHeart(member, review);
+
+        // Then
+        assertThat(deleteResult).isFalse();
+        assertThat(review.getHeart_count()).isEqualTo(0L);
+        verify(heartRepository).delete(heart);
     }
 
     @Test
-    void delete() {
-        //given
-        Member member = memberRepository.save(new Member("test", "pass", "testnick", "ROLE_USER"));
-        Review review = reviewRepository.save(new Review(LocalDateTime.now(), "TITLE", "CONTENT"));
-        heartService.heartOrDelete(member, review);
+    public void checkHeartTest() {
+        // Given
+        when(heartRepository.findHeartByMemberIdAndReviewId(member.getId(), review.getId())).thenReturn(Optional.empty());
 
-        //when
-        heartService.heartOrDelete(member, review);
+        // When
+        boolean notHearted = heartService.checkHeart(member, review);
 
-        //then
-        assertThat(reviewRepository.findById(review.getId()).get().getHeart_count()).isEqualTo(0L);
+        // Then
+        assertThat(notHearted).isFalse();
+
+        // Given
+        Heart heart = new Heart();
+        heart.setMember(member);
+        heart.setReview(review);
+        when(heartRepository.findHeartByMemberIdAndReviewId(member.getId(), review.getId())).thenReturn(Optional.of(heart));
+
+        // When
+        boolean hearted = heartService.checkHeart(member, review);
+
+        // Then
+        assertThat(hearted).isTrue();
     }
-
-    @Test
-    void readHeart() {
-        //given
-        Member member = memberRepository.save(new Member("test", "pass", "testnick", "ROLE_USER"));
-        Review review = reviewRepository.save(new Review(LocalDateTime.now(), "TITLE", "CONTENT"));
-        heartService.heartOrDelete(member, review);
-
-        //when
-        //then
-        assertThat(heartService.readHeart(member, review)).isEqualTo(true);
-    }
-
 }

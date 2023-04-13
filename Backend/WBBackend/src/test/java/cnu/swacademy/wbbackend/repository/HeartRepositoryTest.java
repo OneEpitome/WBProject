@@ -2,52 +2,54 @@ package cnu.swacademy.wbbackend.repository;
 
 import cnu.swacademy.wbbackend.entity.Heart;
 import cnu.swacademy.wbbackend.entity.Member;
-import cnu.swacademy.wbbackend.repository.HeartRepository;
-import cnu.swacademy.wbbackend.repository.MemberRepository;
 import cnu.swacademy.wbbackend.entity.Review;
-import cnu.swacademy.wbbackend.repository.ReviewRepository;
-import org.assertj.core.api.Assertions;
-import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
+import org.springframework.boot.test.autoconfigure.orm.jpa.TestEntityManager;
+import org.springframework.security.core.authority.SimpleGrantedAuthority;
 
-import java.time.LocalDateTime;
+import java.util.Collections;
+import java.util.Optional;
 
-@SpringBootTest
+import static org.assertj.core.api.Assertions.assertThat;
+
+@DataJpaTest
 public class HeartRepositoryTest {
+
+    @Autowired
+    private TestEntityManager entityManager;
 
     @Autowired
     private HeartRepository heartRepository;
 
-    @Autowired
-    private MemberRepository memberRepository;
-
-    @Autowired
-    private ReviewRepository reviewRepository;
-
-    @AfterEach
-    void cleanup() {
-        heartRepository.deleteAll();
-        memberRepository.deleteAll();
-        reviewRepository.deleteAll();
-    }
-
     @Test
-    void findHeartByMemberIdAndReviewId() {
-        //given
-        Member member = memberRepository.save(new Member("test", "pass", "testnick", "ROLE_USER"));
-        Long memberId = member.getId();
-        Review review = reviewRepository.save(new Review(LocalDateTime.now(), "TITLE", "CONTENT"));
-        Long reviewId = review.getId();
+    public void findHeartByMemberIdAndReviewIdTest() {
+        // Given
+        Member member = new Member("testUser", "testPassword", "testNickname", Collections.singleton(new SimpleGrantedAuthority("ROLE_USER")));
+        entityManager.persist(member);
+
+        Review review = new Review();
+        review.setWriter(member);
+        review.setTitle("Test Title");
+        review.setContent("Test Content");
+        entityManager.persist(review);
 
         Heart heart = new Heart();
         heart.setMember(member);
         heart.setReview(review);
-        heartRepository.save(heart);
+        entityManager.persist(heart);
 
-        //when
-        //then
-        Assertions.assertThat(heartRepository.findHeartByMemberIdAndReviewId(memberId, reviewId)).isNotEmpty();
+        entityManager.flush();
+        entityManager.clear();
+
+        // When
+        Optional<Heart> foundHeartOptional = heartRepository.findHeartByMemberIdAndReviewId(member.getId(), review.getId());
+
+        // Then
+        assertThat(foundHeartOptional).isNotEmpty();
+        Heart foundHeart = foundHeartOptional.get();
+        assertThat(foundHeart.getMemberId()).isEqualTo(member.getId());
+        assertThat(foundHeart.getReviewId()).isEqualTo(review.getId());
     }
 }

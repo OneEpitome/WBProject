@@ -2,6 +2,7 @@ package cnu.swacademy.wbbackend.controller;
 
 import cnu.swacademy.wbbackend.entity.Hall;
 import cnu.swacademy.wbbackend.service.HallService;
+import jakarta.annotation.PostConstruct;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;
 
@@ -38,5 +39,13 @@ public class HallController {
     @GetMapping("/{hallName}")
     public Hall getHall(@PathVariable String hallName) {
         return hallService.findByName(hallName);
+    }
+
+    // for Dev
+    @PostConstruct
+    public void setup() {
+        Hall hall = new Hall();
+        hall.setName("Junshimhwa-Hall");
+        hallService.save(hall);
     }
 }

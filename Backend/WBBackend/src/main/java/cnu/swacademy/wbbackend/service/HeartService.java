@@ -22,7 +22,7 @@ public class HeartService {
 
     @Transactional
     // 좋아요 시 true 반환, 취소시 false 반환
-    public boolean heartOrDelete(Member member, Review review) {
+    public boolean toggleHeart(Member member, Review review) {
 
         Optional<Heart> heartByMemberIdAndReviewId = heartRepository.findHeartByMemberIdAndReviewId(
                 member.getId(), review.getId());
@@ -41,7 +41,7 @@ public class HeartService {
         return true;
     }
 
-    public boolean readHeart(Member member, Review review) {
+    public boolean checkHeart(Member member, Review review) {
 
         Optional<Heart> heartByMemberIdAndReviewId = heartRepository.findHeartByMemberIdAndReviewId(
                 member.getId(), review.getId());

@@ -13,7 +13,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 @RestController
-@RequestMapping("/api/recommendations")
+@RequestMapping("/api/hearts")
 @RequiredArgsConstructor
 public class HeartController {
     private final HeartService heartService;
@@ -23,28 +23,23 @@ public class HeartController {
     // 눌렀으면 true, 안눌렀으면 false 반환
     @GetMapping
     public ResponseEntity<Object> checkHeart(@RequestParam Long memberId, @RequestParam Long reviewId) {
-
-//        SecurityContextHolder.getContext().getAuthentication().getName()
-        Member member = memberService.findById(memberId).get();
+        Member member = memberService.findById(memberId);
         Review review = reviewService.findById(reviewId);
 
         Map<String, Boolean> res = new HashMap<>();
-        res.put("status", heartService.readHeart(member, review));
+        res.put("status", heartService.checkHeart(member, review));
 
         return ResponseEntity.ok().body(res);
     }
 
     @PostMapping
-    public ResponseEntity<Object> insertOrDeleteHeart(@RequestParam Long memberId, @RequestParam Long reviewId) {
-
-//        SecurityContextHolder.getContext().getAuthentication().getName()
-        Member member = memberService.findById(memberId).get();
+    public ResponseEntity<Object> toggleHeart(@RequestParam Long memberId, @RequestParam Long reviewId) {
+        Member member = memberService.findById(memberId);
         Review review = reviewService.findById(reviewId);
 
         Map<String, Boolean> res = new HashMap<>();
-        res.put("status", heartService.heartOrDelete(member, review));
+        res.put("status", heartService.toggleHeart(member, review));
 
         return ResponseEntity.ok().body(res);
     }
-
 }
