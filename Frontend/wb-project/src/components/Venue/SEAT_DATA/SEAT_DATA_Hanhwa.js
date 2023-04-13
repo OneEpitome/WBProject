@@ -1,6 +1,6 @@
-import FirstBase_1story from '../../../images/venue/한화생명이글스파크/1루 내야지정석 1층.png';
-import ThirdBase_1story from '../../../images/venue/한화생명이글스파크/3루 내야지정석 1층.png';
-import CenterFamily from '../../../images/venue/한화생명이글스파크/중앙 가족석 5인.png';
+import FirstBase_1story from '../../../images/venue/hanwha-eagles/1루 내야지정석 1층.png';
+import ThirdBase_1story from '../../../images/venue/hanwha-eagles/3루 내야지정석 1층.png';
+import CenterFamily from '../../../images/venue/hanwha-eagles/중앙 가족석 5인.png';
 
 export const SEAT_DATA_Hanwha = [
   {

@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import styled from 'styled-components';
+import SeatModal from './SeatModal';
 
 const SeatSquare = styled.div`
   position: absolute;
@@ -19,23 +20,50 @@ const SeatData = styled.div`
   display: none;
 `;
 
-export default function Seat({ top, left, children, }) {
+export default function Seat({ children, top, left, backgroundColor, src, alt, title, content }) {
   const [isHovering, setIsHovering] = useState(false);
 
-  return (
-    <SeatSquare
-      style={{
-        top,
-        left
-      }}
-      onMouseOver={(e) => {
-        setIsHovering(true);
-      }}
-      onMouseOut={(e) => {
-        setIsHovering(false);
-      }}
+  const [visible, setVisible] = useState(false);
+  const handleClickCancelButton = () => {
+    console.log('clicked!!');
+    setVisible(false);
+  };
 
-      onClick={(e) => console.log(e.target.textContent)}
-    ><SeatData style={isHovering ? { display: 'block' } : { display: 'none' }}>{children}</SeatData></SeatSquare>
+  return (
+    <>
+      <SeatSquare
+        style={{
+          top,
+          left,
+          backgroundColor,
+        }}
+        onMouseOver={(e) => {
+          setIsHovering(true);
+        }}
+        onMouseOut={(e) => {
+          setIsHovering(false);
+        }}
+
+        onClick={(e) => {
+          // console.log(e.target.textContent);
+          setVisible(true);
+        }}
+      >
+        <SeatData style={isHovering ? { display: 'block' } : { display: 'none' }}>
+          {children}
+        </SeatData>
+      </SeatSquare>
+      {
+        src &&
+        <SeatModal
+          visible={visible}
+          onClickCancelButton={handleClickCancelButton}
+          src={src}
+          alt={alt}
+          title={title}
+          content={content}
+        />
+      }
+    </>
   );
 }

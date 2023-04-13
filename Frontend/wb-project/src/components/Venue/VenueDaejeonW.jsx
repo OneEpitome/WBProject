@@ -3,7 +3,7 @@ import Text from '../Text/Text';
 import SeatList from './SeatList';
 import { SEAT_DATA_DaejeonW } from './SEAT_DATA/SEAT_DATA_DaejeonW';
 
-import VenueImg from '../../images/venue/대전월드컵경기장/대전월드컵경기장.png';
+import VenueImg from '../../images/venue/daejeon-worldcup/대전월드컵경기장.png';
 import { Container } from './UI/Container';
 import { Section } from './UI/Section';
 
