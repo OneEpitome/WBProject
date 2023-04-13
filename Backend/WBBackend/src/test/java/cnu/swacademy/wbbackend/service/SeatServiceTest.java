@@ -4,6 +4,7 @@ import cnu.swacademy.wbbackend.dto.SeatCreationDTO;
 import cnu.swacademy.wbbackend.entity.Hall;
 import cnu.swacademy.wbbackend.entity.Seat;
 import cnu.swacademy.wbbackend.exception.HallNotFoundException;
+import cnu.swacademy.wbbackend.exception.SeatNotFoundException;
 import cnu.swacademy.wbbackend.repository.HallRepository;
 import cnu.swacademy.wbbackend.repository.SeatRepository;
 import org.junit.jupiter.api.BeforeEach;
@@ -85,4 +86,37 @@ class SeatServiceTest {
                 .isInstanceOf(HallNotFoundException.class)
                 .hasMessage("Non-Existing Hall is Not Found");
     }
+
+    @Test
+    void findByHallNameAndSeatName() {
+        // Given
+        Seat seat = new Seat();
+        seat.setSeatName("A1");
+        seat.setHall(hall);
+
+        when(seatRepository.findByHallNameAndSeatName(hall.getName(), seat.getSeatName())).thenReturn(Optional.of(seat));
+
+        // When
+        Seat foundSeat = seatService.findByHallNameAndSeatName(hall.getName(), seat.getSeatName());
+
+        // Then
+        assertThat(foundSeat).isNotNull();
+        assertThat(foundSeat.getSeatName()).isEqualTo(seat.getSeatName());
+        assertThat(foundSeat.getHall().getName()).isEqualTo(hall.getName());
+    }
+
+    @Test
+    void findByHallNameAndSeatName_NotFound() {
+        // Given
+        String nonExistingHallName = "Non-Existing Hall";
+        String nonExistingSeatName = "Non-Existing Seat";
+
+        when(seatRepository.findByHallNameAndSeatName(nonExistingHallName, nonExistingSeatName)).thenReturn(Optional.empty());
+
+        // When & Then
+        assertThatThrownBy(() -> seatService.findByHallNameAndSeatName(nonExistingHallName, nonExistingSeatName))
+                .isInstanceOf(SeatNotFoundException.class)
+                .hasMessage("Seat with hall name: " + nonExistingHallName + " and seat name: " + nonExistingSeatName + " is not found");
+    }
+
 }
