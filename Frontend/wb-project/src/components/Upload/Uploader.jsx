@@ -110,8 +110,9 @@ export default function Uploader({ children, droppable, onHandleChange, type, na
         }} />
       <div
         style={{
-          width: 650,
-          height: 450,
+          width: 550,
+          height: 400,
+          marginBottom: 10,
           border: '4px dashed #aaa',
           display: 'flex',
           justifyContent: 'center',

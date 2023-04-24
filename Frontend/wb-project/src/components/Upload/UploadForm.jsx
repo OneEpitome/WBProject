@@ -10,8 +10,6 @@ const Form = styled.form`
   display: flex;
   flex-direction: column;
   align-items: center;
-  border: 1px solid black;
-  border-radius: 20px;
   padding: 10px;
   width: 700px;
   margin: 10px;
