@@ -1,9 +1,10 @@
 import axios from "axios";
-import React, { useState } from "react";
+import React from "react";
 import styled from "styled-components";
 import useForm from "../../hooks/useForm";
 import { Section } from "../Section/Section";
 import Text from "../Text/Text";
+import Uploader from './Uploader';
 
 const Form = styled.form`
   display: flex;
@@ -34,24 +35,6 @@ const Input = styled.input`
   border-radius: 10px;
   padding: 5px 10px;
   width: 500px;
-`;
-
-const PreviewImg = styled.img`
-  width: 100%;
-  height: 400px;
-`;
-
-const Label = styled.label`
-  background-color: #80a9db;
-  color: white;
-  padding: 5px 25px;
-  border-radius: 20px;
-  margin: 10px 0;
-  font-size: 24px;
-
-  &:hover {
-    cursor: pointer;
-  }
 `;
 
 const WarningMessage = styled.span`
@@ -86,23 +69,6 @@ const sleep = () => {
 };
 
 export default function UploadForm() {
-  const [previewImg, setPreviewImg] = useState(
-    "https://www.pngall.com/wp-content/uploads/7/Gallery.png"
-  );
-  const insertImg = (e) => {
-    const reader = new FileReader();
-    const img = e.target.files[0];
-    if (img) {
-      reader.readAsDataURL(img);
-    }
-
-    reader.onloadend = () => {
-      const previewImgUrl = reader.result;
-
-      setPreviewImg(previewImgUrl);
-    };
-  };
-
   const { isLoading, errors, handleChange, handleSubmit } = useForm({
     initialValues: {
       title: "",
@@ -158,20 +124,12 @@ export default function UploadForm() {
       </Text>
       <Form onSubmit={handleSubmit}>
         <ImgBox>
-          <PreviewImg src={previewImg} alt="좌석 이미지" />
-          <Input
+          <Uploader
+            droppable
             type="file"
-            id="file"
             name="imageFile"
-            style={{
-              display: "none",
-            }}
-            onChange={(e) => {
-              handleChange(e);
-              insertImg(e);
-            }}
+            onHandleChange={handleChange}
           />
-          <Label htmlFor="file">좌석 이미지 업로드 하기</Label>
           <WarningMessage>{errors.imageFile}</WarningMessage>
         </ImgBox>
 
