@@ -71,10 +71,12 @@ const sleep = () => {
 export default function UploadForm() {
   const { isLoading, errors, handleChange, handleSubmit } = useForm({
     initialValues: {
+      nickname: "",
+      password: "",
       title: "",
       content: "",
       seatId: "",
-      memberId: "1",
+      // memberId: "1",
       imageFile: null,
     },
 
@@ -87,10 +89,12 @@ export default function UploadForm() {
 
       // FormData 객체를 생성하고 데이터를 추가합니다.
       const formData = new FormData();
+      formData.append("nickname", values.nickname);
+      formData.append("password", values.password);
       formData.append("title", values.title);
       formData.append("content", values.content);
       formData.append("seatId", values.seatId);
-      formData.append("memberId", values.memberId);
+      // formData.append("memberId", values.memberId);
       formData.append("imageFile", values.imageFile); // 파일 추가
 
       axios
@@ -105,10 +109,13 @@ export default function UploadForm() {
       // alert(data);
       alert(data);
     },
-    validate: ({ seatId, imageFile }) => {
+    validate: ({ seatId, imageFile, nickname, password }) => {
       const errors = {};
       if (!seatId) errors.seatId = "⬆️ 좌석 정보를 입력해주세요!";
       if (!imageFile) errors.imageFile = "⬆️ 좌석 이미지를 업로드해주세요!";
+      if (!nickname) errors.nickname = "⬆️ 닉네임을 입력해주세요!";
+      if (!password) errors.password = "⬆️ 비밀번호를 입력해주세요!";
+
       return errors;
     },
   });
@@ -132,7 +139,35 @@ export default function UploadForm() {
           />
           <WarningMessage>{errors.imageFile}</WarningMessage>
         </ImgBox>
-
+        <div style={{
+          display: 'flex',
+          width: '532px',
+        }}>
+          <InputBox>
+            <Input
+              type="text"
+              name="nickname"
+              placeholder="닉네임"
+              onChange={handleChange}
+              style={{
+                width: '235px'
+              }}
+            />
+            <WarningMessage>{errors.nickname}</WarningMessage>
+          </InputBox>
+          <InputBox>
+            <Input
+              type="password"
+              name="password"
+              placeholder="비밀번호"
+              onChange={handleChange}
+              style={{
+                width: '235px'
+              }}
+            />
+            <WarningMessage>{errors.password}</WarningMessage>
+          </InputBox>
+        </div>
         <InputBox>
           <Input
             type="number"
@@ -158,8 +193,9 @@ export default function UploadForm() {
             onChange={handleChange}
           />
         </InputBox>
-        <InputBox>
-          {/* hidden or disabled */}
+
+        {/* <InputBox>
+          hidden or disabled
           <Input
             type="text"
             name="memberId"
@@ -167,7 +203,7 @@ export default function UploadForm() {
             disabled
             onChange={handleChange}
           />
-        </InputBox>
+        </InputBox> */}
         <Button type="submit" disabled={isLoading}>
           {isLoading ? "Loading.." : "공유하기"}
         </Button>
