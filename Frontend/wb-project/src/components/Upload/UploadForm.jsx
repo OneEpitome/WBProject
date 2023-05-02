@@ -104,8 +104,7 @@ export default function UploadForm() {
       formData.append("title", values.title);
       formData.append("content", values.content);
       formData.append("venue", values.venue);
-      formData.append("sector", values.sector);
-      formData.append("seatNumber", values.seatNumber);
+      formData.append("seat", values.seat);
       // formData.append("seatId", values.seatId);
       // formData.append("memberId", values.memberId);
       formData.append("imageFile", values.imageFile); // 파일 추가
@@ -122,12 +121,11 @@ export default function UploadForm() {
       // alert(data);
       alert(data);
     },
-    validate: ({ seatId, venue, sector, seatNumber, imageFile, nickname, password }) => {
+    validate: ({ seatId, venue, seat, imageFile, nickname, password }) => {
       const errors = {};
       // if (!seatId) errors.seatId = "⬆️ 좌석 정보를 입력해주세요!";
       if (!venue) errors.venue = "⬆️ 경기장 혹은 공연장을 선택해주세요!";
-      if (!sector) errors.sector = "⬆️ 섹터를 입력해주세요!";
-      if (!seatNumber) errors.seatNumber = "⬆️ 좌석번호를 입력해주세요!";
+      if (!seat) errors.seat = "⬆️ 좌석정보를 입력해주세요!";
       if (!imageFile) errors.imageFile = "⬆️ 좌석 이미지를 업로드해주세요!";
       if (!nickname) errors.nickname = "⬆️ 닉네임을 입력해주세요!";
       if (!password) errors.password = "⬆️ 비밀번호를 입력해주세요!";
@@ -199,19 +197,10 @@ export default function UploadForm() {
         <InputBox>
           <Input
             type='string'
-            name='sector'
-            placeholder='섹터를 입력해주세요.'
+            name='seat'
+            placeholder='좌석을 입력해주세요. 예) S23 20열 23'
           />
-          <WarningMessage>{errors.sector}</WarningMessage>
-        </InputBox>
-        <InputBox>
-          <Input
-            type="number"
-            name="seatNumber"
-            placeholder="좌석 번호를 입력해주세요."
-            onChange={handleChange}
-          />
-          <WarningMessage>{errors.seatNumber}</WarningMessage>
+          <WarningMessage>{errors.seat}</WarningMessage>
         </InputBox>
         <InputBox>
           <Input
