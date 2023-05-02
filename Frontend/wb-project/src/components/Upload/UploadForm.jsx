@@ -35,6 +35,15 @@ const Input = styled.input`
   width: 500px;
 `;
 
+const Select = styled.select`
+  margin: 5px;
+  font-size: 32px;
+  border: 1px solid black;
+  border-radius: 10px;
+  width: 520px;
+  padding: 5px 10px;
+`;
+
 const WarningMessage = styled.span`
   color: red;
   font-weight: bold;
@@ -73,7 +82,10 @@ export default function UploadForm() {
       password: "",
       title: "",
       content: "",
-      seatId: "",
+      venue: "",
+      sector: "",
+      seatNumber: "",
+      // seatId: "",
       // memberId: "1",
       imageFile: null,
     },
@@ -91,7 +103,10 @@ export default function UploadForm() {
       formData.append("password", values.password);
       formData.append("title", values.title);
       formData.append("content", values.content);
-      formData.append("seatId", values.seatId);
+      formData.append("venue", values.venue);
+      formData.append("sector", values.sector);
+      formData.append("seatNumber", values.seatNumber);
+      // formData.append("seatId", values.seatId);
       // formData.append("memberId", values.memberId);
       formData.append("imageFile", values.imageFile); // 파일 추가
 
@@ -107,9 +122,12 @@ export default function UploadForm() {
       // alert(data);
       alert(data);
     },
-    validate: ({ seatId, imageFile, nickname, password }) => {
+    validate: ({ seatId, venue, sector, seatNumber, imageFile, nickname, password }) => {
       const errors = {};
-      if (!seatId) errors.seatId = "⬆️ 좌석 정보를 입력해주세요!";
+      // if (!seatId) errors.seatId = "⬆️ 좌석 정보를 입력해주세요!";
+      if (!venue) errors.venue = "⬆️ 경기장 혹은 공연장을 선택해주세요!";
+      if (!sector) errors.sector = "⬆️ 섹터를 입력해주세요!";
+      if (!seatNumber) errors.seatNumber = "⬆️ 좌석번호를 입력해주세요!";
       if (!imageFile) errors.imageFile = "⬆️ 좌석 이미지를 업로드해주세요!";
       if (!nickname) errors.nickname = "⬆️ 닉네임을 입력해주세요!";
       if (!password) errors.password = "⬆️ 비밀번호를 입력해주세요!";
@@ -167,13 +185,33 @@ export default function UploadForm() {
           </InputBox>
         </div>
         <InputBox>
+          <Select
+            name='venue'
+            onChange={handleChange}
+          >
+            <option value="">경기장 혹은 공연장을 선택해주세요.</option>
+            <option value="대전월드컵경기장">대전월드컵경기장</option>
+            <option value="한화생명이글스파크" disabled>한화생명이글스파크</option>
+            <option value="정심화홀" disabled>정심화홀</option>
+          </Select>
+          <WarningMessage>{errors.venue}</WarningMessage>
+        </InputBox>
+        <InputBox>
+          <Input
+            type='string'
+            name='sector'
+            placeholder='섹터를 입력해주세요.'
+          />
+          <WarningMessage>{errors.sector}</WarningMessage>
+        </InputBox>
+        <InputBox>
           <Input
             type="number"
-            name="seatId"
-            placeholder="좌석 정보를 입력해주세요."
+            name="seatNumber"
+            placeholder="좌석 번호를 입력해주세요."
             onChange={handleChange}
           />
-          <WarningMessage>{errors.seatId}</WarningMessage>
+          <WarningMessage>{errors.seatNumber}</WarningMessage>
         </InputBox>
         <InputBox>
           <Input
